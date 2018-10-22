@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int floorNo;
+    public int workspaceCount;
+    public enum FloorTypes { Warehouse, Office };
+    public FloorTypes floorType;
+
+    public void InitialiseFloor(int number, FloorTypes type, int workspaces) {
+        floorNo = number;
+        transform.position = new Vector3(0, floorNo, 0);
+        floorType = type;
+        workspaceCount = workspaces;
+    }
 }
