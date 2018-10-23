@@ -22,7 +22,7 @@ public class OfficeGenerator : MonoBehaviour {
 
     public void CreateFloors() {
         for(int i = 0; i < floorCount; i++) {
-            Floor newFloor = Instantiate(floorPrefab, Vector3.zero, Quaternion.identity).GetComponent<Floor>();
+            Floor newFloor = Instantiate(floorPrefab, transform.position, Quaternion.identity).GetComponent<Floor>();
             floors.Add(newFloor);
 
             Floor.FloorTypes newType = Floor.FloorTypes.Office;
@@ -30,7 +30,7 @@ public class OfficeGenerator : MonoBehaviour {
                 newType = Floor.FloorTypes.Warehouse;
             }
 
-            newFloor.InitialiseFloor(i, newType, 0);
+            newFloor.InitialiseFloor(floorSize.x, floorSize.y, i, newType, 0);
         }
     }
 }
