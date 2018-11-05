@@ -15,23 +15,24 @@ public class Floor : MonoBehaviour {
     public GameObject westWall;
 
 
-    public void InitialiseFloor(float width, float height, int number, FloorTypes type, int workspaces) {
+    public void InitialiseFloor(float width, float height, float depth, int number, FloorTypes type, int workspaces) {
         floorNo = number;
-        transform.position = new Vector3(width / 2f, floorNo, height / 2f);
+        transform.position = new Vector3(width / 2f, floorNo * height, depth / 2f);
         floorType = type;
         workspaceCount = workspaces;
 
-        floorArea.transform.localScale = new Vector3(width, floorArea.transform.localScale.y, height);
-        northWall.transform.localScale = new Vector3(width, northWall.transform.localScale.y, northWall.transform.localScale.z);
-        northWall.transform.localPosition = new Vector3(0, 0, (height / 2f) + 0.05f);
+        floorArea.transform.localScale = new Vector3(width, floorArea.transform.localScale.y, depth);
+        floorArea.transform.localPosition = Vector3.zero;
+        northWall.transform.localScale = new Vector3(width, height, northWall.transform.localScale.z);
+        northWall.transform.localPosition = new Vector3(0, height / 2f, (depth / 2f) + 0.05f);
 
-        southWall.transform.localScale = new Vector3(width, southWall.transform.localScale.y, southWall.transform.localScale.z);
-        southWall.transform.localPosition = new Vector3(0, 0, -((height / 2f) + 0.05f));
+        southWall.transform.localScale = new Vector3(width, height, southWall.transform.localScale.z);
+        southWall.transform.localPosition = new Vector3(0, height / 2f, -((depth / 2f) + 0.05f));
 
-        eastWall.transform.localScale = new Vector3(eastWall.transform.localScale.x, eastWall.transform.localScale.y, height + 0.2f);
-        eastWall.transform.localPosition = new Vector3(-((width / 2f) + 0.05f), 0, 0);
+        eastWall.transform.localScale = new Vector3(eastWall.transform.localScale.x, height, depth + 0.2f);
+        eastWall.transform.localPosition = new Vector3(-((width / 2f) + 0.05f), height / 2f, 0);
 
-        westWall.transform.localScale = new Vector3(westWall.transform.localScale.x, westWall.transform.localScale.y, height + 0.2f);
-        westWall.transform.localPosition = new Vector3((width / 2f) + 0.05f, 0, 0);
+        westWall.transform.localScale = new Vector3(westWall.transform.localScale.x, height, depth + 0.2f);
+        westWall.transform.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
     }
 }

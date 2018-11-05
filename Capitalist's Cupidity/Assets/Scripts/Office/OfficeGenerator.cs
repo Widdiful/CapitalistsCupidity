@@ -30,7 +30,7 @@ public class OfficeGenerator : MonoBehaviour {
                 newType = Floor.FloorTypes.Warehouse;
             }
 
-            newFloor.InitialiseFloor(floorSize.x, floorSize.y, i, newType, 0);
+            newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, i, newType, 0);
         }
     }
 }
