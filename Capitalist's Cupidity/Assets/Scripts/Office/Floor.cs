@@ -60,9 +60,10 @@ public class Floor : MonoBehaviour {
 
     private void SpawnWorkspaces(int x, int y, int width, int height)
     {
-        for (int i = 0; i < height; i++)
+        int spacing = 2;
+        for (int i = 0; i < height * spacing ; i += spacing)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < width * spacing; j += spacing)
             {
                 GameObject newWorkspace = Instantiate(workspacePrefab, transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)), Quaternion.identity, transform);
             }
