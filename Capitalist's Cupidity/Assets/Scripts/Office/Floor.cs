@@ -8,11 +8,23 @@ public class Floor : MonoBehaviour {
     public int workspaceCount;
     public enum FloorTypes { Warehouse, Office };
     public FloorTypes floorType;
-    public GameObject floorArea;
-    public GameObject northWall;
-    public GameObject southWall;
-    public GameObject eastWall;
-    public GameObject westWall;
+    private Transform floorArea;
+    private Transform northWall;
+    private Transform southWall;
+    private Transform eastWall;
+    private Transform westWall;
+    public GameObject workspacePrefab;
+
+    void Awake()
+    {
+        if (!floorArea) {
+            floorArea = transform.Find("Floor");
+            northWall = transform.Find("NorthWall");
+            southWall = transform.Find("SouthWall");
+            eastWall = transform.Find("EastWall");
+            westWall = transform.Find("WestWall");
+        }
+    }
 
 
     public void InitialiseFloor(float width, float height, float depth, int number, FloorTypes type, int workspaces) {
@@ -21,18 +33,39 @@ public class Floor : MonoBehaviour {
         floorType = type;
         workspaceCount = workspaces;
 
-        floorArea.transform.localScale = new Vector3(width, floorArea.transform.localScale.y, depth);
-        floorArea.transform.localPosition = Vector3.zero;
-        northWall.transform.localScale = new Vector3(width, height, northWall.transform.localScale.z);
-        northWall.transform.localPosition = new Vector3(0, height / 2f, (depth / 2f) + 0.05f);
+        floorArea.localScale = new Vector3(width, floorArea.localScale.y, depth);
+        floorArea.localPosition = Vector3.zero;
+        northWall.localScale = new Vector3(width, height, northWall.localScale.z);
+        northWall.localPosition = new Vector3(0, height / 2f, (depth / 2f) + 0.05f);
+                 
+        southWall.localScale = new Vector3(width, height, southWall.localScale.z);
+        southWall.localPosition = new Vector3(0, height / 2f, -((depth / 2f) + 0.05f));
+                 
+        eastWall.localScale = new Vector3(eastWall.localScale.x, height, depth + 0.2f);
+        eastWall.localPosition = new Vector3(-((width / 2f) + 0.05f), height / 2f, 0);
+                 
+        westWall.localScale = new Vector3(westWall.localScale.x, height, depth + 0.2f);
+        westWall.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
 
-        southWall.transform.localScale = new Vector3(width, height, southWall.transform.localScale.z);
-        southWall.transform.localPosition = new Vector3(0, height / 2f, -((depth / 2f) + 0.05f));
+        int workAreaX, workAreaY, workAreaWidth, workAreaHeight, minX, minY;
+        workAreaWidth = workspaceCount / 2;
+        workAreaHeight = workspaceCount / 2;
+        minX = Mathf.FloorToInt((width - 1) - (width / 2)) * -1;
+        minY = Mathf.FloorToInt((depth - 1) - (depth / 2));
+        workAreaX = Mathf.FloorToInt(Random.Range(minX, -minX - (workAreaWidth / 2) - 2));
+        workAreaY = Mathf.FloorToInt(Random.Range(minY, -minY + (workAreaHeight / 2) + 2));
 
-        eastWall.transform.localScale = new Vector3(eastWall.transform.localScale.x, height, depth + 0.2f);
-        eastWall.transform.localPosition = new Vector3(-((width / 2f) + 0.05f), height / 2f, 0);
+        SpawnWorkspaces(workAreaX, workAreaY, workAreaWidth, workAreaHeight);
+    }
 
-        westWall.transform.localScale = new Vector3(westWall.transform.localScale.x, height, depth + 0.2f);
-        westWall.transform.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
+    private void SpawnWorkspaces(int x, int y, int width, int height)
+    {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                GameObject newWorkspace = Instantiate(workspacePrefab, transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)), Quaternion.identity, transform);
+            }
+        }
     }
 }

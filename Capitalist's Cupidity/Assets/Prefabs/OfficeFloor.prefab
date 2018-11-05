@@ -489,3 +489,5 @@ MonoBehaviour:
   southWall: {fileID: 1569833104914742}
   eastWall: {fileID: 1717097902257574}
   westWall: {fileID: 1798417367953484}
+  workspacePrefab: {fileID: 1631763985709304, guid: cc221dbbfcda6a54a9ffdffefbd8f836,
+    type: 2}

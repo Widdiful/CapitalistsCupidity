@@ -209,9 +209,9 @@ MonoBehaviour:
     type: 2}
   floorCount: 10
   warehouseCount: 3
-  floorSize: {x: 10, y: 10}
+  floorSize: {x: 20, y: 20}
   floorHeight: 3
-  workspaceCount: 0
+  workspaceCount: 10
 --- !u!4 &1042786549
 Transform:
   m_ObjectHideFlags: 0
