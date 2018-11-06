@@ -33,6 +33,8 @@ public class OfficeGenerator : MonoBehaviour {
             }
 
             newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, i, newType, workspaceCount, workspacePadding);
+            newFloor.transform.position = new Vector3(0, newFloor.transform.position.y, 0);
+
             if (i < floorCount - 1)
             {
                 newFloor.AddStairs();
