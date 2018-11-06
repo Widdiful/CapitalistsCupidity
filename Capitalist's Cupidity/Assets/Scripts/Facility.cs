@@ -23,4 +23,25 @@ public class Facility : MonoBehaviour {
     {
 		
 	}
+
+    private void CalculateAverageEmployeeHappiness()
+    {
+
+    }
+
+    private void CutFacility()
+    {
+
+    }
+
+    private void BuyFacility()
+    {
+
+    }
+
+    private void OpenFacilityWindow()
+    {
+
+    }
+
 }
