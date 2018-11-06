@@ -9,6 +9,16 @@ public class Employee : MonoBehaviour
     public Positions _pos;
     Vector3 targetPos;
 
+
+    Vector3 velocity = Vector3.zero;
+    float orientation;
+    float maxTurnSpeed;
+    float maxMoveSpeed;
+
+    Vector3 seeAhead = Vector3.zero;
+    Vector3 seeAheedNear = Vector3.zero;
+    float maxSeeAheedDistance = 10.0f;
+
     float happiness = 100;
 
 
@@ -45,15 +55,31 @@ public class Employee : MonoBehaviour
         }
     }
 
-    void Steering()
+    void Steer(Vector3 targetPos)
     {
+        targetPos = targetPos - transform.position;
 
+        velocity = targetPos.normalized * maxMoveSpeed;
+
+        transform.position += velocity * Time.deltaTime;
+
+        rotate(targetPos);
+
+    }
+
+    void rotate(Vector3 targetPos)
+    {
+        transform.rotation = Quaternion.LookRotation(targetPos);
     }
 
     void avoidCollision()
     {
+        seeAhead = transform.position + (velocity.normalized * maxSeeAheedDistance);
+        seeAheedNear = transform.position + (velocity.normalized * (maxSeeAheedDistance * 0.5f));
 
     }
+
+
 }
 
 
