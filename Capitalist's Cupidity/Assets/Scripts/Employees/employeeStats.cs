@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class employeeStats : MonoBehaviour {
+[System.Serializable]
+public class employeeStats
+{
+    [SerializeField]
+    private float baseValue;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float GetValue()
+    {
+        return baseValue;
+    }
 }
