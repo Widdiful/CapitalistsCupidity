@@ -14,6 +14,10 @@ public class Floor : MonoBehaviour {
     private Transform eastWall;
     private Transform westWall;
     public GameObject workspacePrefab;
+    private int spacing;
+    private float stairWidth = 1.5f;
+    private float stairDepth = 6.0f;
+    private Vector2 floorSize;
 
     void Awake()
     {
@@ -27,11 +31,13 @@ public class Floor : MonoBehaviour {
     }
 
 
-    public void InitialiseFloor(float width, float height, float depth, int number, FloorTypes type, int workspaces) {
+    public void InitialiseFloor(float width, float height, float depth, int number, FloorTypes type, int workspaces, int padding) {
         floorNo = number;
+        floorSize = new Vector2(width, depth);
         transform.position = new Vector3(width / 2f, floorNo * height, depth / 2f);
         floorType = type;
         workspaceCount = workspaces;
+        spacing = padding;
 
         floorArea.localScale = new Vector3(width, floorArea.localScale.y, depth);
         floorArea.localPosition = Vector3.zero;
@@ -48,19 +54,25 @@ public class Floor : MonoBehaviour {
         westWall.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
 
         int workAreaX, workAreaY, workAreaWidth, workAreaHeight, minX, minY;
-        workAreaWidth = workspaceCount / 2;
-        workAreaHeight = workspaceCount / 2;
+        workAreaWidth = GetRandomFactor(workspaceCount);
+        workAreaHeight = workspaceCount / workAreaWidth;
         minX = Mathf.FloorToInt((width - 1) - (width / 2)) * -1;
         minY = Mathf.FloorToInt((depth - 1) - (depth / 2));
-        workAreaX = Mathf.FloorToInt(Random.Range(minX, -minX - (workAreaWidth / 2) - 2));
-        workAreaY = Mathf.FloorToInt(Random.Range(minY, -minY + (workAreaHeight / 2) + 2));
+        //workAreaX = Mathf.FloorToInt(Random.Range(minX, -minX - (workAreaWidth / 2) - (2 * spacing)));
+        //workAreaY = Mathf.FloorToInt(Random.Range(minY, -minY + (workAreaHeight / 2) + (2 * spacing)));
+        workAreaX = -3;
+        workAreaY = 3;
 
         SpawnWorkspaces(workAreaX, workAreaY, workAreaWidth, workAreaHeight);
+
+        if (floorNo > 0)
+        {
+            AddStairHole();
+        }
     }
 
     private void SpawnWorkspaces(int x, int y, int width, int height)
     {
-        int spacing = 2;
         for (int i = 0; i < height * spacing ; i += spacing)
         {
             for (int j = 0; j < width * spacing; j += spacing)
@@ -68,5 +80,46 @@ public class Floor : MonoBehaviour {
                 GameObject newWorkspace = Instantiate(workspacePrefab, transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)), Quaternion.identity, transform);
             }
         }
+    }
+
+    private int GetRandomFactor(int val)
+    {
+        int result = 0; 
+        List<int> factors = new List<int>();
+
+        for(int i = 2; i < val; i++)
+        {
+            if (val % i == 0)
+            {
+                factors.Add(i);
+            }
+        }
+
+        if (factors.Count > 0)
+        {
+            result = factors[Random.Range(0, factors.Count)];
+        }
+
+        return result;
+    }
+
+    public void AddStairHole()
+    {
+        Transform newFloor = Instantiate(floorArea, transform);
+        newFloor.localScale = new Vector3(stairWidth, newFloor.localScale.y, floorSize.y - stairDepth);
+        newFloor.localPosition = new Vector3((floorSize.x * 0.5f) - (stairWidth * 0.5f), 0, -(stairDepth * 0.5f));
+        floorArea.localScale = new Vector3(floorArea.localScale.x - stairWidth, floorArea.localScale.y, floorArea.localScale.z);
+        floorArea.localPosition = new Vector3(floorArea.localPosition.x - (stairWidth * 0.5f), floorArea.localPosition.y, floorArea.localPosition.z);
+    }
+
+    public void AddStairs()
+    {
+        GameObject newStairs = Instantiate(Resources.Load("OfficeParts/Stairs"), transform) as GameObject;
+        newStairs.transform.localPosition = new Vector3(floorSize.y * 0.5f, 0, -1);
+    }
+
+    public void AddLift()
+    {
+
     }
 }

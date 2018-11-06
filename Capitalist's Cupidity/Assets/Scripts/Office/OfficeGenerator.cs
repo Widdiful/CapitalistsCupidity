@@ -5,11 +5,13 @@ using UnityEngine;
 public class OfficeGenerator : MonoBehaviour {
 
     public GameObject floorPrefab;
+    public string officeName;
     public int floorCount;
     public int warehouseCount;
     public Vector2 floorSize;
     public float floorHeight;
     public int workspaceCount;
+    public int workspacePadding;
     private List<Floor> floors = new List<Floor>();
 
     void Start() {
@@ -30,7 +32,11 @@ public class OfficeGenerator : MonoBehaviour {
                 newType = Floor.FloorTypes.Warehouse;
             }
 
-            newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, i, newType, workspaceCount);
+            newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, i, newType, workspaceCount, workspacePadding);
+            if (i < floorCount - 1)
+            {
+                newFloor.AddStairs();
+            }
         }
     }
 }
