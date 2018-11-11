@@ -12,33 +12,52 @@ public class OfficeGenerator : MonoBehaviour {
     public float floorHeight;
     public int workspaceCount;
     public int workspacePadding;
+
     private List<Floor> floors = new List<Floor>();
+    private Transform officeParent;
 
     void Start() {
         CreateFloors();
     }
 
-    public void CreateFloor() {
+    private Floor CreateFloor(int floorNo) {
+        Floor newFloor = Instantiate(floorPrefab, transform.position, Quaternion.identity, officeParent).GetComponent<Floor>();
+        floors.Add(newFloor);
 
+        Floor.FloorTypes newType = Floor.FloorTypes.Office;
+        if (floorNo < warehouseCount) {
+            newType = Floor.FloorTypes.Warehouse;
+        }
+
+        newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, floorNo, newType, workspaceCount, workspacePadding);
+        newFloor.transform.position = new Vector3(0, newFloor.transform.position.y, 0);
+
+        if (floorNo < floorCount - 1) {
+            newFloor.AddStairs();
+        }
+
+        if (floorNo == 0) {
+            AddEntrance();
+        }
+
+        return newFloor;
     }
 
-    public void CreateFloors() {
+    private void CreateFloors() {
+        officeParent = new GameObject(officeName).transform;
         for(int i = 0; i < floorCount; i++) {
-            Floor newFloor = Instantiate(floorPrefab, transform.position, Quaternion.identity).GetComponent<Floor>();
-            floors.Add(newFloor);
-
-            Floor.FloorTypes newType = Floor.FloorTypes.Office;
-            if (i < warehouseCount) {
-                newType = Floor.FloorTypes.Warehouse;
-            }
-
-            newFloor.InitialiseFloor(floorSize.x, floorHeight, floorSize.y, i, newType, workspaceCount, workspacePadding);
-            newFloor.transform.position = new Vector3(0, newFloor.transform.position.y, 0);
-
-            if (i < floorCount - 1)
-            {
-                newFloor.AddStairs();
-            }
+            CreateFloor(i);
         }
+    }
+
+    public List<Floor> GetFloors() {
+        return floors;
+    }
+
+    // Adds an entrance
+    private void AddEntrance() {
+        GameObject newEntrance = Instantiate(Resources.Load("OfficeParts/Entrance"), officeParent) as GameObject;
+        newEntrance.transform.position = new Vector3(0, 0.5f, -(floorSize.y / 2f) - 0.1f);
+        newEntrance.GetComponentInChildren<TextMesh>().text = officeName;
     }
 }

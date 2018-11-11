@@ -32,6 +32,8 @@ public class Floor : MonoBehaviour {
 
 
     public void InitialiseFloor(float width, float height, float depth, int number, FloorTypes type, int workspaces, int padding) {
+
+        // Initialise variables
         floorNo = number;
         floorSize = new Vector2(width, depth);
         transform.position = new Vector3(width / 2f, floorNo * height, depth / 2f);
@@ -39,6 +41,7 @@ public class Floor : MonoBehaviour {
         workspaceCount = workspaces;
         spacing = padding;
 
+        // Set wall sizes appropriately
         floorArea.localScale = new Vector3(width, floorArea.localScale.y, depth);
         floorArea.localPosition = Vector3.zero;
         northWall.localScale = new Vector3(width, height, northWall.localScale.z);
@@ -53,6 +56,7 @@ public class Floor : MonoBehaviour {
         westWall.localScale = new Vector3(westWall.localScale.x, height, depth + 0.2f);
         westWall.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
 
+        // Set work area
         int workAreaX, workAreaY, workAreaWidth, workAreaHeight, minX, minY;
         workAreaWidth = GetRandomFactor(workspaceCount);
         workAreaHeight = workspaceCount / workAreaWidth;
@@ -71,17 +75,21 @@ public class Floor : MonoBehaviour {
         }
     }
 
+    // Spawns work space in given area
     private void SpawnWorkspaces(int x, int y, int width, int height)
     {
         for (int i = 0; i < height * spacing ; i += spacing)
         {
             for (int j = 0; j < width * spacing; j += spacing)
             {
-                GameObject newWorkspace = Instantiate(workspacePrefab, transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)), Quaternion.identity, transform);
+                GameObject newWorkspace = Instantiate(workspacePrefab,
+                    transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)),
+                    Quaternion.identity, transform);
             }
         }
     }
 
+    // Returns a random factor from a given integer
     private int GetRandomFactor(int val)
     {
         int result = 0; 
@@ -103,6 +111,7 @@ public class Floor : MonoBehaviour {
         return result;
     }
 
+    // Adjusts floor to create a hole for the stairs
     public void AddStairHole()
     {
         Transform newFloor = Instantiate(floorArea, transform);
@@ -112,12 +121,14 @@ public class Floor : MonoBehaviour {
         floorArea.localPosition = new Vector3(floorArea.localPosition.x - (stairWidth * 0.5f), floorArea.localPosition.y, floorArea.localPosition.z);
     }
 
+    // Adds a staircase
     public void AddStairs()
     {
         GameObject newStairs = Instantiate(Resources.Load("OfficeParts/Stairs"), transform) as GameObject;
-        newStairs.transform.localPosition = new Vector3(floorSize.y * 0.5f, 0, -1);
+        newStairs.transform.localPosition = new Vector3(floorSize.x * 0.5f, 0, (floorSize.y / 2f) - stairDepth);
     }
 
+    // Adds a lift
     public void AddLift()
     {
 

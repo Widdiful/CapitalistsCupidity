@@ -17,13 +17,14 @@ public class LoadLevel : MonoBehaviour {
 	IEnumerator LoadAsync(int sceneIndex) {
         AsyncOperation loading = SceneManager.LoadSceneAsync(sceneIndex);
 
+        // Update loading bar
         while (!loading.isDone) {
             float progress = Mathf.Clamp01(loading.progress / 0.9f);
 
             if (loadingBar)
                 loadingBar.value = progress;
 
-            yield return null;
+            yield return new WaitForSeconds(1);
         }
     }
 }
