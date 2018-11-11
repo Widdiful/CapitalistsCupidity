@@ -5,32 +5,46 @@ using UnityEngine;
 public class Employee : MonoBehaviour
 {
 
-    public enum Positions { workstation, waterfountain, exit };
-    public Positions _pos;
-    Vector3 targetPos;
+
+    public Vector3 targetPos;
 
 
     Vector3 velocity = Vector3.zero;
     float orientation;
-    float maxTurnSpeed;
-    float maxMoveSpeed;
+    float maxTurnSpeed = 5.0f;
+    float maxMoveSpeed = 5.0f;
 
     Vector3 seeAhead = Vector3.zero;
-    Vector3 seeAheedNear = Vector3.zero;
-    float maxSeeAheedDistance = 10.0f;
+    Vector3 seeAheadNear = Vector3.zero;
+    float maxSeeAheadDistance = 10.0f;
+
+    Vector3 avoidanceForce;
+    float maxAvoidanceForce = 5.0f;
+
+
 
     float happiness = 100;
 
 
     private void Start()
     {
-        
+        Director.updatePos += moveTo;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Steer(targetPos);
 
+       /* if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                targetPos = new Vector3(hit.point.x, 2.0f, hit.point.z);
+            }
+        }*/
     }
 
     public float getHappiness()
@@ -43,15 +57,20 @@ public class Employee : MonoBehaviour
         happiness += value;
     }
 
-    void moveTo(Positions pos)
+    void moveTo(Director.Positions pos)
     {
-        _pos = pos;
+        Debug.Log("Changing pos");
 
-        switch(_pos)
+        switch(pos)
         {
-            case Positions.workstation: break;
-            case Positions.waterfountain: break;
-            case Positions.exit: break;
+            case Director.Positions.workstation: break;
+            case Director.Positions.waterfountain: break;
+            case Director.Positions.exit:
+                targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
+                    Random.Range(0, 100));
+
+                break;
+            default: break;
         }
     }
 
@@ -61,7 +80,7 @@ public class Employee : MonoBehaviour
 
         velocity = targetPos.normalized * maxMoveSpeed;
 
-        transform.position += velocity * Time.deltaTime;
+        transform.position += velocity * Time.deltaTime + avoidCollision();
 
         rotate(targetPos);
 
@@ -72,14 +91,31 @@ public class Employee : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(targetPos);
     }
 
-    void avoidCollision()
+    Vector3 avoidCollision()
     {
-        seeAhead = transform.position + (velocity.normalized * maxSeeAheedDistance);
-        seeAheedNear = transform.position + (velocity.normalized * (maxSeeAheedDistance * 0.5f));
+        RaycastHit hit;
+
+        Debug.DrawLine(transform.position, transform.position + (transform.forward * maxSeeAheadDistance), Color.red);
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
+        {
+
+            seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
+            seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
+            Debug.Log(hit.collider.name);
+            if(Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.x || Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.y
+                || Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.z)
+            {
+                avoidanceForce = seeAhead - hit.collider.bounds.center;
+                avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+
+                return avoidanceForce;
+            }
+        }
+
+        return Vector3.zero;
 
     }
-
-
 }
 
 
