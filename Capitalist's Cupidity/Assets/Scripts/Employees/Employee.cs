@@ -16,10 +16,10 @@ public class Employee : MonoBehaviour
 
     Vector3 seeAhead = Vector3.zero;
     Vector3 seeAheadNear = Vector3.zero;
-    float maxSeeAheadDistance = 10.0f;
+    float maxSeeAheadDistance = 1.0f;
 
     Vector3 avoidanceForce;
-    float maxAvoidanceForce = 5.0f;
+    float maxAvoidanceForce = 8.0f;
 
 
 
@@ -36,15 +36,15 @@ public class Employee : MonoBehaviour
     {
         Steer(targetPos);
 
-       /* if (Input.GetMouseButtonDown(0))
+       if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                targetPos = new Vector3(hit.point.x, 2.0f, hit.point.z);
+                targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             }
-        }*/
+        }
     }
 
     public float getHappiness()
@@ -80,7 +80,7 @@ public class Employee : MonoBehaviour
 
         velocity = targetPos.normalized * maxMoveSpeed;
 
-        transform.position += velocity * Time.deltaTime;// + avoidCollision();
+        transform.position += (velocity + avoidCollision()) * Time.deltaTime;
 
         rotate(targetPos);
 
@@ -88,7 +88,9 @@ public class Employee : MonoBehaviour
 
     void rotate(Vector3 targetPos)
     {
-        transform.rotation = Quaternion.LookRotation(targetPos);
+       
+            transform.rotation = Quaternion.LookRotation(targetPos);
+        
     }
 
     Vector3 avoidCollision()
@@ -103,12 +105,20 @@ public class Employee : MonoBehaviour
             seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
             seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
             Debug.Log(hit.collider.name);
-            if(Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.x || Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.y
-                || Vector3.Distance(hit.collider.bounds.center, seeAhead) <= hit.collider.bounds.extents.z)
+            if(hit.collider.GetComponent<Collider>().bounds.Contains(seeAhead))
             {
-                avoidanceForce = seeAhead - hit.collider.bounds.center;
+                avoidanceForce = seeAhead - hit.collider.transform.position;
                 avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
 
+                Debug.Log(avoidanceForce);
+                return avoidanceForce;
+            }
+            else if(hit.collider.GetComponent<Collider>().bounds.Contains(seeAheadNear))
+            {
+                avoidanceForce = seeAheadNear - hit.collider.transform.position;
+                avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+
+                Debug.Log(avoidanceForce);
                 return avoidanceForce;
             }
         }
