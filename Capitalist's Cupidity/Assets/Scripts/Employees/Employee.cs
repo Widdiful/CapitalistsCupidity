@@ -80,7 +80,7 @@ public class Employee : MonoBehaviour
 
         velocity = targetPos.normalized * maxMoveSpeed;
 
-        transform.position += velocity * Time.deltaTime + avoidCollision();
+        transform.position += velocity * Time.deltaTime;// + avoidCollision();
 
         rotate(targetPos);
 
@@ -95,7 +95,7 @@ public class Employee : MonoBehaviour
     {
         RaycastHit hit;
 
-        Debug.DrawLine(transform.position, transform.position + (transform.forward * maxSeeAheadDistance), Color.red);
+        //Debug.DrawLine(transform.position, transform.position + (transform.forward * maxSeeAheadDistance), Color.red);
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
         {
