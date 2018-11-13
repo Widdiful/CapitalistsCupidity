@@ -1,32 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Facility : MonoBehaviour
-{
-    //Public
-    public enum FacilityType { Catering, CarPark, Toilets, Insurance, Security, Hardware, Christmas, Wages, Gym }
-    public float costToBuy;
-    public float baseMonthlyExpenses;
-    public string facilityName;
-    public FacilityType facilityType;
+public class Facility : MonoBehaviour {
 
     //Private
+    private FacilityInfo facilityInfo;
     private float fundingPercentage;
     private float averageEmployeeHappiness;
     private GameObject FacilityCanvas;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         FacilityCanvas = GameObject.Find("FacilityCanvas");
         fundingPercentage = 1;
-	}
+    }
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             OpenFacilityWindow();
         }
@@ -39,18 +32,18 @@ public class Facility : MonoBehaviour
 
     public void CutFacility()
     {
-        // Cut facility here
+        facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Empty");
     }
 
-    private void BuyFacility()
+    private void BuyFacility(FacilityInfo facilityInformation)
     {
-
+        facilityInfo = facilityInformation;
     }
 
     private void OpenFacilityWindow()
     {
         CalculateAverageEmployeeHappiness();
-        FacilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityName, baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
+        FacilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
     }
 
     public void UpdateFromFacilityWindow(float FundingPercentage)
