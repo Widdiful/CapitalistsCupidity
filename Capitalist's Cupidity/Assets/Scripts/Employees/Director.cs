@@ -19,6 +19,7 @@ public class Director : MonoBehaviour
     public delegate void setPos(Positions pos);
     public static event setPos updatePos;
 
+    bool flock = false;
 
     public static Director Instance
     {
@@ -49,7 +50,7 @@ public class Director : MonoBehaviour
         for(int i = 0; i < employeePoolCount; i++)
         {
             employeePrefab = Instantiate(employeePrefab);
-            employeePrefab.name = names[UnityEngine.Random.Range(0, 3)] + UnityEngine.Random.Range(0, 100).ToString();
+            employeePrefab.name = names[UnityEngine.Random.Range(0, 3)] + UnityEngine.Random.Range(100, 1000).ToString();
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }
@@ -60,8 +61,16 @@ public class Director : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            flock = !flock;
             Debug.Log("Updating pos");
-            updatePos(Positions.exit);
+            if (!flock)
+            {
+                updatePos(Positions.exit);
+            }
+            else
+            {
+                updatePos(Positions.waterfountain);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -78,6 +87,73 @@ public class Director : MonoBehaviour
     }
 
 
-    void flockingManager()
-    { }
+    public Vector3 flockingAlignment(Employee flocker)
+    {
+        if(flock)
+        {
+            Vector3 averageVelocity = Vector3.zero;
+            flocker.velocity = Vector3.zero;
+          
+            foreach(Employee emp in employees)
+            {
+                if (emp != flocker)
+                {
+                    averageVelocity += emp.velocity;
+                }
+            }
+
+            return averageVelocity / (employees.Count - 1);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public Vector3 flockingCohesion(Employee flocker)
+    {
+        if (flock)
+        {
+            Vector3 averagePos = Vector3.zero;
+
+            foreach (Employee emp in employees)
+            {
+                if (emp != flocker)
+                {
+                    averagePos += emp.transform.position;
+                }
+            }
+
+            return averagePos / (employees.Count - 1);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public Vector3 flockingSeperation(Employee flocker)
+    {
+        if (flock)
+        {
+            Vector3 seperation = Vector3.zero;
+
+            foreach (Employee emp in employees)
+            {
+                if(emp != flocker)
+                {
+                    if(Vector3.Distance(flocker.transform.position, emp.transform.position) <= 8)
+                    {
+                        seperation -= (emp.transform.position - flocker.transform.position);
+                    }
+                }
+            }
+
+            return seperation;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
 }

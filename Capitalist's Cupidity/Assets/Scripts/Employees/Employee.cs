@@ -8,9 +8,9 @@ public class Employee : MonoBehaviour
 
     public Vector3 targetPos;
 
-
-    Vector3 velocity = Vector3.zero;
+    public Vector3 velocity = Vector3.zero;
     float orientation;
+
     float maxTurnSpeed = 5.0f;
     float maxMoveSpeed = 5.0f;
 
@@ -19,7 +19,7 @@ public class Employee : MonoBehaviour
     float maxSeeAheadDistance = 1.0f;
 
     Vector3 avoidanceForce;
-    float maxAvoidanceForce = 8.0f;
+    float maxAvoidanceForce = 4f;
 
 
 
@@ -64,7 +64,11 @@ public class Employee : MonoBehaviour
         switch(pos)
         {
             case Director.Positions.workstation: break;
-            case Director.Positions.waterfountain: break;
+            case Director.Positions.waterfountain:
+                targetPos = new Vector3(100, transform.position.y,
+                   100);
+                break;
+
             case Director.Positions.exit:
                 targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
                     Random.Range(0, 100));
@@ -77,20 +81,20 @@ public class Employee : MonoBehaviour
     void Steer(Vector3 targetPos)
     {
         targetPos = targetPos - transform.position;
-
         velocity = targetPos.normalized * maxMoveSpeed;
-
-        transform.position += (velocity + avoidCollision()) * Time.deltaTime;
-
+        transform.position += (velocity + Director.Instance.flockingAlignment(this) + Director.Instance.flockingCohesion(this) + Director.Instance.flockingSeperation(this) + avoidCollision()) * Time.deltaTime;
         rotate(targetPos);
-
     }
 
     void rotate(Vector3 targetPos)
     {
-       
-            transform.rotation = Quaternion.LookRotation(targetPos);
-        
+        if(velocity != Vector3.zero)
+        {
+            Vector3 delta = targetPos - transform.position;
+            delta.y = transform.position.y;
+            Quaternion rotation = Quaternion.LookRotation(delta);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * maxTurnSpeed);
+        }
     }
 
     Vector3 avoidCollision()
@@ -101,11 +105,11 @@ public class Employee : MonoBehaviour
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
         {
-
+            Collider obj = hit.collider.GetComponent<Collider>();
             seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
             seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
             Debug.Log(hit.collider.name);
-            if(hit.collider.GetComponent<Collider>().bounds.Contains(seeAhead))
+            if(obj.bounds.Contains(seeAhead))
             {
                 avoidanceForce = seeAhead - hit.collider.transform.position;
                 avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
@@ -113,7 +117,7 @@ public class Employee : MonoBehaviour
                 Debug.Log(avoidanceForce);
                 return avoidanceForce;
             }
-            else if(hit.collider.GetComponent<Collider>().bounds.Contains(seeAheadNear))
+            else if(obj.bounds.Contains(seeAheadNear))
             {
                 avoidanceForce = seeAheadNear - hit.collider.transform.position;
                 avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
