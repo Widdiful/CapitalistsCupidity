@@ -7,11 +7,15 @@ public class UIManager : MonoBehaviour {
 
     public Transform managementButton;
     public Transform managementPane;
+    public Transform floorsContent;
+
+    public GameObject floorsButtonPrefab;
 
     private bool managementPaneOpen = false;
     private Text managementButtonText;
 
     private Coroutine managementPanelCoroutine;
+    private Dictionary<int, FloorButton> floorButtons = new Dictionary<int, FloorButton>();
 
     void Start() {
         managementButtonText = managementButton.GetComponentInChildren<Text>();
@@ -23,6 +27,7 @@ public class UIManager : MonoBehaviour {
         switch (managementPaneOpen) {
             case true:
                 managementButtonText.text = "Close";
+                UpdateAllTabs();
                 break;
 
             case false:
@@ -58,6 +63,28 @@ public class UIManager : MonoBehaviour {
             managementButtonRect.anchoredPosition = Vector2.Lerp(managementButtonRect.anchoredPosition, newButtonLocation, 0.2f);
 
             yield return null;
+        }
+    }
+
+    public void UpdateAllTabs()
+    {
+        UpdateFloorsTab();
+    }
+
+    public void UpdateFloorsTab()
+    {
+        if (floorsContent && floorsButtonPrefab) {
+            foreach (Floor floor in FindObjectsOfType<Floor>()) {
+                if (!floorButtons.ContainsKey(floor.floorNo)) {
+                    FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
+                    floorButtons.Add(floor.floorNo, newFloor);
+                }
+
+                floorButtons[floor.floorNo].floorNo = floor.floorNo;
+                floorButtons[floor.floorNo].population = floor.population;
+                floorButtons[floor.floorNo].happiness = floor.happiness;
+                floorButtons[floor.floorNo].UpdateInformation();
+            }
         }
     }
 }

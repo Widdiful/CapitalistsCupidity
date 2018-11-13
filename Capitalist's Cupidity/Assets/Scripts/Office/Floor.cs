@@ -5,6 +5,8 @@ using UnityEngine;
 public class Floor : MonoBehaviour {
 
     public int floorNo;
+    public int population;
+    public float happiness;
     public int workspaceCount;
     public enum FloorTypes { Warehouse, Office };
     public FloorTypes floorType;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour {
 
     public float moveSpeed;
-    public int selectedFloor;
+    private int selectedFloor;
     public int visibleFloorLayer;
     public int invisibleFloorLayer;
 
@@ -28,13 +28,13 @@ public class CameraControl : MonoBehaviour {
 
         CheckWalls();
 
-        float wheel = Input.GetAxis("Mouse ScrollWheel");
-        if (wheel > 0) {
-            ChangeFloor(selectedFloor + 1);
-        }
-        if (wheel < 0) {
-            ChangeFloor(selectedFloor - 1);
-        }
+        //float wheel = Input.GetAxis("Mouse ScrollWheel");
+        //if (wheel > 0) {
+        //    ChangeFloor(selectedFloor + 1);
+        //}
+        //if (wheel < 0) {
+        //    ChangeFloor(selectedFloor - 1);
+        //}
 	}
 
     // Changes layers of floors
