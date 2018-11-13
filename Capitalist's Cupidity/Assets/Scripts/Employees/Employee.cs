@@ -19,7 +19,7 @@ public class Employee : MonoBehaviour
     float maxSeeAheadDistance = 1.0f;
 
     Vector3 avoidanceForce;
-    float maxAvoidanceForce = 4f;
+    float maxAvoidanceForce = 25f;
 
 
 
@@ -65,8 +65,8 @@ public class Employee : MonoBehaviour
         {
             case Director.Positions.workstation: break;
             case Director.Positions.waterfountain:
-                targetPos = new Vector3(100, transform.position.y,
-                   100);
+                //targetPos = new Vector3(100, transform.position.y,
+                   //100);
                 break;
 
             case Director.Positions.exit:
@@ -81,8 +81,15 @@ public class Employee : MonoBehaviour
     void Steer(Vector3 targetPos)
     {
         targetPos = targetPos - transform.position;
-        velocity = targetPos.normalized * maxMoveSpeed;
-        transform.position += (velocity + Director.Instance.flockingAlignment(this) + Director.Instance.flockingCohesion(this) + Director.Instance.flockingSeperation(this) + avoidCollision()) * Time.deltaTime;
+        if (avoidCollision() == Vector3.zero)
+        {
+            velocity = (targetPos.normalized * maxMoveSpeed) + (Director.Instance.flockingCohesion(this) + Director.Instance.flockingAlignment(this) + Director.Instance.flockingSeperation(this));
+        }
+        else
+        {
+            velocity = (targetPos.normalized * maxMoveSpeed) + avoidCollision();
+        }
+        transform.position +=  Vector3.ClampMagnitude(velocity, 800) * Time.deltaTime;
         rotate(targetPos);
     }
 

@@ -67,10 +67,10 @@ public class Director : MonoBehaviour
             {
                 updatePos(Positions.exit);
             }
-            else
-            {
-                updatePos(Positions.waterfountain);
-            }
+            //else
+            //{
+               // updatePos(Positions.waterfountain);
+            //}
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -102,7 +102,7 @@ public class Director : MonoBehaviour
                 }
             }
 
-            return averageVelocity / (employees.Count - 1);
+            return averageVelocity = (averageVelocity / (employees.Count - 1)).normalized;
         }
         else
         {
@@ -124,7 +124,7 @@ public class Director : MonoBehaviour
                 }
             }
 
-            return averagePos / (employees.Count - 1);
+            return (averagePos / (employees.Count - 1)).normalized;
         }
         else
         {
@@ -142,14 +142,14 @@ public class Director : MonoBehaviour
             {
                 if(emp != flocker)
                 {
-                    if(Vector3.Distance(flocker.transform.position, emp.transform.position) <= 8)
+                    if(Vector3.Distance(flocker.transform.position, emp.transform.position) <= 5)
                     {
                         seperation -= (emp.transform.position - flocker.transform.position);
                     }
                 }
             }
 
-            return seperation;
+            return seperation.normalized * 5;
         }
         else
         {
