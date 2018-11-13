@@ -7,15 +7,19 @@ public class UIManager : MonoBehaviour {
 
     public Transform managementButton;
     public Transform managementPane;
-    public Transform floorsContent;
 
+    public Transform floorsContent;
     public GameObject floorsButtonPrefab;
+    public Transform employeesContent;
+    public GameObject employeesButtonPrefab;
 
     private bool managementPaneOpen = false;
     private Text managementButtonText;
 
     private Coroutine managementPanelCoroutine;
+
     private Dictionary<int, FloorButton> floorButtons = new Dictionary<int, FloorButton>();
+    private Dictionary<int, EmployeeButton> employeeButtons = new Dictionary<int, EmployeeButton>();
 
     void Start() {
         managementButtonText = managementButton.GetComponentInChildren<Text>();
@@ -69,6 +73,10 @@ public class UIManager : MonoBehaviour {
     public void UpdateAllTabs()
     {
         UpdateFloorsTab();
+        UpdateEmployeesTab();
+        UpdateFacilitiesTab();
+        UpdateBusinessTab();
+        UpdateAbilitiesTab();
     }
 
     public void UpdateFloorsTab()
@@ -86,5 +94,25 @@ public class UIManager : MonoBehaviour {
                 floorButtons[floor.floorNo].UpdateInformation();
             }
         }
+    }
+
+    public void UpdateEmployeesTab()
+    {
+
+    }
+
+    public void UpdateFacilitiesTab()
+    {
+
+    }
+
+    public void UpdateBusinessTab()
+    {
+
+    }
+
+    public void UpdateAbilitiesTab()
+    {
+
     }
 }
