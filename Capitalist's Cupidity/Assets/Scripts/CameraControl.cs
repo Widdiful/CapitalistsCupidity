@@ -17,6 +17,8 @@ public class CameraControl : MonoBehaviour {
         if (office) {
             floorHeight = office.floorHeight;
         }
+        else
+            Debug.LogWarning("OfficeGenerator not correctly set up.");
 
         ChangeFloor(selectedFloor);
 	}
@@ -27,14 +29,6 @@ public class CameraControl : MonoBehaviour {
         transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed);
 
         CheckWalls();
-
-        //float wheel = Input.GetAxis("Mouse ScrollWheel");
-        //if (wheel > 0) {
-        //    ChangeFloor(selectedFloor + 1);
-        //}
-        //if (wheel < 0) {
-        //    ChangeFloor(selectedFloor - 1);
-        //}
 	}
 
     // Changes layers of floors

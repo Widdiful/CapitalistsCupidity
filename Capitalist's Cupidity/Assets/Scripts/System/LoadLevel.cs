@@ -24,7 +24,7 @@ public class LoadLevel : MonoBehaviour {
             if (loadingBar)
                 loadingBar.value = progress;
 
-            yield return new WaitForSeconds(1);
+            yield return null;
         }
     }
 }
