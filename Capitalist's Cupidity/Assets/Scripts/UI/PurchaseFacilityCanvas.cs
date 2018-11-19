@@ -30,5 +30,5 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
         selectedFacility = facility;
     }
 
-    public void 
+
 }

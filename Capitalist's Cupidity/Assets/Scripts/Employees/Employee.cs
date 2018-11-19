@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Employee : MonoBehaviour
 {
-
-
+    
     public Vector3 targetPos;
-
     public Vector3 velocity = Vector3.zero;
     float orientation;
 
@@ -21,14 +19,53 @@ public class Employee : MonoBehaviour
     Vector3 avoidanceForce;
     float maxAvoidanceForce = 3f;
 
-
+    //Actions.employeeFunc(this)
 
     float happiness = 100;
 
+    Actions sitAtDesk;
+    Actions goHome;
+    Actions goToBathroom;
+    Actions eat;
+    Actions drink;
+
+    float needToWork = 10f;
+    float homeTime = 0.0f;
+    float needForBathroom = 0.0f;
+    float hunger = 0.0f;
+    float thirst = 0.0f;
+
+
+    public List<Actions> actions;
+    
 
     private void Start()
     {
+
         Director.updatePos += moveTo;
+
+        actions = new List<Actions>();
+
+        sitAtDesk.empFunc = Actions.sitAtDesk;
+        sitAtDesk.priority = needToWork;
+
+        goHome.empFunc = Actions.goHome;
+        goHome.priority = homeTime;
+
+        goToBathroom.empFunc = Actions.goToBathroom;
+        goToBathroom.priority = needForBathroom;
+
+        eat.empFunc = Actions.eat;
+        eat.priority = hunger;
+
+        drink.empFunc = Actions.drink;
+        drink.priority = thirst;
+
+        actions.Add(sitAtDesk);
+        actions.Add(goHome);
+        actions.Add(goToBathroom);
+        actions.Add(eat);
+        actions.Add(drink);
     }
 
     // Update is called once per frame
@@ -36,13 +73,30 @@ public class Employee : MonoBehaviour
     {
         Steer(targetPos);
 
-       if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
+         {
+             RaycastHit hit;
+             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+             if (Physics.Raycast(ray, out hit))
+             {
+                 targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+             }
+         }*/
+
+        needToWork += (Time.deltaTime / 100);
+        homeTime += (Time.deltaTime / 100);
+        needForBathroom += (Time.deltaTime / 100);
+        hunger += (Time.deltaTime / 100);
+        thirst += (Time.deltaTime / 100);
+
+
+        foreach (Actions action in actions)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
+            if(action.priority > actions[0].priority)
             {
-                targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                actions.Remove(action);
+                actions.Add(action);
+                action.execute(this);
             }
         }
     }
@@ -57,7 +111,7 @@ public class Employee : MonoBehaviour
         happiness += value;
     }
 
-    void moveTo(Director.Positions pos)
+    public void moveTo(Director.Positions pos)
     {
         Debug.Log("Changing pos");
 
@@ -150,16 +204,15 @@ public class Employee : MonoBehaviour
         if (obj.bounds.Contains(seeAhead))
         {
             avoidanceForce = seeAhead - obj.transform.position;
-            avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+            avoidanceForce = avoidanceForce.normalized * (maxAvoidanceForce * 2);
 
             return avoidanceForce;
         }
         else if (obj.bounds.Contains(seeAheadNear))
         {
             avoidanceForce = seeAheadNear - obj.transform.position;
-            avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+            avoidanceForce = avoidanceForce.normalized * (maxAvoidanceForce * 4);
 
-            
             return avoidanceForce;
         }
 

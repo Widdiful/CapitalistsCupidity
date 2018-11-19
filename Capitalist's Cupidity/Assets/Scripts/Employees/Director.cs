@@ -12,8 +12,8 @@ public class Director : MonoBehaviour
 
     string[] names;
 
-    public enum Positions { workstation, waterfountain, exit };
-    Positions _pos;
+    public enum Positions { workstation, waterfountain, exit, desk, toilet, cafe};
+    public Positions _pos;
 
 
     public delegate void setPos(Positions pos);
