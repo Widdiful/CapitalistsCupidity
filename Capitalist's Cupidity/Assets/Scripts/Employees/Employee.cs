@@ -16,10 +16,10 @@ public class Employee : MonoBehaviour
 
     Vector3 seeAhead = Vector3.zero;
     Vector3 seeAheadNear = Vector3.zero;
-    float maxSeeAheadDistance = 1.0f;
+    float maxSeeAheadDistance = 3.0f;
 
     Vector3 avoidanceForce;
-    float maxAvoidanceForce = 25f;
+    float maxAvoidanceForce = 3f;
 
 
 
@@ -107,36 +107,66 @@ public class Employee : MonoBehaviour
     Vector3 avoidCollision()
     {
         RaycastHit hit;
+        RaycastHit hit2;
+        RaycastHit hit3;
 
         //Debug.DrawLine(transform.position, transform.position + (transform.forward * maxSeeAheadDistance), Color.red);
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
         {
-            Collider obj = hit.collider.GetComponent<Collider>();
+            Collider obj = hit.collider;
+
             seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
             seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
-            Debug.Log(hit.collider.name);
-            if(obj.bounds.Contains(seeAhead))
-            {
-                avoidanceForce = seeAhead - hit.collider.transform.position;
-                avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
 
-                Debug.Log(avoidanceForce);
-                return avoidanceForce;
-            }
-            else if(obj.bounds.Contains(seeAheadNear))
-            {
-                avoidanceForce = seeAheadNear - hit.collider.transform.position;
-                avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
+        }
+        if(Physics.Raycast(transform.position, (transform.forward + transform.right).normalized, out hit2, maxSeeAheadDistance))
+        {
+            Collider obj = hit2.collider;
 
-                Debug.Log(avoidanceForce);
-                return avoidanceForce;
-            }
+            seeAhead = transform.position + ((velocity.normalized) * maxSeeAheadDistance);
+            seeAheadNear = transform.position + (velocity.normalized) * (maxSeeAheadDistance * 0.5f);
+
+            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
+        }
+        if(Physics.Raycast(transform.position, (transform.forward - transform.right).normalized, out hit3, maxSeeAheadDistance))
+        {
+            Collider obj = hit3.collider;
+
+            seeAhead = transform.position + ((velocity.normalized) * maxSeeAheadDistance);
+            seeAheadNear = transform.position + (velocity.normalized) * (maxSeeAheadDistance * 0.5f);
+
+            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
         }
 
         return Vector3.zero;
+    }
+    
+    Vector3 checkCollisionBounds(Collider obj, Vector3 seeAhead, Vector3 seeAheadNear)
+    {
+        
 
+        if (obj.bounds.Contains(seeAhead))
+        {
+            avoidanceForce = seeAhead - obj.transform.position;
+            avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+
+            return avoidanceForce;
+        }
+        else if (obj.bounds.Contains(seeAheadNear))
+        {
+            avoidanceForce = seeAheadNear - obj.transform.position;
+            avoidanceForce = avoidanceForce.normalized * maxAvoidanceForce;
+
+            
+            return avoidanceForce;
+        }
+
+        return Vector3.zero;
     }
 }
+
+
 
 

@@ -7,7 +7,7 @@ public class Director : MonoBehaviour
 {
     public static Director _instance;
     public Employee employeePrefab;
-    List<Employee> employees;
+    public List<Employee> employees;
     public int employeePoolCount = 10;
 
     string[] names;
@@ -43,8 +43,6 @@ public class Director : MonoBehaviour
     void Start ()
     {
         names = new string[3] {"Ed", "Lewis", "Jack" };
-
-        
         employees = new List<Employee>();
 
         for(int i = 0; i < employeePoolCount; i++)
