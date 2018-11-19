@@ -54,7 +54,7 @@ public class FacilityCanvas : MonoBehaviour
         facilityNameText.text = facilityName; // Set facility name on canvas
 
 
-        fundingText.text = "$" + funding.ToString() + " p/m"; // Set funding number on canvas
+        fundingText.text = "$" + funding.ToString("0.00") + " p/m"; // Set funding number on canvas
 
         fundingSlider.value = fundingPercent; // Set funding slider position on canvas
 

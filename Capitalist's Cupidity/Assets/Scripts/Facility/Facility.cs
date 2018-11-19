@@ -5,9 +5,9 @@ using UnityEngine;
 public class Facility : MonoBehaviour {
 
     //Private
-    private FacilityInfo facilityInfo;
+    public FacilityInfo facilityInfo;
     private float fundingPercentage;
-    private float averageEmployeeHappiness;
+    public float averageEmployeeHappiness;
     private GameObject FacilityCanvas;
 
     // Use this for initialization
@@ -15,14 +15,9 @@ public class Facility : MonoBehaviour {
     {
         FacilityCanvas = GameObject.Find("FacilityCanvas");
         fundingPercentage = 1;
-    }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            OpenFacilityWindow();
-        }
+        //debug
+        facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
     }
 
     private void CalculateAverageEmployeeHappiness()
@@ -40,7 +35,7 @@ public class Facility : MonoBehaviour {
         facilityInfo = facilityInformation;
     }
 
-    private void OpenFacilityWindow()
+    public void OpenFacilityWindow()
     {
         CalculateAverageEmployeeHappiness();
         FacilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
@@ -52,6 +47,23 @@ public class Facility : MonoBehaviour {
         if (fundingPercentage <= 0)
         {
             CutFacility(); // if the funding percentage is now 0, then cut the facility.
+        }
+    }
+
+    public float GetMonthlyExpense()
+    {
+        return facilityInfo.baseMonthlyExpenses * fundingPercentage;
+    }
+
+    public bool CheckIfEmpty()
+    {
+        if (facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
