@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33853396974061922}
   - component: {fileID: 23246138186074252}
   - component: {fileID: 65951715397235512}
+  - component: {fileID: 114244636297518598}
   m_Layer: 0
   m_Name: Workspace
   m_TagString: Untagged
@@ -96,3 +97,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114244636297518598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631763985709304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ecd9211541f3d48a3f47413d961ff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facilityInfo:
+    costToBuy: 0
+    baseMonthlyExpenses: 0
+    facilityName: Test
+    facilityType: 4
+  averageEmployeeHappiness: 0

@@ -5,24 +5,39 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
+    // Internal references
     public Transform managementButton;
     public Transform managementPane;
-
     public Transform floorsContent;
     public GameObject floorsButtonPrefab;
     public Transform employeesContent;
     public GameObject employeesButtonPrefab;
-
-    private bool managementPaneOpen = false;
-    private Text managementButtonText;
+    public Transform facilitiesContent;
+    public GameObject facilitiesButtonPrefab;
+    public Transform businessesContent;
+    public GameObject businessesButtonPrefab;
+    public Transform abilitiesContent;
+    public GameObject abilitiesButtonPrefab;
 
     private Coroutine managementPanelCoroutine;
 
+    // Variables
+    private bool managementPaneOpen = false;
+    private Text managementButtonText;
     private Dictionary<int, FloorButton> floorButtons = new Dictionary<int, FloorButton>();
     private Dictionary<int, EmployeeButton> employeeButtons = new Dictionary<int, EmployeeButton>();
 
+    // External references
+    private OfficeGenerator officeGenerator;
+    private Director director;
+    private Businesses businesses;
+
     void Start() {
         managementButtonText = managementButton.GetComponentInChildren<Text>();
+
+        officeGenerator = FindObjectOfType<OfficeGenerator>();
+        director = FindObjectOfType<Director>();
+        businesses = FindObjectOfType<Businesses>();
     }
 
     public void ToggleManagementPane() {
@@ -81,38 +96,83 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateFloorsTab()
     {
-        if (floorsContent && floorsButtonPrefab) {
-            foreach (Floor floor in FindObjectsOfType<Floor>()) {
-                if (!floorButtons.ContainsKey(floor.floorNo)) {
-                    FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
-                    floorButtons.Add(floor.floorNo, newFloor);
-                }
-
-                floorButtons[floor.floorNo].floorNo = floor.floorNo;
-                floorButtons[floor.floorNo].population = floor.population;
-                floorButtons[floor.floorNo].happiness = floor.happiness;
-                floorButtons[floor.floorNo].UpdateInformation();
+        if (officeGenerator && floorsContent && floorsButtonPrefab) {
+            DeleteButtonsInTab(floorsContent);
+            for (int i = officeGenerator.GetFloors().Count - 1; i >= 0; i--) {
+                Floor floor = officeGenerator.GetFloors()[i];
+                FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
+                newFloor.floorNo = floor.floorNo;
+                newFloor.population = floor.population;
+                newFloor.happiness = floor.happiness;
+                newFloor.UpdateInformation();
             }
         }
     }
 
     public void UpdateEmployeesTab()
     {
-
+        if (director && employeesContent && employeesButtonPrefab)
+        {
+            DeleteButtonsInTab(employeesContent);
+            foreach(Employee employee in director.employees)
+            {
+                EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
+                newButton.employeeName = employee.name;
+                newButton.wage = 10f;
+                newButton.happiness = employee.getHappiness() / 100f;
+                newButton.UpdateInformation();
+            }
+        }
     }
 
     public void UpdateFacilitiesTab()
     {
-
+        if (facilitiesContent && facilitiesButtonPrefab)
+        {
+            DeleteButtonsInTab(facilitiesContent);
+            foreach (Facility facility in FindObjectsOfType<Facility>())
+            {
+                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
+                {
+                    FacilityButton newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent).GetComponent<FacilityButton>();
+                    newButton.facilityName = facility.facilityInfo.facilityName;
+                    newButton.fundingCurrent = facility.facilityInfo.baseMonthlyExpenses;
+                    newButton.happiness = facility.averageEmployeeHappiness;
+                    newButton.UpdateInformation();
+                }
+            }
+        }
     }
 
     public void UpdateBusinessTab()
     {
-
+        if (businesses && businessesContent && businessesButtonPrefab)
+        {
+            DeleteButtonsInTab(businessesContent);
+            foreach (Businesses.Business business in businesses.ListOfBusinesses)
+            {
+                if (!business.purchased)
+                {
+                    BusinessButton newButton = Instantiate(businessesButtonPrefab, businessesContent).GetComponent<BusinessButton>();
+                    newButton.businessName = business.businessName;
+                    newButton.cost = business.costToBuy;
+                    newButton.earnings = business.monthlyIncome;
+                    newButton.UpdateInformation();
+                }
+            }
+        }
     }
 
     public void UpdateAbilitiesTab()
     {
 
+    }
+
+    private void DeleteButtonsInTab(Transform tab)
+    {
+        foreach(Transform button in tab)
+        {
+            Destroy(button.gameObject);
+        }
     }
 }

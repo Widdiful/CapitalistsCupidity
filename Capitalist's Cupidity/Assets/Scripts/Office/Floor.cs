@@ -15,6 +15,7 @@ public class Floor : MonoBehaviour {
     private Transform southWall;
     private Transform eastWall;
     private Transform westWall;
+    private Transform shadowBox;
     public GameObject workspacePrefab;
     private int spacing;
     private float stairWidth = 1.5f;
