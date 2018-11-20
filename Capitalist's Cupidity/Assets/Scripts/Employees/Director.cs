@@ -154,4 +154,18 @@ public class Director : MonoBehaviour
             return Vector3.zero;
         }
     }
+
+    public int totalActiveEmployees()
+    {
+        int total = 0;
+        foreach(Employee emp in employees)
+        {
+            if(emp.gameObject.activeSelf)
+            {
+                total++;
+            }
+        }
+
+        return total;
+    }
 }
