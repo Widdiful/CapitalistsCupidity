@@ -12,6 +12,8 @@ public class CameraControl : MonoBehaviour {
     private float floorHeight;
     private OfficeGenerator office;
 
+    private float mouseStartX;
+
 	void Start () {
         office = FindObjectOfType<OfficeGenerator>();
         if (office) {
@@ -27,6 +29,18 @@ public class CameraControl : MonoBehaviour {
         Vector3 targetPos = transform.position;
         targetPos.y = selectedFloor * floorHeight;
         transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseStartX = Input.mousePosition.x;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
+            mouseStartX = Input.mousePosition.x;
+        }
+
 
         CheckWalls();
 	}

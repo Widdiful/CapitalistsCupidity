@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour {
     public GameObject abilitiesButtonPrefab;
 
     private Coroutine managementPanelCoroutine;
+    private Animator buttonAnim;
+    private Animator paneAnim;
 
     // Variables
     private bool managementPaneOpen = false;
@@ -38,6 +40,8 @@ public class UIManager : MonoBehaviour {
         officeGenerator = FindObjectOfType<OfficeGenerator>();
         director = FindObjectOfType<Director>();
         businesses = FindObjectOfType<Businesses>();
+        buttonAnim = managementButton.GetComponent<Animator>();
+        paneAnim = managementPane.GetComponent<Animator>();
     }
 
     public void ToggleManagementPane() {
@@ -46,16 +50,17 @@ public class UIManager : MonoBehaviour {
         switch (managementPaneOpen) {
             case true:
                 managementButtonText.text = "Close";
+                buttonAnim.SetBool("Open", true);
+                paneAnim.SetBool("Open", true);
                 UpdateAllTabs();
                 break;
 
             case false:
                 managementButtonText.text = "Open";
+                buttonAnim.SetBool("Open", false);
+                paneAnim.SetBool("Open", false);
                 break;
         }
-
-        if (managementPanelCoroutine != null) StopCoroutine(managementPanelCoroutine);
-        managementPanelCoroutine = StartCoroutine(MoveManagementPane());
     }
 
     IEnumerator MoveManagementPane() {
