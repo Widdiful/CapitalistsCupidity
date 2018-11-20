@@ -11,6 +11,6 @@ public class Clouds : MonoBehaviour {
     }
 
 	void Update () {
-        transform.Rotate(new Vector3(0, speed, 0));
+        transform.Rotate(new Vector3(0, speed * Time.timeScale, 0));
 	}
 }

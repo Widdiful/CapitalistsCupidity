@@ -17,7 +17,7 @@ public class Facility : MonoBehaviour {
         fundingPercentage = 1;
 
         //debug
-        facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
+        //facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
     }
 
     private void CalculateAverageEmployeeHappiness()
