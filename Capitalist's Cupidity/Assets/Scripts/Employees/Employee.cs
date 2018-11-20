@@ -101,11 +101,11 @@ public class Employee : MonoBehaviour
              }
          }*/
 
-        Work.priority += (Time.deltaTime / 100);
-        Leave.priority += (Time.deltaTime / 100);
-        goToToilet.priority += (Time.deltaTime / 100);
-        getFood.priority += (Time.deltaTime / 100);
-        drinkADrink.priority += (Time.deltaTime / 100);
+        Work.priority += (Time.deltaTime / 10);
+        Leave.priority += (Time.deltaTime / 1000);
+        goToToilet.priority += (Time.deltaTime / 10);
+        getFood.priority += (Time.deltaTime / 10);
+        drinkADrink.priority += (Time.deltaTime / 10);
 
         needToWork = Work.priority;
         homeTime = Leave.priority;
@@ -117,8 +117,7 @@ public class Employee : MonoBehaviour
         {
             if(action.priority > actions[0].priority)
             {
-                actions.Remove(action);
-                actions.Add(action);
+                actions[0] = action;
             }
 
             actions[0].execute();
@@ -144,31 +143,31 @@ public class Employee : MonoBehaviour
 
             case Director.Positions.desk:
                 {
-                    targetPos = Desk.transform.position;
+                    targetPos = new Vector3(Desk.transform.position.x, transform.position.y, Desk.transform.position.z);
                     break;
                 }
             case Director.Positions.waterfountain:
                 {
-                    targetPos = waterFountain.transform.position;
+                    targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
                     //targetPos = new Vector3(100, transform.position.y,
                     //100);
                     break;
                 }
             case Director.Positions.cafe:
                 {
-                    targetPos = Cafe.transform.position;
+                    targetPos = new Vector3(Cafe.transform.position.x, transform.position.y, Cafe.transform.position.z);
                     break;
                 }
             case Director.Positions.exit:
                 {
-                    targetPos = Exit.transform.position;
+                    targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
                     //targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
                     //Random.Range(0, 100));
                     break;
                 }
             case Director.Positions.toilet:
                 {
-                    targetPos = Toilet.transform.position;
+                    targetPos = new Vector3(Toilet.transform.position.x, transform.position.y, Toilet.transform.position.z);
                     break;
                 }
             default: break;
@@ -186,7 +185,7 @@ public class Employee : MonoBehaviour
         {
             velocity = (targetPos.normalized * maxMoveSpeed) + avoidCollision();
         }
-        transform.position +=  Vector3.ClampMagnitude(velocity, 800) * Time.deltaTime;
+        transform.position +=  Vector3.ClampMagnitude(new Vector3(velocity.x, 0, velocity.z), 800) * Time.deltaTime;
         rotate(targetPos);
     }
 
@@ -267,13 +266,13 @@ public class Employee : MonoBehaviour
     {
         moveTo(Director.Positions.desk);
 
-        if (transform.position != new Vector3(targetPos.x, transform.position.y, targetPos.z))
+        if (Vector3.Distance(transform.position, targetPos) > 5)
         {
             return false;
         }
         else
         {
-            Work.priority -= (Time.deltaTime / 50);
+            Work.priority -= (Time.deltaTime / 5);
             return true;
         }
     }
@@ -282,7 +281,7 @@ public class Employee : MonoBehaviour
     {
         moveTo(Director.Positions.exit);
 
-        if (transform.position != targetPos)
+        if (Vector3.Distance(transform.position, targetPos) > 5)
         {
             return false;
         }
@@ -298,13 +297,13 @@ public class Employee : MonoBehaviour
     {
         moveTo(Director.Positions.toilet);
 
-        if (transform.position != targetPos)
+        if (Vector3.Distance(transform.position, targetPos) > 5)
         {
             return false;
         }
         else
         {
-            goToToilet.priority -= (Time.deltaTime / 50);
+            goToToilet.priority -= (Time.deltaTime / 5);
             return true;
         }
     }
@@ -313,13 +312,13 @@ public class Employee : MonoBehaviour
     {
         moveTo(Director.Positions.cafe);
 
-        if (transform.position != targetPos)
+        if (Vector3.Distance(transform.position, targetPos) > 5)
         {
             return false;
         }
         else
         {
-            getFood.priority -= (Time.deltaTime / 50);
+            getFood.priority -= (Time.deltaTime / 5);
             return true;
         }
     }
@@ -328,13 +327,13 @@ public class Employee : MonoBehaviour
     {
         moveTo(Director.Positions.waterfountain);
 
-        if (transform.position != targetPos)
+        if (Vector3.Distance(transform.position, targetPos) > 5)
         {
             return false;
         }
         else
         {
-            drinkADrink.priority -= (Time.deltaTime / 50);
+            drinkADrink.priority -= (Time.deltaTime / 5);
             return true;
         }
     }
