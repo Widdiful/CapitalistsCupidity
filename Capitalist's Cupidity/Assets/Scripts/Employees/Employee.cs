@@ -23,17 +23,23 @@ public class Employee : MonoBehaviour
 
     float happiness = 100;
 
-    Actions sitAtDesk;
-    Actions goHome;
-    Actions goToBathroom;
-    Actions eat;
-    Actions drink;
+    Actions Work;
+    Actions Leave;
+    Actions goToToilet;
+    Actions getFood;
+    Actions drinkADrink;
 
-    float needToWork = 10f;
-    float homeTime = 0.0f;
-    float needForBathroom = 0.0f;
-    float hunger = 0.0f;
-    float thirst = 0.0f;
+    public float needToWork = 10f;
+    public float homeTime = 0.0f;
+    public float needForBathroom = 0.0f;
+    public float hunger = 0.0f;
+    public float thirst = 0.0f;
+
+    public GameObject Desk;
+    public GameObject Toilet;
+    public GameObject Cafe;
+    public GameObject waterFountain;
+    public GameObject Exit;
 
 
     public List<Actions> actions;
@@ -46,26 +52,38 @@ public class Employee : MonoBehaviour
 
         actions = new List<Actions>();
 
-        sitAtDesk.empFunc = Actions.sitAtDesk;
-        sitAtDesk.priority = needToWork;
+        Work = new Actions();
+        Leave = new Actions();
+        goToToilet = new Actions();
+        getFood = new Actions();
+        drinkADrink = new Actions();
 
-        goHome.empFunc = Actions.goHome;
-        goHome.priority = homeTime;
+        Work.empFunc += sitAtDesk;
+        Work.priority = needToWork;
 
-        goToBathroom.empFunc = Actions.goToBathroom;
-        goToBathroom.priority = needForBathroom;
+        Leave.empFunc += goHome;
+        Leave.priority = homeTime;
 
-        eat.empFunc = Actions.eat;
-        eat.priority = hunger;
+        goToToilet.empFunc += goToBathroom;
+        goToToilet.priority += needForBathroom;
 
-        drink.empFunc = Actions.drink;
-        drink.priority = thirst;
+        getFood.empFunc += eat;
+        getFood.priority = hunger;
 
-        actions.Add(sitAtDesk);
-        actions.Add(goHome);
-        actions.Add(goToBathroom);
-        actions.Add(eat);
-        actions.Add(drink);
+        drinkADrink.empFunc = drink;
+        drinkADrink.priority = thirst;
+
+        actions.Add(Work);
+        actions.Add(Leave);
+        actions.Add(goToToilet);
+        actions.Add(getFood);
+        actions.Add(drinkADrink);
+
+        /*Desk = GameObject.Find("Desk");
+        Toilet = GameObject.Find("Toilet");
+        Cafe = GameObject.Find("Cafe");
+        waterFountain = GameObject.Find("waterFountain");
+        Exit = GameObject.Find("Exit");*/
     }
 
     // Update is called once per frame
@@ -83,12 +101,17 @@ public class Employee : MonoBehaviour
              }
          }*/
 
-        needToWork += (Time.deltaTime / 100);
-        homeTime += (Time.deltaTime / 100);
-        needForBathroom += (Time.deltaTime / 100);
-        hunger += (Time.deltaTime / 100);
-        thirst += (Time.deltaTime / 100);
+        Work.priority += (Time.deltaTime / 100);
+        Leave.priority += (Time.deltaTime / 100);
+        goToToilet.priority += (Time.deltaTime / 100);
+        getFood.priority += (Time.deltaTime / 100);
+        drinkADrink.priority += (Time.deltaTime / 100);
 
+        needToWork = Work.priority;
+        homeTime = Leave.priority;
+        needForBathroom = goToToilet.priority;
+        hunger = getFood.priority;
+        thirst = drinkADrink.priority;
 
         foreach (Actions action in actions)
         {
@@ -96,8 +119,9 @@ public class Employee : MonoBehaviour
             {
                 actions.Remove(action);
                 actions.Add(action);
-                action.execute(this);
             }
+
+            actions[0].execute();
         }
     }
 
@@ -115,19 +139,38 @@ public class Employee : MonoBehaviour
     {
         Debug.Log("Changing pos");
 
-        switch(pos)
+        switch (pos)
         {
-            case Director.Positions.workstation: break;
+
+            case Director.Positions.desk:
+                {
+                    targetPos = Desk.transform.position;
+                    break;
+                }
             case Director.Positions.waterfountain:
-                //targetPos = new Vector3(100, transform.position.y,
-                   //100);
-                break;
-
+                {
+                    targetPos = waterFountain.transform.position;
+                    //targetPos = new Vector3(100, transform.position.y,
+                    //100);
+                    break;
+                }
+            case Director.Positions.cafe:
+                {
+                    targetPos = Cafe.transform.position;
+                    break;
+                }
             case Director.Positions.exit:
-                targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
-                    Random.Range(0, 100));
-
-                break;
+                {
+                    targetPos = Exit.transform.position;
+                    //targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
+                    //Random.Range(0, 100));
+                    break;
+                }
+            case Director.Positions.toilet:
+                {
+                    targetPos = Toilet.transform.position;
+                    break;
+                }
             default: break;
         }
     }
@@ -217,6 +260,83 @@ public class Employee : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+
+    public bool sitAtDesk()
+    {
+        moveTo(Director.Positions.desk);
+
+        if (transform.position != new Vector3(targetPos.x, transform.position.y, targetPos.z))
+        {
+            return false;
+        }
+        else
+        {
+            Work.priority -= (Time.deltaTime / 50);
+            return true;
+        }
+    }
+
+    public bool goHome()
+    {
+        moveTo(Director.Positions.exit);
+
+        if (transform.position != targetPos)
+        {
+            return false;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            Leave.priority = 0;
+            return true;
+        }
+    }
+
+    public bool goToBathroom()
+    {
+        moveTo(Director.Positions.toilet);
+
+        if (transform.position != targetPos)
+        {
+            return false;
+        }
+        else
+        {
+            goToToilet.priority -= (Time.deltaTime / 50);
+            return true;
+        }
+    }
+
+    public bool eat()
+    {
+        moveTo(Director.Positions.cafe);
+
+        if (transform.position != targetPos)
+        {
+            return false;
+        }
+        else
+        {
+            getFood.priority -= (Time.deltaTime / 50);
+            return true;
+        }
+    }
+
+    public bool drink()
+    {
+        moveTo(Director.Positions.waterfountain);
+
+        if (transform.position != targetPos)
+        {
+            return false;
+        }
+        else
+        {
+            drinkADrink.priority -= (Time.deltaTime / 50);
+            return true;
+        }
     }
 }
 

@@ -48,7 +48,7 @@ public class Director : MonoBehaviour
         for(int i = 0; i < employeePoolCount; i++)
         {
             employeePrefab = Instantiate(employeePrefab);
-            employeePrefab.name = names[UnityEngine.Random.Range(0, 3)] + UnityEngine.Random.Range(100, 1000).ToString();
+            employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + UnityEngine.Random.Range(100, 1000).ToString();
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }
