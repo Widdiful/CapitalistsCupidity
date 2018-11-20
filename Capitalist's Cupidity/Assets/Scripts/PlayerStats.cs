@@ -46,4 +46,19 @@ public class PlayerStats : MonoBehaviour
         incomeKeptPercentTextRef.text = "Income Kept: " + (incomeKeepPercent * 100).ToString() + "%";
         employeeCountTextRef.text = "# Of Employees: " + employeeCount.ToString();
     }
+
+    public float GetCompanyFunds()
+    {
+        return companyFunds;
+    }
+
+    public void ChangeCompanyFunds(float value)
+    {
+        companyFunds += value;
+    }
+
+    public void ChangePersonalFunds(float value)
+    {
+        personalFunds += value;
+    }
 }

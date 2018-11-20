@@ -348,22 +348,22 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224350453776579330, guid: 23e2eed6e859a3642864ca8ec2296cd5,
+    - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224350453776579330, guid: 23e2eed6e859a3642864ca8ec2296cd5,
+    - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
+    - target: {fileID: 224350453776579330, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
+    - target: {fileID: 224350453776579330, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -383,11 +383,6 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224002471722213286, guid: 23e2eed6e859a3642864ca8ec2296cd5,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 224004022117870316, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -396,21 +391,6 @@ Prefab:
     - target: {fileID: 224004022117870316, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224200792396438164, guid: 23e2eed6e859a3642864ca8ec2296cd5,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224200792396438164, guid: 23e2eed6e859a3642864ca8ec2296cd5,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 223743869270972858, guid: 23e2eed6e859a3642864ca8ec2296cd5,
-        type: 2}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -846,6 +826,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ecd9211541f3d48a3f47413d961ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facilityInfo:
+    costToBuy: 0
+    baseMonthlyExpenses: 0
+    facilityName: 
+    facilityType: 0
+  averageEmployeeHappiness: 0
 --- !u!4 &1832292596
 Transform:
   m_ObjectHideFlags: 0

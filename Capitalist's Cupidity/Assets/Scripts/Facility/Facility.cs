@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Facility : MonoBehaviour {
+public class Facility : MonoBehaviour
+{
 
     //Private
     public FacilityInfo facilityInfo;
     private float fundingPercentage;
     public float averageEmployeeHappiness;
-    private GameObject FacilityCanvas;
+    private GameObject facilityCanvas;
+    private Canvas purchaseCanvas;
+    private PurchaseFacilityCanvas purchaseFacility;
 
     // Use this for initialization
     void Start()
     {
-        FacilityCanvas = GameObject.Find("FacilityCanvas");
+        facilityCanvas = GameObject.Find("FacilityCanvas");
+        purchaseCanvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
+        purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
+
         fundingPercentage = 1;
 
-        //debug
-        //facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
     }
 
     private void CalculateAverageEmployeeHappiness()
@@ -30,15 +34,22 @@ public class Facility : MonoBehaviour {
         facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Empty");
     }
 
-    private void BuyFacility(FacilityInfo facilityInformation)
+    public void BuyFacility(FacilityInfo facilityInformation)
     {
+        GameObject.FindObjectOfType<PlayerStats>().ChangeCompanyFunds(-facilityInformation.costToBuy);
         facilityInfo = facilityInformation;
     }
 
     public void OpenFacilityWindow()
     {
         CalculateAverageEmployeeHappiness();
-        FacilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
+        facilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
+    }
+
+    public void OpenBuyFacilityWindow()
+    {
+        purchaseCanvas.enabled = true;
+        purchaseFacility.SetFacility(this);
     }
 
     public void UpdateFromFacilityWindow(float FundingPercentage)

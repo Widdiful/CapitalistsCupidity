@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (SelectHit.transform.GetComponent<Facility>().CheckIfEmpty())
                     {
-
+                        SelectHit.transform.GetComponent<Facility>().OpenBuyFacilityWindow();
                     }
                     else
                     {
