@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CameraControl : MonoBehaviour {
 
@@ -96,23 +97,17 @@ public class CameraControl : MonoBehaviour {
     private void CheckWalls() {
         Transform currentFloor = office.GetFloors()[selectedFloor].transform;
 
-        Vector3 leftPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-        leftPos.y = currentFloor.position.y + 1;
-        Vector3 rightPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 1));
-        rightPos.y = currentFloor.position.y + 1;
+        Vector3 leftPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * 0.5f));
+        leftPos.y = currentFloor.position.y + 0.1f;
+        Vector3 rightPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
+        rightPos.y = currentFloor.position.y + 0.1f;
 
         foreach (Transform child in currentFloor) {
             if (child.name.Contains("Wall")) child.gameObject.layer = visibleFloorLayer;
         }
 
-        RaycastHit[] hits = Physics.RaycastAll(currentFloor.position, (leftPos - currentFloor.position).normalized, 10f);
-        RaycastHit[] hits1 = Physics.RaycastAll(currentFloor.position, (rightPos - currentFloor.position).normalized, 10f);
+        RaycastHit[] hits = Physics.RaycastAll(currentFloor.position, (leftPos - currentFloor.position).normalized, 10f).Concat(Physics.RaycastAll(currentFloor.position, (rightPos - currentFloor.position).normalized, 10f)).ToArray();
         foreach (RaycastHit hit in hits) {
-            if (hit.collider.name.Contains("Wall")) {
-                hit.collider.gameObject.layer = invisibleFloorLayer;
-            }
-        }
-        foreach (RaycastHit hit in hits1) {
             if (hit.collider.name.Contains("Wall")) {
                 hit.collider.gameObject.layer = invisibleFloorLayer;
             }
