@@ -39,10 +39,10 @@ public class CameraControl : MonoBehaviour {
         {
             transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
             mouseStartX = Input.mousePosition.x;
+            CheckWalls();
         }
 
 
-        CheckWalls();
 	}
 
     // Changes layers of floors
@@ -56,12 +56,18 @@ public class CameraControl : MonoBehaviour {
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
                     obj.gameObject.layer = visibleFloorLayer;
                 }
+                foreach (Light light in floor.GetComponentsInChildren<Light>()) {
+                    light.enabled = true;
+                }
             }
 
             // Set all above floors to fully invisible
             else if (floor.floorNo > selectedFloor){
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
                     obj.gameObject.layer = invisibleFloorLayer;
+                }
+                foreach (Light light in floor.GetComponentsInChildren<Light>()) {
+                    light.enabled = false;
                 }
             }
 
@@ -73,17 +79,43 @@ public class CameraControl : MonoBehaviour {
                     else
                         obj.gameObject.layer = invisibleFloorLayer;
                 }
+                foreach (Light light in floor.GetComponentsInChildren<Light>()) {
+                    light.enabled = false;
+                }
             }
         }
 
+        CheckWalls();
+
         // Set current camera-facing walls to invisible
-        office.GetFloors()[selectedFloor].transform.Find("SouthWall").gameObject.layer = invisibleFloorLayer;
-        office.GetFloors()[selectedFloor].transform.Find("WestWall").gameObject.layer = invisibleFloorLayer;
+        //office.GetFloors()[selectedFloor].transform.Find("SouthWall").gameObject.layer = invisibleFloorLayer;
+        //office.GetFloors()[selectedFloor].transform.Find("WestWall").gameObject.layer = invisibleFloorLayer;
     }
 
     // Checks which walls to hide
     private void CheckWalls() {
-        // Figure out which walls are obscuring the room
-        // Set them to invisible
+        Transform currentFloor = office.GetFloors()[selectedFloor].transform;
+
+        Vector3 leftPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
+        leftPos.y = currentFloor.position.y + 1;
+        Vector3 rightPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 1));
+        rightPos.y = currentFloor.position.y + 1;
+
+        foreach (Transform child in currentFloor) {
+            if (child.name.Contains("Wall")) child.gameObject.layer = visibleFloorLayer;
+        }
+
+        RaycastHit[] hits = Physics.RaycastAll(currentFloor.position, (leftPos - currentFloor.position).normalized, 10f);
+        RaycastHit[] hits1 = Physics.RaycastAll(currentFloor.position, (rightPos - currentFloor.position).normalized, 10f);
+        foreach (RaycastHit hit in hits) {
+            if (hit.collider.name.Contains("Wall")) {
+                hit.collider.gameObject.layer = invisibleFloorLayer;
+            }
+        }
+        foreach (RaycastHit hit in hits1) {
+            if (hit.collider.name.Contains("Wall")) {
+                hit.collider.gameObject.layer = invisibleFloorLayer;
+            }
+        }
     }
 }
