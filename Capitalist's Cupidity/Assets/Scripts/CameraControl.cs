@@ -57,8 +57,6 @@ public class CameraControl : MonoBehaviour {
             if (floor.floorNo == selectedFloor || floor.floorNo == selectedFloor - 1){
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
                     obj.gameObject.layer = visibleFloorLayer;
-                    if (obj.name.Contains("Wall") && floor.floorNo == selectedFloor - 1)
-                        obj.localScale = new Vector3(obj.localScale.x, -1, obj.localScale.z);
                 }
                 foreach (Light light in floor.GetComponentsInChildren<Light>()) {
                     light.enabled = true;
@@ -80,7 +78,6 @@ public class CameraControl : MonoBehaviour {
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
                     if (obj.name.Contains("Wall")) { 
                         obj.gameObject.layer = visibleFloorLayer;
-                        obj.localScale = new Vector3(obj.localScale.x, -1, obj.localScale.z);
                     }
                     else
                     {
@@ -89,6 +86,23 @@ public class CameraControl : MonoBehaviour {
                 }
                 foreach (Light light in floor.GetComponentsInChildren<Light>()) {
                     light.enabled = false;
+                }
+            }
+
+            if (floor.floorNo == selectedFloor)
+            {
+                foreach(Transform obj in floor.GetComponentsInChildren<Transform>())
+                {
+                    if (obj.name.Contains("OuterWall"))
+                        obj.gameObject.layer = invisibleFloorLayer;
+                }
+            }
+            else if (floor.floorNo < selectedFloor)
+            {
+                foreach (Transform obj in floor.GetComponentsInChildren<Transform>())
+                {
+                    if (obj.name.Contains("OuterWall"))
+                        obj.gameObject.layer = visibleFloorLayer;
                 }
             }
         }
