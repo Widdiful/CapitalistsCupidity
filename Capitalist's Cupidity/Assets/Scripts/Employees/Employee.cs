@@ -29,7 +29,7 @@ public class Employee : MonoBehaviour
     Actions getFood;
     Actions drinkADrink;
 
-    public float needToWork = 10f;
+    public float needToWork = 100.0f;
     public float homeTime = 0.0f;
     public float needForBathroom = 0.0f;
     public float hunger = 0.0f;
@@ -78,34 +78,12 @@ public class Employee : MonoBehaviour
         actions.Add(goToToilet);
         actions.Add(getFood);
         actions.Add(drinkADrink);
-
-        /*Desk = GameObject.Find("Desk");
-        Toilet = GameObject.Find("Toilet");
-        Cafe = GameObject.Find("Cafe");
-        waterFountain = GameObject.Find("waterFountain");
-        Exit = GameObject.Find("Exit");*/
     }
 
     // Update is called once per frame
     void Update()
     {
         Steer(targetPos);
-
-        /*if (Input.GetMouseButtonDown(0))
-         {
-             RaycastHit hit;
-             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-             if (Physics.Raycast(ray, out hit))
-             {
-                 targetPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-             }
-         }*/
-
-        Work.priority += (Time.deltaTime / 10);
-        Leave.priority += (Time.deltaTime / 1000);
-        goToToilet.priority += (Time.deltaTime / 10);
-        getFood.priority += (Time.deltaTime / 10);
-        drinkADrink.priority += (Time.deltaTime / 10);
 
         needToWork = Work.priority;
         homeTime = Leave.priority;
@@ -149,8 +127,6 @@ public class Employee : MonoBehaviour
             case Director.Positions.waterfountain:
                 {
                     targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
-                    //targetPos = new Vector3(100, transform.position.y,
-                    //100);
                     break;
                 }
             case Director.Positions.cafe:
@@ -161,8 +137,6 @@ public class Employee : MonoBehaviour
             case Director.Positions.exit:
                 {
                     targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
-                    //targetPos = new Vector3(Random.Range(0, 100), transform.position.y,
-                    //Random.Range(0, 100));
                     break;
                 }
             case Director.Positions.toilet:
@@ -203,10 +177,6 @@ public class Employee : MonoBehaviour
     Vector3 avoidCollision()
     {
         RaycastHit hit;
-        RaycastHit hit2;
-        RaycastHit hit3;
-
-        //Debug.DrawLine(transform.position, transform.position + (transform.forward * maxSeeAheadDistance), Color.red);
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
         {
@@ -214,24 +184,6 @@ public class Employee : MonoBehaviour
 
             seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
             seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
-
-            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
-        }
-        if(Physics.Raycast(transform.position, (transform.forward + transform.right).normalized, out hit2, maxSeeAheadDistance))
-        {
-            Collider obj = hit2.collider;
-
-            seeAhead = transform.position + ((velocity.normalized) * maxSeeAheadDistance);
-            seeAheadNear = transform.position + (velocity.normalized) * (maxSeeAheadDistance * 0.5f);
-
-            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
-        }
-        if(Physics.Raycast(transform.position, (transform.forward - transform.right).normalized, out hit3, maxSeeAheadDistance))
-        {
-            Collider obj = hit3.collider;
-
-            seeAhead = transform.position + ((velocity.normalized) * maxSeeAheadDistance);
-            seeAheadNear = transform.position + (velocity.normalized) * (maxSeeAheadDistance * 0.5f);
 
             return checkCollisionBounds(obj, seeAhead, seeAheadNear);
         }
@@ -264,7 +216,10 @@ public class Employee : MonoBehaviour
 
     public bool sitAtDesk()
     {
-        moveTo(Director.Positions.desk);
+        if(Desk.transform.position != targetPos)
+        {
+            moveTo(Director.Positions.desk);
+        }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
         {
@@ -272,14 +227,20 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            Work.priority -= (Time.deltaTime / 5);
+            goToToilet.priority += (Time.deltaTime / 4);
+            drinkADrink.priority += (Time.deltaTime);
+            getFood.priority += (Time.deltaTime / 2);
+            Work.priority -= (Time.deltaTime);
             return true;
         }
     }
 
     public bool goHome()
     {
-        moveTo(Director.Positions.exit);
+        if (Exit.transform.position != targetPos)
+        {
+            moveTo(Director.Positions.exit);
+        }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
         {
@@ -295,7 +256,10 @@ public class Employee : MonoBehaviour
 
     public bool goToBathroom()
     {
-        moveTo(Director.Positions.toilet);
+        if (Toilet.transform.position != targetPos)
+        {
+            moveTo(Director.Positions.toilet);
+        }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
         {
@@ -303,14 +267,18 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            goToToilet.priority -= (Time.deltaTime / 5);
+            Work.priority += (Time.deltaTime);
+            goToToilet.priority -= (Time.deltaTime);
             return true;
         }
     }
 
     public bool eat()
     {
-        moveTo(Director.Positions.cafe);
+        if (Cafe.transform.position != targetPos)
+        {
+            moveTo(Director.Positions.cafe);
+        }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
         {
@@ -318,14 +286,19 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            getFood.priority -= (Time.deltaTime / 5);
+            Work.priority += (Time.deltaTime);
+            goToToilet.priority += (Time.deltaTime / 2);
+            getFood.priority -= (Time.deltaTime);
             return true;
         }
     }
 
     public bool drink()
     {
-        moveTo(Director.Positions.waterfountain);
+        if (waterFountain.transform.position != targetPos)
+        {
+            moveTo(Director.Positions.waterfountain);
+        }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
         {
@@ -333,7 +306,9 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            drinkADrink.priority -= (Time.deltaTime / 5);
+            Work.priority += (Time.deltaTime);
+            goToToilet.priority += (Time.deltaTime);
+            drinkADrink.priority -= (Time.deltaTime);
             return true;
         }
     }
