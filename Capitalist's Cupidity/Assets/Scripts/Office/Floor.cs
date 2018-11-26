@@ -47,17 +47,17 @@ public class Floor : MonoBehaviour {
         // Set wall sizes appropriately
         floorArea.localScale = new Vector3(width, floorArea.localScale.y, depth);
         floorArea.localPosition = Vector3.zero;
-        northWall.localScale = new Vector3(width, height, northWall.localScale.z);
-        northWall.localPosition = new Vector3(0, height / 2f, (depth / 2f) + 0.05f);
-                 
-        southWall.localScale = new Vector3(width, height, southWall.localScale.z);
-        southWall.localPosition = new Vector3(0, height / 2f, -((depth / 2f) + 0.05f));
-                 
-        eastWall.localScale = new Vector3(eastWall.localScale.x, height, depth + 0.2f);
-        eastWall.localPosition = new Vector3(-((width / 2f) + 0.05f), height / 2f, 0);
-                 
-        westWall.localScale = new Vector3(westWall.localScale.x, height, depth + 0.2f);
-        westWall.localPosition = new Vector3((width / 2f) + 0.05f, height / 2f, 0);
+        northWall.localScale = new Vector3(width * 0.1f, 1, height * 0.1f);
+        northWall.localPosition = new Vector3(0, height / 2f, (depth / 2f) + 0.01f);
+
+        southWall.localScale = new Vector3(width * 0.1f, 1, height * 0.1f);
+        southWall.localPosition = new Vector3(0, height / 2f, -((depth / 2f) + 0.01f));
+
+        eastWall.localScale = new Vector3(depth * 0.1f, 1, height * 0.1f);
+        eastWall.localPosition = new Vector3(-((width / 2f) + 0.01f), height / 2f, 0);
+
+        westWall.localScale = new Vector3(depth * 0.1f, 1, height * 0.1f);
+        westWall.localPosition = new Vector3((width / 2f) + 0.01f, height / 2f, 0);
 
         // Set work area
         int workAreaX, workAreaY, workAreaWidth, workAreaHeight, minX, minY;

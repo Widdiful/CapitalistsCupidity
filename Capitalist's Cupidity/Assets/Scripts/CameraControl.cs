@@ -41,7 +41,7 @@ public class CameraControl : MonoBehaviour {
         {
             transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
             mouseStartX = Input.mousePosition.x;
-            CheckWalls();
+            //CheckWalls();
         }
 
 
@@ -57,6 +57,8 @@ public class CameraControl : MonoBehaviour {
             if (floor.floorNo == selectedFloor || floor.floorNo == selectedFloor - 1){
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
                     obj.gameObject.layer = visibleFloorLayer;
+                    if (obj.name.Contains("Wall") && floor.floorNo == selectedFloor - 1)
+                        obj.localScale = new Vector3(obj.localScale.x, -1, obj.localScale.z);
                 }
                 foreach (Light light in floor.GetComponentsInChildren<Light>()) {
                     light.enabled = true;
@@ -76,10 +78,14 @@ public class CameraControl : MonoBehaviour {
             // Set all below floors's walls to visible, everything else invisible
             else {
                 foreach (Transform obj in floor.GetComponentsInChildren<Transform>()) {
-                    if (obj.name.Contains("Wall"))
+                    if (obj.name.Contains("Wall")) { 
                         obj.gameObject.layer = visibleFloorLayer;
+                        obj.localScale = new Vector3(obj.localScale.x, -1, obj.localScale.z);
+                    }
                     else
+                    {
                         obj.gameObject.layer = invisibleFloorLayer;
+                    }
                 }
                 foreach (Light light in floor.GetComponentsInChildren<Light>()) {
                     light.enabled = false;
@@ -87,7 +93,7 @@ public class CameraControl : MonoBehaviour {
             }
         }
 
-        CheckWalls();
+        //CheckWalls();
 
         // Set current camera-facing walls to invisible
         //office.GetFloors()[selectedFloor].transform.Find("SouthWall").gameObject.layer = invisibleFloorLayer;
