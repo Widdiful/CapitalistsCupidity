@@ -5,6 +5,7 @@ using UnityEngine;
 public class OfficeGenerator : MonoBehaviour {
 
     public GameObject floorPrefab;
+    public GameObject shadowPrefab;
     public string officeName;
     public int floorCount;
     public int warehouseCount;
@@ -17,7 +18,18 @@ public class OfficeGenerator : MonoBehaviour {
     private Transform officeParent;
 
     void Start() {
+        CreateShadow();
         CreateFloors();
+    }
+
+    private void CreateShadow()
+    {
+        if (shadowPrefab)
+        {
+            float shadowHeight = floorCount * floorHeight;
+            Transform shadow = Instantiate(shadowPrefab, new Vector3(0, shadowHeight * 0.5f, 0), Quaternion.identity, officeParent).transform;
+            shadow.localScale = new Vector3(floorSize.x + 0.2f, shadowHeight, floorSize.y + 0.2f);
+        }
     }
 
     private Floor CreateFloor(int floorNo) {

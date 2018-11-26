@@ -67,8 +67,8 @@ public class Floor : MonoBehaviour {
         minY = Mathf.FloorToInt((depth - 1) - (depth / 2));
         //workAreaX = Mathf.FloorToInt(Random.Range(minX, -minX - (workAreaWidth / 2) - (2 * spacing)));
         //workAreaY = Mathf.FloorToInt(Random.Range(minY, -minY + (workAreaHeight / 2) + (2 * spacing)));
-        workAreaX = -3;
-        workAreaY = 3;
+        workAreaX = (int)-(floorSize.x * 0.5f - 2f);
+        workAreaY = (int)(floorSize.y * 0.5f - 2f);
 
         SpawnWorkspaces(workAreaX, workAreaY, workAreaWidth, workAreaHeight);
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Linq;
 
 public class CameraControl : MonoBehaviour {
@@ -36,7 +37,7 @@ public class CameraControl : MonoBehaviour {
             mouseStartX = Input.mousePosition.x;
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
             mouseStartX = Input.mousePosition.x;

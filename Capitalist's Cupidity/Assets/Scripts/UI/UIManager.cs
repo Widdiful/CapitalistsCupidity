@@ -141,7 +141,7 @@ public class UIManager : MonoBehaviour {
                 {
                     FacilityButton newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent).GetComponent<FacilityButton>();
                     newButton.facilityName = facility.facilityInfo.facilityName;
-                    newButton.fundingCurrent = facility.facilityInfo.baseMonthlyExpenses;
+                    newButton.fundingCurrent = facility.GetMonthlyExpense();
                     newButton.happiness = facility.averageEmployeeHappiness;
                     newButton.UpdateInformation();
                 }
