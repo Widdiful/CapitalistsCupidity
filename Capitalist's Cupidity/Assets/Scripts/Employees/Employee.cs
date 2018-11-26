@@ -35,6 +35,12 @@ public class Employee : MonoBehaviour
     public float hunger = 0.0f;
     public float thirst = 0.0f;
 
+    int needToWorkModifier = 0;
+    int bladderModifier = 0;
+    int hungerModifier = 0;
+    int thirstModifier = 0;
+
+
     public GameObject Desk;
     public GameObject Toilet;
     public GameObject Cafe;
@@ -43,11 +49,9 @@ public class Employee : MonoBehaviour
 
 
     public List<Actions> actions;
-    
 
     private void Start()
     {
-
         Director.updatePos += moveTo;
 
         actions = new List<Actions>();
@@ -78,6 +82,12 @@ public class Employee : MonoBehaviour
         actions.Add(goToToilet);
         actions.Add(getFood);
         actions.Add(drinkADrink);
+
+        needToWorkModifier = Random.Range(1, 10);
+        bladderModifier = Random.Range(1, 10); 
+        hungerModifier = Random.Range(1, 10); 
+        thirstModifier = Random.Range(1, 10); 
+
     }
 
     // Update is called once per frame
@@ -227,10 +237,10 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            goToToilet.priority += (Time.deltaTime / 4);
-            drinkADrink.priority += (Time.deltaTime);
-            getFood.priority += (Time.deltaTime / 2);
-            Work.priority -= (Time.deltaTime);
+            goToToilet.priority += (Time.deltaTime * bladderModifier);
+            drinkADrink.priority += (Time.deltaTime * thirstModifier);
+            getFood.priority += (Time.deltaTime * hungerModifier);
+            Work.priority -= (Time.deltaTime * needToWorkModifier);
             return true;
         }
     }
@@ -267,8 +277,8 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            Work.priority += (Time.deltaTime);
-            goToToilet.priority -= (Time.deltaTime);
+            Work.priority += (Time.deltaTime * needToWorkModifier);
+            goToToilet.priority -= (Time.deltaTime * bladderModifier);
             return true;
         }
     }
@@ -286,9 +296,9 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            Work.priority += (Time.deltaTime);
-            goToToilet.priority += (Time.deltaTime / 2);
-            getFood.priority -= (Time.deltaTime);
+            Work.priority += (Time.deltaTime * needToWorkModifier);
+            goToToilet.priority += (Time.deltaTime * bladderModifier);
+            getFood.priority -= (Time.deltaTime * hungerModifier);
             return true;
         }
     }
@@ -306,9 +316,9 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            Work.priority += (Time.deltaTime);
-            goToToilet.priority += (Time.deltaTime);
-            drinkADrink.priority -= (Time.deltaTime);
+            Work.priority += (Time.deltaTime * needToWorkModifier);
+            goToToilet.priority += (Time.deltaTime * bladderModifier);
+            drinkADrink.priority -= (Time.deltaTime * thirstModifier);
             return true;
         }
     }
