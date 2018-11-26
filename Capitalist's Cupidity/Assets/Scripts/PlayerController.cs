@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
                 SelectRay = camera.ScreenPointToRay(Input.GetTouch(0).position);
             }
             RaycastHit SelectHit;
-            Physics.Raycast(SelectRay, out SelectHit);
+            Physics.Raycast(SelectRay, out SelectHit, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
             if(SelectHit.collider)
             {
                 if(SelectHit.transform.GetComponent<Facility>())

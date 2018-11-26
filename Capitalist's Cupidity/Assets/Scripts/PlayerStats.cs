@@ -13,24 +13,26 @@ public class PlayerStats : MonoBehaviour
     private float companyFunds;
     private float incomeKeepPercent;
     private int employeeCount;
+    private int fiveCoins;
 
     //References
     private Text personalFundsTextRef;
     private Text companyFundsTextRef;
-    private Text incomeKeptPercentTextRef;
+    private Text fiveCoinTextRef;
     private Text employeeCountTextRef;
 
 	// Use this for initialization
 	void Start ()
     {
         //initalise references
-        personalFundsTextRef = GameObject.Find("PersonalFundsText").GetComponent<Text>();
-        companyFundsTextRef = GameObject.Find("CompanyFundsText").GetComponent<Text>();
-        incomeKeptPercentTextRef = GameObject.Find("IncomeKeptPercentText").GetComponent<Text>();
-        employeeCountTextRef = GameObject.Find("EmployeeCountText").GetComponent<Text>();
+        personalFundsTextRef = GameObject.Find("PersonalFunds").GetComponent<Text>();
+        companyFundsTextRef = GameObject.Find("CompanyFunds").GetComponent<Text>();
+        fiveCoinTextRef = GameObject.Find("5Coins").GetComponent<Text>();
+        employeeCountTextRef = GameObject.Find("EmployeeCount").GetComponent<Text>();
 
         companyFunds = startingCompanyFunds;
         incomeKeepPercent = startingIncomeKept;
+        fiveCoins = 0;
     }
 	
 	// Update is called once per frame
@@ -43,7 +45,7 @@ public class PlayerStats : MonoBehaviour
     {
         personalFundsTextRef.text = "Personal Funds: $" + personalFunds.ToString();
         companyFundsTextRef.text = "Company Funds: $" + companyFunds.ToString();
-        incomeKeptPercentTextRef.text = "Income Kept: " + (incomeKeepPercent * 100).ToString() + "%";
+        fiveCoinTextRef.text = "5Coins: " + fiveCoins.ToString();
         employeeCountTextRef.text = "# Of Employees: " + employeeCount.ToString();
     }
 
@@ -52,13 +54,13 @@ public class PlayerStats : MonoBehaviour
         return companyFunds;
     }
 
-    public void ChangeCompanyFunds(float value)
+    public void ChangeCompanyFunds(float income)
     {
-        companyFunds += value;
+        companyFunds += income - (income * incomeKeepPercent);
     }
 
-    public void ChangePersonalFunds(float value)
+    public void ChangePersonalFunds(float income)
     {
-        personalFunds += value;
+        personalFunds += income * incomeKeepPercent;
     }
 }

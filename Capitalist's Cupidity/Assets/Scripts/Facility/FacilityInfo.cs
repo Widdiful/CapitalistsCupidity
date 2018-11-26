@@ -11,5 +11,5 @@ public class FacilityInfo
     public float costToBuy;
     public float baseMonthlyExpenses;
     public string facilityName;
-    public FacilityType facilityType;
+    public FacilityType facilityType = FacilityType.Empty;
 }
