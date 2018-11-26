@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Camera camera;
+    private Camera cameraRef;
 
 	// Use this for initialization
 	void Start ()
     {
-        camera = GameObject.FindObjectOfType<Camera>();
+        cameraRef = GameObject.FindObjectOfType<Camera>();
 	}
 	
 	// Update is called once per frame
@@ -17,10 +17,10 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) || Input.touchCount > 0)
         {
-            Ray SelectRay = camera.ScreenPointToRay(Input.mousePosition);
+            Ray SelectRay = cameraRef.ScreenPointToRay(Input.mousePosition);
             if(Input.touchCount > 0)
             {
-                SelectRay = camera.ScreenPointToRay(Input.GetTouch(0).position);
+                SelectRay = cameraRef.ScreenPointToRay(Input.GetTouch(0).position);
             }
             RaycastHit SelectHit;
             Physics.Raycast(SelectRay, out SelectHit, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
