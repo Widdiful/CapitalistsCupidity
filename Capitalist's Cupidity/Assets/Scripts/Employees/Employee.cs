@@ -21,7 +21,7 @@ public class Employee : MonoBehaviour
 
     //Actions.employeeFunc(this)
 
-    float happiness = 100;
+    public float happiness = 100;
 
     Actions Work;
     Actions Leave;
@@ -35,10 +35,10 @@ public class Employee : MonoBehaviour
     public float hunger = 0.0f;
     public float thirst = 0.0f;
 
-    int needToWorkModifier = 0;
-    int bladderModifier = 0;
-    int hungerModifier = 0;
-    int thirstModifier = 0;
+    float needToWorkModifier = 0.0f;
+    float bladderModifier = 0.0f;
+    float hungerModifier = 0.0f;
+    float thirstModifier = 0.0f;
 
 
     public GameObject Desk;
@@ -47,8 +47,12 @@ public class Employee : MonoBehaviour
     public GameObject waterFountain;
     public GameObject Exit;
 
-
     public List<Actions> actions;
+
+    bool isBootLicker;
+
+    public float moneyInBank = 0.0f;
+    float salary = 0.0f;
 
     private void Start()
     {
@@ -83,11 +87,21 @@ public class Employee : MonoBehaviour
         actions.Add(getFood);
         actions.Add(drinkADrink);
 
-        needToWorkModifier = Random.Range(1, 10);
-        bladderModifier = Random.Range(1, 10); 
-        hungerModifier = Random.Range(1, 10); 
-        thirstModifier = Random.Range(1, 10); 
+        needToWorkModifier = Random.Range(0.1f, 10.0f);
+        bladderModifier = Random.Range(0.1f, 10.0f); 
+        hungerModifier = Random.Range(0.1f, 10.0f); 
+        thirstModifier = Random.Range(0.1f, 10.0f);
 
+        isBootLicker = Random.Range(1, 3) > 1 ? true : false;
+
+        if(!isBootLicker)
+        {
+            Director.workerHappiness += setHappiness;
+        }
+
+        salary = Random.Range(1, 100);
+
+        Director.payTheGuys += payWages;
     }
 
     // Update is called once per frame
@@ -105,6 +119,8 @@ public class Employee : MonoBehaviour
         {
             if(action.priority > actions[0].priority)
             {
+                //actions.Remove(action);
+                //actions.Insert(0, action);
                 actions[0] = action;
             }
 
@@ -120,6 +136,32 @@ public class Employee : MonoBehaviour
     public void setHappiness(float value)
     {
         happiness += value;
+    }
+
+    public void setBank(float value)
+    {
+        moneyInBank += value;
+    }
+
+    public void payWages()
+    {
+        moneyInBank += salary;
+        setHappiness(10.0f);
+    }
+
+    public float getBank()
+    {
+        return moneyInBank;
+    }
+
+    public void setSalary(float value)
+    {
+        salary += value;
+    }
+
+    public float getSalary()
+    {
+        return salary;
     }
 
     public void moveTo(Director.Positions pos)
@@ -203,8 +245,6 @@ public class Employee : MonoBehaviour
     
     Vector3 checkCollisionBounds(Collider obj, Vector3 seeAhead, Vector3 seeAheadNear)
     {
-        
-
         if (obj.bounds.Contains(seeAhead))
         {
             avoidanceForce = seeAhead - obj.transform.position;
@@ -228,7 +268,8 @@ public class Employee : MonoBehaviour
     {
         if(Desk.transform.position != targetPos)
         {
-            moveTo(Director.Positions.desk);
+            //moveTo(Director.Positions.desk);
+            targetPos = new Vector3(Desk.transform.position.x, transform.position.y, Desk.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
@@ -249,7 +290,8 @@ public class Employee : MonoBehaviour
     {
         if (Exit.transform.position != targetPos)
         {
-            moveTo(Director.Positions.exit);
+            //moveTo(Director.Positions.exit);
+            targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
@@ -268,7 +310,8 @@ public class Employee : MonoBehaviour
     {
         if (Toilet.transform.position != targetPos)
         {
-            moveTo(Director.Positions.toilet);
+            //moveTo(Director.Positions.toilet);
+            targetPos = new Vector3(Toilet.transform.position.x, transform.position.y, Toilet.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
@@ -287,7 +330,8 @@ public class Employee : MonoBehaviour
     {
         if (Cafe.transform.position != targetPos)
         {
-            moveTo(Director.Positions.cafe);
+            //moveTo(Director.Positions.cafe);
+            targetPos = new Vector3(Cafe.transform.position.x, transform.position.y, Cafe.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)
@@ -307,7 +351,8 @@ public class Employee : MonoBehaviour
     {
         if (waterFountain.transform.position != targetPos)
         {
-            moveTo(Director.Positions.waterfountain);
+            //moveTo(Director.Positions.waterfountain);
+            targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 5)

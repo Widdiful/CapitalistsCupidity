@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Director : MonoBehaviour
 {
@@ -19,7 +20,18 @@ public class Director : MonoBehaviour
     public delegate void setPos(Positions pos);
     public static event setPos updatePos;
 
+    public delegate void affectHappiness(float value);
+    public static event affectHappiness workerHappiness;
+
+    public delegate void payWorkers();
+    public static event payWorkers payTheGuys;
+
     bool flock = false;
+
+    public int numberOfMonths = 0;
+    int oldMonths;
+
+    public Text months;
 
     public static Director Instance
     {
@@ -52,11 +64,14 @@ public class Director : MonoBehaviour
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }
+        oldMonths = numberOfMonths;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        
+        months.text = "Number of months: " + numberOfMonths.ToString();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             flock = !flock;
@@ -65,12 +80,17 @@ public class Director : MonoBehaviour
             {
                 updatePos(Positions.exit);
             }
-            //else
-            //{
-               // updatePos(Positions.waterfountain);
-            //}
+        }
+        if (workerHappiness != null)
+        {
+            workerHappiness(-1f);
         }
 
+        if (numberOfMonths == oldMonths + 1)
+        {
+            payTheGuys();
+            oldMonths = numberOfMonths;
+        }
         if (Input.GetKeyDown(KeyCode.A))
         {
             foreach(Employee employee in employees)
