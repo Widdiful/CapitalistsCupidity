@@ -5,12 +5,34 @@ using UnityEngine.UI;
 
 public class Messages : MonoBehaviour {
 
+    [System.Serializable]
+    public class NoticeboardItem
+    {
+        public string title;
+        public string message;
+        public List<string> comments = new List<string>();
+
+        public NoticeboardItem(string _title, string _message)
+        {
+            title = _title;
+            message = _message;
+        }
+    }
+
     public enum MessageType { Ticker, Noticeboard, Both };
+    public Transform noticeboardContent;
+    public GameObject noticeboardItemPrefab;
     public Text tickerMessage;
     public RectTransform tickerCanvas;
     public float speed;
 
+    public TextAsset negativeCommentsText;
+    public TextAsset positiveCommentsText;
+    private string[] negativeComments;
+    private string[] positiveComments;
+
     private Queue<string> messageQueue = new Queue<string>();
+    public List<NoticeboardItem> noticeboard = new List<NoticeboardItem>();
     private RectTransform tickerRect;
     private Vector2 tickerStart;
     private Animator anim;
@@ -26,11 +48,16 @@ public class Messages : MonoBehaviour {
             Debug.LogWarning("Cannot set tickerRect as tickerMessage is null.");
 
         anim = tickerMessage.transform.parent.GetComponent<Animator>();
+        negativeComments = negativeCommentsText.text.Split('\n');
+        positiveComments = positiveCommentsText.text.Split('\n');
 
         NewMessage("Test1", MessageType.Ticker);
         NewMessage("Test2", MessageType.Ticker);
         NewMessage("Test3", MessageType.Ticker);
-        //CreateTicker("Lorem ipsum dolor sit amet, consectetur adipiscing elit.Aliquam quis leo vel ex egestas aliquam.Vivamus dignissim sed nisi in molestie.Nulla lacinia non sapien quis eleifend.Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.Nam vel tincidunt tortor.Mauris tempus mi diam, et ultrices urna lobortis eget.Sed maximus vehicula ipsum, non molestie magna.Praesent sed eros sed enim tempus dictum. Vivamus et efficitur lectus, eget faucibus arcu.Nunc pretium, orci non tempor pretium, nulla leo mattis lectus, eget maximus eros ante non justo.Pellentesque dapibus urna vitae maximus porttitor.Praesent et neque eget augue placerat mattis.Maecenas malesuada, arcu non elementum molestie, erat mi consectetur nibh, at dictum magna lorem et augue.Etiam tristique imperdiet elit, at vulputate turpis porta non.Phasellus posuere et augue eget viverra.Etiam vitae lorem vitae diam auctor efficitur id eget tellus.Morbi vehicula ac nisi id lacinia.Etiam blandit lectus non faucibus sollicitudin. Nulla faucibus, dui sed convallis tristique, quam turpis pretium dolor, sit amet fringilla eros velit a nisl.Curabitur eros dolor, posuere at mauris vel, viverra vulputate justo.Proin varius lacinia turpis, nec interdum diam facilisis at.Nam tincidunt massa at nulla tristique, id volutpat mauris euismod.Fusce sagittis bibendum aliquet.Phasellus a eros tincidunt, cursus libero sit amet, dignissim nisi.Suspendisse malesuada ultricies neque in vestibulum.Duis non cursus nibh, non sodales ante.Pellentesque rhoncus fringilla nisl, lobortis luctus metus maximus non.Donec fringilla arcu vel consectetur pulvinar.Quisque nisl erat, mollis et lacus eu, faucibus viverra lacus.Nunc lacinia efficitur suscipit.Fusce non magna sed lectus euismod rhoncus.Aliquam id pharetra felis. Ut faucibus enim purus, ac finibus dolor tempor ac.Sed elementum lectus id pretium blandit.Praesent vel sodales felis, in cursus risus.In efficitur suscipit bibendum.Donec sodales luctus faucibus.Nullam posuere efficitur odio, non semper nisl elementum ut.Duis eleifend lectus consectetur nisl pretium dictum.Mauris eget nibh mollis, condimentum tellus at, congue ex.Vestibulum placerat ex in sem sagittis, id volutpat erat sollicitudin.Sed congue, dui ut feugiat fringilla, nisi turpis euismod purus, sed pharetra quam ex nec ligula.Donec in nunc lectus.Vestibulum accumsan dictum nulla, a blandit orci aliquam quis. Maecenas vitae dignissim justo.Aenean ac consequat odio.Cras a est quam.Proin at suscipit magna.Vivamus fermentum nec lacus ac ornare.Curabitur volutpat nulla nisi, sit amet iaculis eros eleifend a.Donec turpis erat, rhoncus eget elit quis, iaculis vestibulum justo.Vivamus gravida, orci vitae vestibulum mollis, ligula nulla laoreet mi, non luctus felis lorem vitae mi.Phasellus ullamcorper pharetra risus, a laoreet nisl auctor vitae. ");
+
+        CreateNoticeboardMessage("test1", "This is a test.");
+        CreateNoticeboardMessage("test2", "This is a test.");
+        CreateNoticeboardMessage("test3", "This is a test.");
     }
 
     public void NewMessage(string message, MessageType messageType) {
@@ -43,6 +70,27 @@ public class Messages : MonoBehaviour {
         if (messageType != MessageType.Ticker) {
 
         }
+    }
+
+    public void CreateNoticeboardMessage(string title, string message) {
+        NoticeboardItem newNotice = new NoticeboardItem(title, message);
+        noticeboard.Add(newNotice);
+        for (int i = 0; i < 3; i++)
+        {
+            AddNegativeComment(newNotice);
+        }
+        NoticeboardItemManager newNoticeManager = Instantiate(noticeboardItemPrefab, noticeboardContent).GetComponent<NoticeboardItemManager>();
+        newNoticeManager.titleText.text = newNotice.title;
+        newNoticeManager.bodyText.text = newNotice.message;
+        newNoticeManager.AddComments(newNotice.comments);
+    }
+
+    public void AddNegativeComment(NoticeboardItem noticeboardItem) {
+        noticeboardItem.comments.Add(negativeComments[Random.Range(0, negativeComments.Length)]);
+    }
+
+    public void AddPositiveComment(NoticeboardItem noticeboardItem) {
+        noticeboardItem.comments.Add(positiveComments[Random.Range(0, positiveComments.Length)]);
     }
 
     private void CreateTicker(string message) {

@@ -3,7 +3,11 @@ guid: 8b3714acc57aaa140be0c815524a3724
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tickerMessage: {instanceID: 0}
+  - tickerCanvas: {instanceID: 0}
+  - negativeComments: {fileID: 4900000, guid: 413d0cb2d59237d46a0637fa1487653f, type: 3}
+  - positiveComments: {fileID: 4900000, guid: 93672c45a7054de42a526e820834cca1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
