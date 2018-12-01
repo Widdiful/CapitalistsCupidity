@@ -15,6 +15,7 @@ public class CameraControl : MonoBehaviour {
     private OfficeGenerator office;
 
     private float mouseStartX;
+    private bool changedFloor = false;
 
 	void Start () {
         office = FindObjectOfType<OfficeGenerator>();
@@ -24,7 +25,7 @@ public class CameraControl : MonoBehaviour {
         else
             Debug.LogWarning("OfficeGenerator not correctly set up.");
 
-        ChangeFloor(selectedFloor);
+        ChangeFloor(0);
 	}
 	
 	void Update () {
@@ -44,7 +45,11 @@ public class CameraControl : MonoBehaviour {
             //CheckWalls();
         }
 
-
+        // really bad fix for a bug but idk what else to do
+        if (!changedFloor) {
+            ChangeFloor(selectedFloor);
+            changedFloor = true;
+        }
 	}
 
     // Changes layers of floors

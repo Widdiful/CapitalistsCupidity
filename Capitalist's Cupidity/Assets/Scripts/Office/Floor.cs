@@ -76,6 +76,7 @@ public class Floor : MonoBehaviour {
         {
             AddStairHole();
         }
+        AddLift();
     }
 
     // Spawns work space in given area
@@ -134,6 +135,7 @@ public class Floor : MonoBehaviour {
     // Adds a lift
     public void AddLift()
     {
-
+        GameObject newLift = Instantiate(Resources.Load("OfficeParts/Lift"), transform) as GameObject;
+        newLift.transform.localPosition = new Vector3((floorSize.x * 0.5f) - 1, 1, -(floorSize.y / 2f) + 0.1f);
     }
 }
