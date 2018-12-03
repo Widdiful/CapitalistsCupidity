@@ -17,7 +17,7 @@ public class FacilityButton : MonoBehaviour {
 
     public void UpdateInformation() {
         nameText.text = facilityName;
-        fundingText.text = fundingCurrent.ToString();
+        fundingText.text = floorNo.ToString();
         happinessBar.value = happiness;
     }
 
