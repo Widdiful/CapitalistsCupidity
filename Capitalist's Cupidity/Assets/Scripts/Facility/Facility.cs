@@ -42,6 +42,18 @@ public class Facility : MonoBehaviour
 
     public void OpenFacilityWindow()
     {
+    
+        if (CheckIfEmpty())
+        {
+            OpenBuyFacilityWindow();
+        }
+        else
+        {
+            OpenChangeFacilityWindow();
+        }
+    }
+    public void OpenChangeFacilityWindow()
+    {
         CalculateAverageEmployeeHappiness();
         facilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
     }

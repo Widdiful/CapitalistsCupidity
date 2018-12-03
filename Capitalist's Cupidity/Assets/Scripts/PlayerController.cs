@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Camera cameraRef;
-
+    private UIManager uiManager;
 	// Use this for initialization
 	void Start ()
     {
         cameraRef = GameObject.FindObjectOfType<Camera>();
+        uiManager = GameObject.FindObjectOfType<UIManager>();
 	}
 	
 	// Update is called once per frame
@@ -26,15 +27,12 @@ public class PlayerController : MonoBehaviour
             Physics.Raycast(SelectRay, out SelectHit, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
             if(SelectHit.collider)
             {
-                if(SelectHit.transform.GetComponent<Facility>())
+                if (!uiManager.windowOpen)
                 {
-                    if (SelectHit.transform.GetComponent<Facility>().CheckIfEmpty())
-                    {
-                        SelectHit.transform.GetComponent<Facility>().OpenBuyFacilityWindow();
-                    }
-                    else
+                    if (SelectHit.transform.GetComponent<Facility>())
                     {
                         SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
+                        uiManager.windowOpen = true;
                     }
                 }
             }
