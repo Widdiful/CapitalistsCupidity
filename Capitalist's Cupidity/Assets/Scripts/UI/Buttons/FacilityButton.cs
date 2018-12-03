@@ -22,6 +22,7 @@ public class FacilityButton : MonoBehaviour {
     }
 
     public void Click() {
-
+        if (facility)
+            facility.OpenFacilityWindow();
     }
 }

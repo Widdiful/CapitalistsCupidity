@@ -139,12 +139,14 @@ public class UIManager : MonoBehaviour {
             DeleteButtonsInTab(facilitiesContent);
             foreach (Facility facility in FindObjectsOfType<Facility>())
             {
-                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
+                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty)
                 {
                     FacilityButton newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent).GetComponent<FacilityButton>();
                     newButton.facilityName = facility.facilityInfo.facilityName;
                     newButton.fundingCurrent = facility.GetMonthlyExpense();
-                    newButton.happiness = facility.averageEmployeeHappiness;
+                    newButton.happiness = 0.5f;
+                    newButton.facility = facility;
+                    newButton.floorNo = facility.GetComponentInParent<Floor>().floorNo;
                     newButton.UpdateInformation();
                 }
             }

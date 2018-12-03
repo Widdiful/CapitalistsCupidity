@@ -58,6 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1424913325353034}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 4b699720394f58c4d98578dc8c3f83b9, type: 3}
 --- !u!114 &114187205433920634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
+  happiness: 100
   needToWork: 10
   homeTime: 0
   needForBathroom: 0
@@ -108,3 +110,4 @@ MonoBehaviour:
   waterFountain: {fileID: 1777564742648208, guid: 2a3ff8ea53b469042a6fb14959075110,
     type: 2}
   Exit: {fileID: 1607243727288930, guid: 68e97aa4d3891144996040adfa803cdd, type: 2}
+  moneyInBank: 0

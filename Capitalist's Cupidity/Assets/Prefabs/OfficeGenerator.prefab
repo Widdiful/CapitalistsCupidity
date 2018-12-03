@@ -61,4 +61,4 @@ MonoBehaviour:
   floorSize: {x: 12, y: 10}
   floorHeight: 3
   workspaceCount: 9
-  workspacePadding: 2
+  workspacePadding: 3

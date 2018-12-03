@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114346327156327298}
   - component: {fileID: 114214111201870164}
   - component: {fileID: 114579073698119086}
+  - component: {fileID: 114900694794646250}
   m_Layer: 0
   m_Name: CameraGrip
   m_TagString: Untagged
@@ -133,6 +134,13 @@ MonoBehaviour:
   employees: []
   employeePoolCount: 10
   _pos: 0
+  Desk: {fileID: 0}
+  Toilet: {fileID: 0}
+  Cafe: {fileID: 0}
+  waterFountain: {fileID: 0}
+  Exit: {fileID: 0}
+  numberOfMonths: 0
+  months: {fileID: 0}
 --- !u!114 &114346327156327298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +187,18 @@ MonoBehaviour:
     costToBuy: 5
     monthlyIncome: 50
     purchased: 0
+--- !u!114 &114900694794646250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1057739182389054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a941def40aea4340a6ae84bea884ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monthInRealMinutes: 0.2
 --- !u!124 &124743166154045304
 Behaviour:
   m_ObjectHideFlags: 1
