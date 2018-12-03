@@ -43,8 +43,8 @@ public class PlayerStats : MonoBehaviour
 
     public void updateUI()
     {
-        personalFundsTextRef.text = "Personal Funds: $" + personalFunds.ToString();
-        companyFundsTextRef.text = "Company Funds: $" + companyFunds.ToString();
+        personalFundsTextRef.text = "Personal Funds: $" + personalFunds.ToString("##,#0.00");
+        companyFundsTextRef.text = "Company Funds: $" + companyFunds.ToString("##,#0.00");
         fiveCoinTextRef.text = "5Coins: " + fiveCoins.ToString();
         employeeCountTextRef.text = "# Of Employees: " + employeeCount.ToString();
     }

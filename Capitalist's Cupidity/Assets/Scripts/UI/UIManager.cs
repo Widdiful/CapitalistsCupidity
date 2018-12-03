@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour {
     public Transform abilitiesContent;
     public GameObject abilitiesButtonPrefab;
 
+    public bool windowOpen;
+
     private Coroutine managementPanelCoroutine;
     private Animator buttonAnim;
     private Animator paneAnim;

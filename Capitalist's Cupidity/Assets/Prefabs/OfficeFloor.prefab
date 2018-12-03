@@ -912,5 +912,5 @@ MonoBehaviour:
   happiness: 0
   workspaceCount: 0
   floorType: 0
-  workspacePrefab: {fileID: 1631763985709304, guid: cc221dbbfcda6a54a9ffdffefbd8f836,
+  workspacePrefab: {fileID: 1175278755677340, guid: f8dfc5641717adb41a568d2b8dab40e3,
     type: 2}

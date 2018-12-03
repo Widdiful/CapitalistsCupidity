@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class FacilityButton : MonoBehaviour {
 
     public string facilityName;
+    public int floorNo;
     public float fundingCurrent;
     public float happiness;
+    public Facility facility;
 
     public Text nameText;
     public Text fundingText;
