@@ -139,11 +139,13 @@ public class Employee : MonoBehaviour
                 //actions.Remove(action);
                 //actions.Insert(0, action);
                 actions[0] = action;
-                
             }
 
             actions[0].execute();
         }
+
+ 
+        
     }
 
     public float getHappiness()
@@ -330,7 +332,7 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             Leave.priority = 0;
             return true;
         }
