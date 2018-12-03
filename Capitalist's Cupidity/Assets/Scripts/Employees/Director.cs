@@ -88,7 +88,10 @@ public class Director : MonoBehaviour
 
         if (numberOfMonths == oldMonths + 1)
         {
-            payTheGuys();
+            if (payTheGuys != null)
+            {
+                payTheGuys();
+            }
             oldMonths = numberOfMonths;
         }
         if (Input.GetKeyDown(KeyCode.A))

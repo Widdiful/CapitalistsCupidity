@@ -58,6 +58,7 @@ public class Employee : MonoBehaviour
     {
         Director.updatePos += moveTo;
 
+        //Create actions
         actions = new List<Actions>();
 
         Work = new Actions();
@@ -66,6 +67,7 @@ public class Employee : MonoBehaviour
         getFood = new Actions();
         drinkADrink = new Actions();
 
+        //Create delegates for the actions
         Work.empFunc += sitAtDesk;
         Work.priority = needToWork;
 
@@ -81,16 +83,20 @@ public class Employee : MonoBehaviour
         drinkADrink.empFunc = drink;
         drinkADrink.priority = thirst;
 
+        //Add to list
         actions.Add(Work);
         actions.Add(Leave);
         actions.Add(goToToilet);
         actions.Add(getFood);
         actions.Add(drinkADrink);
 
+        //Create modifiers so employees are unique
         needToWorkModifier = Random.Range(0.1f, 10.0f);
         bladderModifier = Random.Range(0.1f, 10.0f); 
         hungerModifier = Random.Range(0.1f, 10.0f); 
         thirstModifier = Random.Range(0.1f, 10.0f);
+
+        //Create chance of boot licker that cannot lose happiness
 
         isBootLicker = Random.Range(1, 3) > 1 ? true : false;
 
@@ -99,8 +105,10 @@ public class Employee : MonoBehaviour
             Director.workerHappiness += setHappiness;
         }
 
+        //Give random monthly salary
         salary = Random.Range(1, 100);
 
+        //Delegate to pay employees
         Director.payTheGuys += payWages;
     }
 
@@ -109,12 +117,15 @@ public class Employee : MonoBehaviour
     {
         Steer(targetPos);
 
+        //Set floats to worker priorities to see them in inspector
         needToWork = Work.priority;
         homeTime = Leave.priority;
         needForBathroom = goToToilet.priority;
         hunger = getFood.priority;
         thirst = drinkADrink.priority;
 
+
+        //If current action need is greater than the current action, current action will be executed
         foreach (Actions action in actions)
         {
             if(action.priority > actions[0].priority)
@@ -143,6 +154,7 @@ public class Employee : MonoBehaviour
         moneyInBank += value;
     }
 
+    //Employees are happy on payday
     public void payWages()
     {
         moneyInBank += salary;
@@ -164,6 +176,8 @@ public class Employee : MonoBehaviour
         return salary;
     }
 
+
+    //Using director positions, set employee target pos
     public void moveTo(Director.Positions pos)
     {
         Debug.Log("Changing pos");
@@ -200,23 +214,30 @@ public class Employee : MonoBehaviour
         }
     }
 
+    
     void Steer(Vector3 targetPos)
     {
         targetPos = targetPos - transform.position;
         if (avoidCollision() == Vector3.zero)
         {
+            //If no avoidance needed, move as usual unless in flocking mode
             velocity = (targetPos.normalized * maxMoveSpeed) + (Director.Instance.flockingCohesion(this) + Director.Instance.flockingAlignment(this) + Director.Instance.flockingSeperation(this));
         }
         else
         {
+            //Avoid collision and ignore flocking so individual employees avoid col
             velocity = (targetPos.normalized * maxMoveSpeed) + avoidCollision();
         }
+        //Stop them going super fast
         transform.position +=  Vector3.ClampMagnitude(new Vector3(velocity.x, 0, velocity.z), 800) * Time.deltaTime;
+
+        //Rotate to face target
         rotate(targetPos);
     }
 
     void rotate(Vector3 targetPos)
     {
+        //Rotate 
         if(velocity != Vector3.zero)
         {
             Vector3 delta = targetPos - transform.position;
@@ -230,6 +251,7 @@ public class Employee : MonoBehaviour
     {
         RaycastHit hit;
 
+        //If raycast hits something, check if seeahead and seeahead near fall in collider, if so 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
         {
             Collider obj = hit.collider;
