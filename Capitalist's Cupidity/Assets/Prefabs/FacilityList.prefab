@@ -69,7 +69,7 @@ MonoBehaviour:
     facilityName: Security
     facilityType: 3
   - costToBuy: 40000
-    baseMonthlyExpenses: 2000
+    baseMonthlyExpenses: -2000
     facilityName: Work Space
     facilityType: 4
   - costToBuy: 30000

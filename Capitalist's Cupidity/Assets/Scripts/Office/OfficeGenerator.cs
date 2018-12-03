@@ -15,6 +15,7 @@ public class OfficeGenerator : MonoBehaviour {
     public int workspacePadding;
 
     private List<Floor> floors = new List<Floor>();
+    private List<Facility> facilities = new List<Facility>();
     private Transform officeParent;
 
     void Start() {
@@ -57,8 +58,28 @@ public class OfficeGenerator : MonoBehaviour {
 
     private void CreateFloors() {
         officeParent = new GameObject(officeName).transform;
+
+        List<int> cafeFloors = new List<int>();
+        cafeFloors.Add(1);
+        cafeFloors.Add(3);
+
         for(int i = 0; i < floorCount; i++) {
-            CreateFloor(i);
+            Floor newFloor = CreateFloor(i);
+            facilities.AddRange(newFloor.facilities);
+
+            List<Facility> tempFacilities = newFloor.facilities;
+            if (cafeFloors.Contains(i))
+            {
+                Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
+                temp.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
+                tempFacilities.Remove(temp);
+            }
+        }
+
+        foreach(Facility facility in facilities)
+        {
+            if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
+                facility.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName("Work Space");
         }
     }
 

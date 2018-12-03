@@ -16,6 +16,7 @@ public class CameraControl : MonoBehaviour {
 
     private float mouseStartX;
     private bool changedFloor = false;
+    private bool canRotateCamera = false;
 
 	void Start () {
         office = FindObjectOfType<OfficeGenerator>();
@@ -36,13 +37,18 @@ public class CameraControl : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             mouseStartX = Input.mousePosition.x;
+            canRotateCamera = true;
         }
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && canRotateCamera)
         {
             transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
             mouseStartX = Input.mousePosition.x;
             //CheckWalls();
+        }
+        else if (!Input.GetMouseButtonDown(0))
+        {
+            canRotateCamera = false;
         }
 
         // really bad fix for a bug but idk what else to do

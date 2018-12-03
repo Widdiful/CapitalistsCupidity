@@ -21,6 +21,7 @@ public class Floor : MonoBehaviour {
     private float stairWidth = 1.5f;
     private float stairDepth = 6.0f;
     private Vector2 floorSize;
+    public List<Facility> facilities = new List<Facility>();
 
     void Awake()
     {
@@ -89,6 +90,7 @@ public class Floor : MonoBehaviour {
                 GameObject newWorkspace = Instantiate(workspacePrefab,
                     transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)),
                     Quaternion.identity, transform);
+                facilities.Add(newWorkspace.GetComponent<Facility>());
             }
         }
     }
