@@ -16,6 +16,11 @@ public class Director : MonoBehaviour
     public enum Positions { workstation, waterfountain, exit, desk, toilet, cafe};
     public Positions _pos;
 
+    public GameObject Desk;
+    public GameObject Toilet;
+    public GameObject Cafe;
+    public GameObject waterFountain;
+    public GameObject Exit;
 
     public delegate void setPos(Positions pos);
     public static event setPos updatePos;

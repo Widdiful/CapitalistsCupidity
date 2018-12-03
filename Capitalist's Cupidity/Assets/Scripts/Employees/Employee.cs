@@ -56,6 +56,12 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
+        Desk = Director.Instance.Desk;
+        Toilet = Director.Instance.Toilet;
+        Cafe = Director.Instance.Cafe;
+        waterFountain = Director.Instance.waterFountain;
+        Exit = Director.Instance.Exit;
+
         Director.updatePos += moveTo;
 
         //Create actions
@@ -92,9 +98,9 @@ public class Employee : MonoBehaviour
 
         //Create modifiers so employees are unique
         needToWorkModifier = Random.Range(0.1f, 10.0f);
-        bladderModifier = Random.Range(0.1f, 10.0f); 
-        hungerModifier = Random.Range(0.1f, 10.0f); 
-        thirstModifier = Random.Range(0.1f, 10.0f);
+        bladderModifier = Random.Range(0.1f, 0.2f); 
+        hungerModifier = Random.Range(0.1f, 0.2f); 
+        thirstModifier = Random.Range(0.1f, 0.2f);
 
         //Create chance of boot licker that cannot lose happiness
 
@@ -128,11 +134,12 @@ public class Employee : MonoBehaviour
         //If current action need is greater than the current action, current action will be executed
         foreach (Actions action in actions)
         {
-            if(action.priority > actions[0].priority)
+            if(action.priority > actions[0].priority && actions[0].priority <= 0)
             {
                 //actions.Remove(action);
                 //actions.Insert(0, action);
                 actions[0] = action;
+                
             }
 
             actions[0].execute();
@@ -244,6 +251,7 @@ public class Employee : MonoBehaviour
             delta.y = transform.position.y;
             Quaternion rotation = Quaternion.LookRotation(delta);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * maxTurnSpeed);
+            //transform.LookAt(targetPos);
         }
     }
 
