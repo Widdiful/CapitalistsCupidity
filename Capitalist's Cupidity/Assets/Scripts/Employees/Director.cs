@@ -37,6 +37,7 @@ public class Director : MonoBehaviour
     int oldMonths;
 
     public Text months;
+    private PlayerStats playerStats;
 
     public static Director Instance
     {
@@ -61,8 +62,9 @@ public class Director : MonoBehaviour
     {
         names = new string[3] {"Ed", "Lewis", "Jack" };
         employees = new List<Employee>();
+        playerStats = GameObject.FindObjectOfType<PlayerStats>();
 
-        for(int i = 0; i < employeePoolCount; i++)
+        for (int i = 0; i < employeePoolCount; i++)
         {
             employeePrefab = Instantiate(employeePrefab);
             employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + UnityEngine.Random.Range(100, 1000).ToString();
@@ -93,10 +95,7 @@ public class Director : MonoBehaviour
 
         if (numberOfMonths == oldMonths + 1)
         {
-            if (payTheGuys != null)
-            {
-                payTheGuys();
-            }
+            updateFunds();
             oldMonths = numberOfMonths;
         }
         if (Input.GetKeyDown(KeyCode.A))
@@ -195,5 +194,23 @@ public class Director : MonoBehaviour
         }
 
         return total;
+    }
+
+    private void updateFunds()
+    {
+        float funds = 0;
+        foreach (Facility facility in GameObject.FindObjectsOfType<Facility>())
+        {
+            funds -= facility.GetMonthlyExpense();
+        }
+        if (payTheGuys != null)
+        {
+            payTheGuys();
+        }
+        if (funds > 0)
+        {
+            playerStats.ChangePersonalFunds(funds);
+        }
+        playerStats.ChangeCompanyFunds(funds);
     }
 }

@@ -56,7 +56,15 @@ public class PlayerStats : MonoBehaviour
 
     public void ChangeCompanyFunds(float income)
     {
-        companyFunds += income - (income * incomeKeepPercent);
+        if(income > 0)
+        {
+            companyFunds += income - (income * incomeKeepPercent);
+        }
+        else
+        {
+            companyFunds += income;
+        }
+
     }
 
     public void ChangePersonalFunds(float income)

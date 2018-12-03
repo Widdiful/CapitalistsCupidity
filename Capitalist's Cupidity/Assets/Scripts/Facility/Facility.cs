@@ -37,6 +37,7 @@ public class Facility : MonoBehaviour
     public void BuyFacility(FacilityInfo facilityInformation)
     {
         GameObject.FindObjectOfType<PlayerStats>().ChangeCompanyFunds(-facilityInformation.costToBuy);
+        fundingPercentage = 1;
         facilityInfo = facilityInformation;
     }
 
