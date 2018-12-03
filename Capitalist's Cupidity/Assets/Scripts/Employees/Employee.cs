@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Employee : MonoBehaviour
 {
@@ -53,6 +54,10 @@ public class Employee : MonoBehaviour
 
     public float moneyInBank = 0.0f;
     float salary = 0.0f;
+
+    bool sortList = false;
+
+    Actions currentAction;
 
     private void Start()
     {
@@ -134,18 +139,21 @@ public class Employee : MonoBehaviour
         //If current action need is greater than the current action, current action will be executed
         foreach (Actions action in actions)
         {
-            if(action.priority > actions[0].priority && actions[0].priority <= 0)
+            if (action.priority > actions[0].priority && actions[0].priority <= 0)
             {
-                //actions.Remove(action);
-                //actions.Insert(0, action);
-                actions[0] = action;
+                sortList = true;
+                currentAction = action;
             }
-
-            actions[0].execute();
         }
 
- 
-        
+        if(sortList)
+        {
+            var temp = actions[0];
+            actions.Add(temp);
+            actions[0] = currentAction;
+        }
+
+        actions[0].execute();
     }
 
     public float getHappiness()
