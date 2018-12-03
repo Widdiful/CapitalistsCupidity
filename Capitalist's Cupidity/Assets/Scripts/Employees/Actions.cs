@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Actions
 {
-    float expiryTime = 0;
     public float priority = 0;
-    bool canInterupt = false;
-    bool isComplete = false;
+    public bool canInterupt = false;
+    public bool isComplete = false;
 
     public delegate bool employeeFunc();
     public employeeFunc empFunc;

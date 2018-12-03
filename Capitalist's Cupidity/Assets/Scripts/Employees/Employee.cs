@@ -55,9 +55,13 @@ public class Employee : MonoBehaviour
     public float moneyInBank = 0.0f;
     float salary = 0.0f;
 
-    bool sortList = false;
 
-    Actions currentAction;
+    public static void Swap<T>(List<T> list, int index1, int index2)
+    {
+        T temp = list[index1];
+        list[index1] = list[index2];
+        list[index2] = temp;
+    }
 
     private void Start()
     {
@@ -67,7 +71,7 @@ public class Employee : MonoBehaviour
         waterFountain = Director.Instance.waterFountain;
         Exit = Director.Instance.Exit;
 
-        Director.updatePos += moveTo;
+        
 
         //Create actions
         actions = new List<Actions>();
@@ -93,6 +97,13 @@ public class Employee : MonoBehaviour
 
         drinkADrink.empFunc = drink;
         drinkADrink.priority = thirst;
+
+        Work.canInterupt = false;
+        Leave.canInterupt = false;
+        goToToilet.canInterupt = true;
+        getFood.canInterupt = true;
+        drinkADrink.canInterupt = true;
+        
 
         //Add to list
         actions.Add(Work);
@@ -139,21 +150,23 @@ public class Employee : MonoBehaviour
         //If current action need is greater than the current action, current action will be executed
         foreach (Actions action in actions)
         {
-            if (action.priority > actions[0].priority && actions[0].priority <= 0)
-            {
-                sortList = true;
-                currentAction = action;
-            }
+                if (action.priority > actions[0].priority && actions[0].priority <= 0)
+                {
+                    Swap(actions, 0, actions.IndexOf(action));
+                }
+
+            actions[0].execute();
         }
 
-        if(sortList)
+        if (actions[0].canInterupt == false)
         {
-            var temp = actions[0];
-            actions.Add(temp);
-            actions[0] = currentAction;
+            Director.flockToExit -= moveTo;
+        }
+        else
+        {
+            Director.flockToExit += moveTo;
         }
 
-        actions[0].execute();
     }
 
     public float getHappiness()
@@ -312,7 +325,7 @@ public class Employee : MonoBehaviour
             targetPos = new Vector3(Desk.transform.position.x, transform.position.y, Desk.transform.position.z);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 5)
+        if (Vector3.Distance(transform.position, targetPos) > 1)
         {
             return false;
         }
@@ -334,7 +347,7 @@ public class Employee : MonoBehaviour
             targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 5)
+        if (Vector3.Distance(transform.position, targetPos) > 1)
         {
             return false;
         }
@@ -354,7 +367,7 @@ public class Employee : MonoBehaviour
             targetPos = new Vector3(Toilet.transform.position.x, transform.position.y, Toilet.transform.position.z);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 5)
+        if (Vector3.Distance(transform.position, targetPos) > 1)
         {
             return false;
         }
@@ -374,7 +387,7 @@ public class Employee : MonoBehaviour
             targetPos = new Vector3(Cafe.transform.position.x, transform.position.y, Cafe.transform.position.z);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 5)
+        if (Vector3.Distance(transform.position, targetPos) > 1)
         {
             return false;
         }
@@ -395,7 +408,7 @@ public class Employee : MonoBehaviour
             targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 5)
+        if (Vector3.Distance(transform.position, targetPos) > 1)
         {
             return false;
         }

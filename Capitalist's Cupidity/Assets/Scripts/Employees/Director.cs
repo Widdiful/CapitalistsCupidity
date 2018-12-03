@@ -23,7 +23,7 @@ public class Director : MonoBehaviour
     public GameObject Exit;
 
     public delegate void setPos(Positions pos);
-    public static event setPos updatePos;
+    public static event setPos flockToExit;
 
     public delegate void affectHappiness(float value);
     public static event affectHappiness workerHappiness;
@@ -81,12 +81,12 @@ public class Director : MonoBehaviour
         months.text = "Number of months: " + numberOfMonths.ToString();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            flock = !flock;
-            Debug.Log("Updating pos");
-            if (!flock)
-            {
-                updatePos(Positions.exit);
-            }
+              flock = !flock;
+              Debug.Log("Updating pos");
+              if (!flock)
+              {
+                  flockToExit(Positions.exit);
+              }
         }
         if (workerHappiness != null)
         {
