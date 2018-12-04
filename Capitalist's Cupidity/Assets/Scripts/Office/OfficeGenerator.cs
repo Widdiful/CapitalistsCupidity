@@ -106,6 +106,7 @@ public class OfficeGenerator : MonoBehaviour {
                 {
                     Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
                     temp.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName(facilityType);
+                    temp.name = facilityType;
                     tempFacilities.Remove(temp);
                 }
             }
@@ -115,7 +116,10 @@ public class OfficeGenerator : MonoBehaviour {
         foreach(Facility facility in facilities)
         {
             if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
+            {
                 facility.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName("Work Space");
+                facility.name = "Work Space";
+            }
         }
     }
 

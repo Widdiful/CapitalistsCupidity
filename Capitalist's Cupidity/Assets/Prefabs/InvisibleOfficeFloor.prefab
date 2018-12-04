@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 4427804970368970}
   - component: {fileID: 114363049625426782}
   m_Layer: 9
-  m_Name: OfficeFloor (1)
+  m_Name: InvisibleOfficeFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
