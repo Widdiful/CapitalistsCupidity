@@ -68,7 +68,7 @@ public class Employee : MonoBehaviour
     {
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
-        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilet", this);
+        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", this);
         Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
         waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
         Exit = Director.Instance.Exit; 
