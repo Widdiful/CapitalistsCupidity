@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 
 public class Director : MonoBehaviour
@@ -39,6 +38,8 @@ public class Director : MonoBehaviour
     public Text months;
     private PlayerStats playerStats;
 
+    List<Floor> floors;
+
     public static Director Instance
     {
         get
@@ -60,6 +61,7 @@ public class Director : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        floors = FindObjectOfType<OfficeGenerator>().GetFloors();
         names = new string[3] {"Ed", "Lewis", "Jack" };
         employees = new List<Employee>();
         playerStats = GameObject.FindObjectOfType<PlayerStats>();
@@ -194,6 +196,52 @@ public class Director : MonoBehaviour
         }
 
         return total;
+    }
+
+    public int assignFloor()
+    {
+        return Random.Range(0, floors.Count);
+    }
+
+    public GameObject assignFacilities(int floor, string facilityName, Employee emp)
+    {
+        for(int i = 0; i < floors.Count; i++)
+        {
+            if (floors[floor].facilities[i].facilityInfo.facilityName == facilityName) 
+            {
+                return floors[floor].facilities[i].gameObject;
+            }
+    
+        }
+
+        return findClosestFacility(floor, facilityName, emp);
+    }
+
+    public GameObject findClosestFacility(int floor, string facilityName, Employee emp)
+    {
+        GameObject best = null;
+        var closeFacilities = GameObject.FindObjectsOfType<Facility>();
+        float closest = Mathf.Infinity;
+
+        foreach(Facility fal in closeFacilities)
+        {
+            Vector3 direction = fal.transform.position - emp.transform.position;
+            float squareDistance = direction.magnitude;
+
+            if(squareDistance < closest)
+            {
+                closest = squareDistance;
+                best = fal.gameObject;
+            }
+        }
+        if (best != null)
+        {
+            return best;
+        }
+        else
+        {
+            return Exit;
+        }
     }
 
     private void updateFunds()

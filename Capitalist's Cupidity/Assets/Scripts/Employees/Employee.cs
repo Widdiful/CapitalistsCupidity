@@ -55,6 +55,7 @@ public class Employee : MonoBehaviour
     public float moneyInBank = 0.0f;
     float salary = 0.0f;
 
+    int assignedFloor;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -65,13 +66,12 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
-        Desk = Director.Instance.Desk;
-        Toilet = Director.Instance.Toilet;
-        Cafe = Director.Instance.Cafe;
-        waterFountain = Director.Instance.waterFountain;
+        assignedFloor = Director.Instance.assignFloor();
+        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
+        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilet", this);
+        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
+        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
         Exit = Director.Instance.Exit;
-
-        
 
         //Create actions
         actions = new List<Actions>();
