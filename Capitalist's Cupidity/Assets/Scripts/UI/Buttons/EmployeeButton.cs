@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class EmployeeButton : MonoBehaviour {
 
     public string employeeName;
-    public float wage;
+    public int floor;
     public float happiness;
 
     public Text nameText;
-    public Text wageText;
+    public Text floorText;
     public Scrollbar happinessBar;
 
     public void UpdateInformation() {
         nameText.text = employeeName;
-        wageText.text = "£" + wage + "/hr";
+        floorText.text = floor.ToString();
         happinessBar.value = happiness;
     }
 

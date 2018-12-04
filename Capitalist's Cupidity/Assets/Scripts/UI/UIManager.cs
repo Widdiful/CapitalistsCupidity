@@ -125,7 +125,7 @@ public class UIManager : MonoBehaviour {
             {
                 EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
                 newButton.employeeName = employee.name;
-                newButton.wage = 10f;
+                newButton.floor = employee.assignedFloor;
                 newButton.happiness = employee.getHappiness() / 100f;
                 newButton.UpdateInformation();
             }
