@@ -32,6 +32,7 @@ public class Facility : MonoBehaviour
     public void CutFacility()
     {
         facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Empty");
+        name = "Empty";
     }
 
     public void BuyFacility(FacilityInfo facilityInformation)
@@ -39,6 +40,7 @@ public class Facility : MonoBehaviour
         GameObject.FindObjectOfType<PlayerStats>().ChangeCompanyFunds(-facilityInformation.costToBuy);
         fundingPercentage = 1;
         facilityInfo = facilityInformation;
+        name = facilityInfo.facilityName;
     }
 
     public void OpenFacilityWindow()
