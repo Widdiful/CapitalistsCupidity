@@ -104,10 +104,9 @@ MonoBehaviour:
   needForBathroom: 0
   hunger: 0
   thirst: 0
-  Desk: {fileID: 1479605858180206, guid: eb3d96ff9d99df146bacbfb4d8ee9e2c, type: 2}
-  Toilet: {fileID: 1008070334627582, guid: 3cbba54cd6e4f4544b71e4213228b705, type: 2}
-  Cafe: {fileID: 1589024554137492, guid: c4ad4f3bfc1bb8440961b6fcdc74ce3f, type: 2}
-  waterFountain: {fileID: 1777564742648208, guid: 2a3ff8ea53b469042a6fb14959075110,
-    type: 2}
-  Exit: {fileID: 1607243727288930, guid: 68e97aa4d3891144996040adfa803cdd, type: 2}
+  Desk: {fileID: 0}
+  Toilet: {fileID: 0}
+  Cafe: {fileID: 0}
+  waterFountain: {fileID: 0}
+  Exit: {fileID: 0}
   moneyInBank: 0

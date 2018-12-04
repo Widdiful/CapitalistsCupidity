@@ -55,7 +55,7 @@ public class Employee : MonoBehaviour
     public float moneyInBank = 0.0f;
     float salary = 0.0f;
 
-    int assignedFloor;
+    public int assignedFloor;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -68,10 +68,9 @@ public class Employee : MonoBehaviour
     {
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
-        Toilet = Director.Instance.Toilet;//assignFacilities(assignedFloor, "Toilet", this);
-        Cafe = Director.Instance.Cafe;//assignFacilities(assignedFloor, "Cafeteria", this);
-        //waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
-        waterFountain = Director.Instance.waterFountain;
+        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilet", this);
+        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
+        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
         Exit = Director.Instance.Exit; 
 
         //Create actions
@@ -260,7 +259,7 @@ public class Employee : MonoBehaviour
             velocity = (targetPos.normalized * maxMoveSpeed) + avoidCollision();
         }
         //Stop them going super fast
-        transform.position +=  Vector3.ClampMagnitude(new Vector3(velocity.x, 0, velocity.z), 800) * Time.deltaTime;
+        transform.position +=  Vector3.ClampMagnitude(new Vector3(velocity.x, velocity.y, velocity.z), 800) * Time.deltaTime;
 
         //Rotate to face target
         rotate(targetPos);
@@ -272,7 +271,7 @@ public class Employee : MonoBehaviour
         if(velocity != Vector3.zero)
         {
             Vector3 delta = targetPos - transform.position;
-            delta.y = transform.position.y;
+            //delta.y = transform.position.y;
             Quaternion rotation = Quaternion.LookRotation(delta);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * maxTurnSpeed);
             //transform.LookAt(targetPos);
@@ -323,7 +322,7 @@ public class Employee : MonoBehaviour
         if(Desk.transform.position != targetPos)
         {
             //moveTo(Director.Positions.desk);
-            targetPos = new Vector3(Desk.transform.position.x, transform.position.y, Desk.transform.position.z);
+            targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -345,7 +344,7 @@ public class Employee : MonoBehaviour
         if (Exit.transform.position != targetPos)
         {
             //moveTo(Director.Positions.exit);
-            targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
+            targetPos = new Vector3(Exit.transform.position.x, Exit.transform.position.y, Exit.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -365,7 +364,7 @@ public class Employee : MonoBehaviour
         if (Toilet.transform.position != targetPos)
         {
             //moveTo(Director.Positions.toilet);
-            targetPos = new Vector3(Toilet.transform.position.x, transform.position.y, Toilet.transform.position.z);
+            targetPos = new Vector3(Toilet.transform.position.x, Toilet.transform.position.y, Toilet.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -385,7 +384,7 @@ public class Employee : MonoBehaviour
         if (Cafe.transform.position != targetPos)
         {
             //moveTo(Director.Positions.cafe);
-            targetPos = new Vector3(Cafe.transform.position.x, transform.position.y, Cafe.transform.position.z);
+            targetPos = new Vector3(Cafe.transform.position.x, Cafe.transform.position.y, Cafe.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -406,7 +405,7 @@ public class Employee : MonoBehaviour
         if (waterFountain.transform.position != targetPos)
         {
             //moveTo(Director.Positions.waterfountain);
-            targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
+            targetPos = new Vector3(waterFountain.transform.position.x, waterFountain.transform.position.y, waterFountain.transform.position.z);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)

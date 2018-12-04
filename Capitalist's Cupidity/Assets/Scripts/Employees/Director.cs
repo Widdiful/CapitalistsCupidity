@@ -200,12 +200,12 @@ public class Director : MonoBehaviour
 
     public int assignFloor()
     {
-        return Random.Range(0, floors.Count);
+        return Random.Range(0, floors.Count - 1);
     }
 
     public GameObject assignFacilities(int floor, string facilityName, Employee emp)
     {
-        for(int i = 0; i < floors.Count; i++)
+        for(int i = 0; i < floors[floor].facilities.Count; i++)
         {
             if (floors[floor].facilities[i].facilityInfo.facilityName == facilityName) 
             {
@@ -214,10 +214,10 @@ public class Director : MonoBehaviour
     
         }
 
-        return findClosestFacility(floor, facilityName, emp);
+        return findClosestFacility(floor, facilityName, emp.Desk);
     }
 
-    public GameObject findClosestFacility(int floor, string facilityName, Employee emp)
+    public GameObject findClosestFacility(int floor, string facilityName, GameObject assignedDesk)
     {
         GameObject best = null;
         var closeFacilities = FindObjectsOfType<Facility>();
@@ -225,10 +225,10 @@ public class Director : MonoBehaviour
 
         foreach(Facility fal in closeFacilities)
         {
-            Vector3 direction = fal.transform.position - emp.transform.position;
+            Vector3 direction = fal.transform.position - assignedDesk.transform.position;
             float squareDistance = direction.magnitude;
 
-            if(squareDistance < closest)
+            if(squareDistance < closest && fal.facilityInfo.facilityName == facilityName)
             {
                 closest = squareDistance;
                 best = fal.gameObject;
