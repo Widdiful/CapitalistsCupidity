@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class OfficeGenerator : MonoBehaviour {
 
+    [System.Serializable]
+    public class FacilitySpawnInformation
+    {
+        public string name;
+        public int count;
+    }
+
     public GameObject floorPrefab;
     public GameObject shadowPrefab;
     public string officeName;
@@ -13,12 +20,18 @@ public class OfficeGenerator : MonoBehaviour {
     public float floorHeight;
     public int workspaceCount;
     public int workspacePadding;
+    public List<FacilitySpawnInformation> facilitySpawnInformation = new List<FacilitySpawnInformation>();
 
     private List<Floor> floors = new List<Floor>();
     private List<Facility> facilities = new List<Facility>();
     private Transform officeParent;
+    private Dictionary<string, List<int>> facilityFloors = new Dictionary<string, List<int>>();
+    private List<int> facilitiesPerFloor = new List<int>();
 
     void Start() {
+        for (int i = 0; i < floorCount; i++)
+            facilitiesPerFloor.Add(0);
+
         CreateShadow();
         CreateFloors();
     }
@@ -59,23 +72,46 @@ public class OfficeGenerator : MonoBehaviour {
     private void CreateFloors() {
         officeParent = new GameObject(officeName).transform;
 
-        List<int> cafeFloors = new List<int>();
-        cafeFloors.Add(1);
-        cafeFloors.Add(3);
+        // Decide which floors each facility will spawn on
+        foreach(FacilitySpawnInformation info in facilitySpawnInformation)
+        {
+            List<int> floors = new List<int>();
+            for (int i = 0; i < info.count; i++)
+            {
+                int floorNumber = Random.Range(0, floorCount);
+                int attempts = 0;
+                while ((floors.Contains(floorNumber) || facilitiesPerFloor[floorNumber] >= workspaceCount) && attempts < 25)
+                {
+                    floorNumber = Random.Range(0, floorCount);
+                    attempts++;
+                }
+                if (attempts <= 25)
+                {
+                    floors.Add(floorNumber);
+                    facilitiesPerFloor[floorNumber]++;
+                }
+            }
+            facilityFloors.Add(info.name, floors);
+        }
 
+        // Create floors
         for(int i = 0; i < floorCount; i++) {
             Floor newFloor = CreateFloor(i);
             facilities.AddRange(newFloor.facilities);
 
             List<Facility> tempFacilities = newFloor.facilities;
-            if (cafeFloors.Contains(i))
+            foreach(string facilityType in facilityFloors.Keys)
             {
-                Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
-                temp.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName("Cafeteria");
-                tempFacilities.Remove(temp);
+                if (facilityFloors[facilityType].Contains(i))
+                {
+                    Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
+                    temp.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName(facilityType);
+                    tempFacilities.Remove(temp);
+                }
             }
         }
 
+        // Set all empty facilities to workspaces
         foreach(Facility facility in facilities)
         {
             if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)

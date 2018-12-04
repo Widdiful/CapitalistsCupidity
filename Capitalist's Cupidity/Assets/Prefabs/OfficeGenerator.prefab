@@ -62,3 +62,10 @@ MonoBehaviour:
   floorHeight: 3
   workspaceCount: 9
   workspacePadding: 3
+  facilitySpawnInformation:
+  - name: Cafeteria
+    count: 3
+  - name: Toilets
+    count: 3
+  - name: Water Fountain
+    count: 3

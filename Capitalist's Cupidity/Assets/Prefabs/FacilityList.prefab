@@ -58,7 +58,7 @@ MonoBehaviour:
     facilityType: 0
   - costToBuy: 15000
     baseMonthlyExpenses: 500
-    facilityName: Car Park
+    facilityName: Water Fountain
     facilityType: 1
   - costToBuy: 5000
     baseMonthlyExpenses: 750
