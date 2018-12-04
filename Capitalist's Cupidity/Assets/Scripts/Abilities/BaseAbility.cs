@@ -12,18 +12,13 @@ public class BaseAbility : MonoBehaviour
 
     protected float currentCooldown;
     protected int uses;
-
+    protected PlayerStats playerStats;
     // Use this for initialization
     void Start()
     {
         currentCooldown = 0;
         uses = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        playerStats = GameObject.FindObjectOfType<PlayerStats>();
     }
 
     public void activate()
@@ -36,7 +31,7 @@ public class BaseAbility : MonoBehaviour
 
     public bool GetCanUse()
     {
-        if(currentCooldown <= 0 && unlocked)
+        if (currentCooldown <= 0 && unlocked && playerStats.GetCompanyFunds() >= abilityCost)
         {
             if(!singleUse || (singleUse && uses == 0))
             {
