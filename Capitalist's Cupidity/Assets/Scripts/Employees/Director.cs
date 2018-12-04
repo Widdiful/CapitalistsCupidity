@@ -220,7 +220,7 @@ public class Director : MonoBehaviour
     public GameObject findClosestFacility(int floor, string facilityName, Employee emp)
     {
         GameObject best = null;
-        var closeFacilities = GameObject.FindObjectsOfType<Facility>();
+        var closeFacilities = FindObjectsOfType<Facility>();
         float closest = Mathf.Infinity;
 
         foreach(Facility fal in closeFacilities)

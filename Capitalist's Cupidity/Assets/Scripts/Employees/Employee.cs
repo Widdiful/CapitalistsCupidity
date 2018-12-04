@@ -68,10 +68,11 @@ public class Employee : MonoBehaviour
     {
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
-        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilet", this);
-        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
-        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
-        Exit = Director.Instance.Exit;
+        Toilet = Director.Instance.Toilet;//assignFacilities(assignedFloor, "Toilet", this);
+        Cafe = Director.Instance.Cafe;//assignFacilities(assignedFloor, "Cafeteria", this);
+        //waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
+        waterFountain = Director.Instance.waterFountain;
+        Exit = Director.Instance.Exit; 
 
         //Create actions
         actions = new List<Actions>();
@@ -217,7 +218,7 @@ public class Employee : MonoBehaviour
 
             case Director.Positions.desk:
                 {
-                    targetPos = new Vector3(Desk.transform.position.x, transform.position.y, Desk.transform.position.z);
+                    targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
                     break;
                 }
             case Director.Positions.waterfountain:
