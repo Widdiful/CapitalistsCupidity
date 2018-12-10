@@ -31,7 +31,7 @@ public class Facility : MonoBehaviour
 
     public void CutFacility()
     {
-        facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Empty");
+        facilityInfo = FacilityList.instance.GetFacilityByName("Empty");
         if(childObject)
         {
             Destroy(childObject.gameObject);
@@ -45,7 +45,7 @@ public class Facility : MonoBehaviour
 
     public void BuyFacility(FacilityInfo facilityInformation)
     {
-        GameObject.FindObjectOfType<PlayerStats>().ChangeCompanyFunds(-facilityInformation.costToBuy);
+        PlayerStats.instance.ChangeCompanyFunds(-facilityInformation.costToBuy);
         fundingPercentage = 1;
         facilityInfo = facilityInformation;
         name = facilityInfo.facilityName;

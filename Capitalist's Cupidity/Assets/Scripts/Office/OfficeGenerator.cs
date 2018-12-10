@@ -29,6 +29,15 @@ public class OfficeGenerator : MonoBehaviour {
     private Dictionary<string, List<int>> facilityFloors = new Dictionary<string, List<int>>();
     private List<int> facilitiesPerFloor = new List<int>();
 
+    public static OfficeGenerator instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     void Start() {
         for (int i = 0; i < floorCount; i++)
             facilitiesPerFloor.Add(0);
@@ -106,7 +115,7 @@ public class OfficeGenerator : MonoBehaviour {
                 if (facilityFloors[facilityType].Contains(i))
                 {
                     Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
-                    temp.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName(facilityType);
+                    temp.facilityInfo = FacilityList.instance.GetFacilityByName(facilityType);
                     temp.name = facilityType;
                     tempFacilities.Remove(temp);
                 }
@@ -120,7 +129,7 @@ public class OfficeGenerator : MonoBehaviour {
         {
             if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
             {
-                facility.facilityInfo = FindObjectOfType<FacilityList>().GetFacilityByName("Work Space");
+                facility.facilityInfo = FacilityList.instance.GetFacilityByName("Work Space");
                 facility.name = "Work Space";
             }
         }

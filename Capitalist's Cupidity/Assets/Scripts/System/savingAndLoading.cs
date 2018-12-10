@@ -21,7 +21,7 @@ public class savingAndLoading : MonoBehaviour
     private void Start()
     {
         saveData = new SaveData();
-        directorScript = GameObject.Find("Director").GetComponent<Director>();
+        directorScript = Director.Instance;
     }
 
 

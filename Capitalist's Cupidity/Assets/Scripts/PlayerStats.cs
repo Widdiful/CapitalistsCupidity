@@ -21,8 +21,17 @@ public class PlayerStats : MonoBehaviour
     private Text fiveCoinTextRef;
     private Text employeeCountTextRef;
 
-	// Use this for initialization
-	void Start ()
+    public static PlayerStats instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
+    // Use this for initialization
+    void Start ()
     {
         //initalise references
         personalFundsTextRef = GameObject.Find("PersonalFunds").GetComponent<Text>();

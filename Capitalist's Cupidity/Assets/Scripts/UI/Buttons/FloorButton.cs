@@ -13,13 +13,6 @@ public class FloorButton : MonoBehaviour {
     public Text populationText;
     public Scrollbar happinessBar;
 
-    private CameraControl cameraControl;
-
-    void Start()
-    {
-        cameraControl = FindObjectOfType<CameraControl>();
-    }
-
     public void UpdateInformation()
     {
         string name = "Floor " + floorNo;
@@ -33,6 +26,6 @@ public class FloorButton : MonoBehaviour {
 
     public void Click()
     {
-        cameraControl.ChangeFloor(floorNo);
+        CameraControl.instance.ChangeFloor(floorNo);
     }
 }

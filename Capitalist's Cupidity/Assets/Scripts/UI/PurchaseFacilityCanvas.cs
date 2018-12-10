@@ -19,9 +19,9 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     void Start ()
     {
         canvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
-        facilityList = GameObject.FindObjectOfType<FacilityList>();
+        facilityList = FacilityList.instance;
         toggleGroup = GetComponent<ToggleGroup>();
-        playerStats = GameObject.FindObjectOfType<PlayerStats>();
+        playerStats = PlayerStats.instance;
         confirmButton = canvas.transform.Find("PurchaseButton").GetComponent<Button>();
         foreach (FacilityInfo facility in facilityList.facilityList)
         {

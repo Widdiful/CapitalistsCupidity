@@ -25,6 +25,15 @@ public class Businesses : MonoBehaviour
 
     public List<Business> ListOfBusinesses = new List<Business>();
 
+    public static Businesses instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     public float GetTotalMonthlyIncome()
     {
         float income = 0;

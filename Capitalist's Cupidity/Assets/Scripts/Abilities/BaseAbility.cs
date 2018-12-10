@@ -18,7 +18,7 @@ public class BaseAbility : MonoBehaviour
     {
         currentCooldown = 0;
         uses = 0;
-        playerStats = GameObject.FindObjectOfType<PlayerStats>();
+        playerStats = PlayerStats.instance;
     }
 
     public void activate()

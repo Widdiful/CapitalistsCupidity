@@ -12,19 +12,22 @@ public class CameraControl : MonoBehaviour {
     public int invisibleFloorLayer;
 
     private float floorHeight;
-    private OfficeGenerator office;
 
     private float mouseStartX;
     private bool changedFloor = false;
     private bool canRotateCamera = false;
 
-	void Start () {
-        office = FindObjectOfType<OfficeGenerator>();
-        if (office) {
-            floorHeight = office.floorHeight;
-        }
-        else
-            Debug.LogWarning("OfficeGenerator not correctly set up.");
+    public static CameraControl instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
+    void Start () {
+        floorHeight = OfficeGenerator.instance.floorHeight;
 
         ChangeFloor(0);
 	}
@@ -60,9 +63,9 @@ public class CameraControl : MonoBehaviour {
 
     // Changes layers of floors
     public void ChangeFloor(int val) {
-        selectedFloor = Mathf.Clamp(val, 0, office.floorCount - 1);
+        selectedFloor = Mathf.Clamp(val, 0, OfficeGenerator.instance.floorCount - 1);
 
-        foreach (Floor floor in office.GetFloors()) {
+        foreach (Floor floor in OfficeGenerator.instance.GetFloors()) {
 
             // Set current and previous floor to fully visible
             if (floor.floorNo == selectedFloor || floor.floorNo == selectedFloor - 1){
@@ -127,7 +130,7 @@ public class CameraControl : MonoBehaviour {
 
     // Checks which walls to hide
     private void CheckWalls() {
-        Transform currentFloor = office.GetFloors()[selectedFloor].transform;
+        Transform currentFloor = OfficeGenerator.instance.GetFloors()[selectedFloor].transform;
 
         Vector3 leftPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * 0.5f));
         leftPos.y = currentFloor.position.y + 0.1f;

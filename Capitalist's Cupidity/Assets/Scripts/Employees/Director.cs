@@ -61,10 +61,10 @@ public class Director : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        floors = FindObjectOfType<OfficeGenerator>().GetFloors();
+        floors = OfficeGenerator.instance.GetFloors();
         names = new string[3] {"Ed", "Lewis", "Jack" };
         employees = new List<Employee>();
-        playerStats = GameObject.FindObjectOfType<PlayerStats>();
+        playerStats = PlayerStats.instance;
 
         for (int i = 0; i < employeePoolCount; i++)
         {

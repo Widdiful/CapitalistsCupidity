@@ -69,7 +69,7 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
-        liftList = GameObject.FindObjectOfType<OfficeGenerator>().lifts;
+        liftList = OfficeGenerator.instance.lifts;
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
         Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", this);

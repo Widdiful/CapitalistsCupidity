@@ -34,25 +34,18 @@ public class UIManager : MonoBehaviour {
     private Dictionary<int, FloorButton> floorButtons = new Dictionary<int, FloorButton>();
     private Dictionary<int, EmployeeButton> employeeButtons = new Dictionary<int, EmployeeButton>();
 
-    // External references
-    private OfficeGenerator officeGenerator;
-    private Director director;
-    private Businesses businesses;
-
     public static UIManager instance;
 
-    void Start() {
-
+    void Awake() {
         if (instance == null)
             instance = this;
         if (instance != this)
             Destroy(this);
+    }
 
+    void Start() {
         managementButtonText = managementButton.GetComponentInChildren<Text>();
 
-        officeGenerator = FindObjectOfType<OfficeGenerator>();
-        director = FindObjectOfType<Director>();
-        businesses = FindObjectOfType<Businesses>();
         buttonAnim = managementButton.GetComponent<Animator>();
         paneAnim = managementPane.GetComponent<Animator>();
     }
@@ -114,10 +107,10 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateFloorsTab()
     {
-        if (officeGenerator && floorsContent && floorsButtonPrefab) {
+        if (OfficeGenerator.instance && floorsContent && floorsButtonPrefab) {
             DeleteButtonsInTab(floorsContent);
-            for (int i = officeGenerator.GetFloors().Count - 1; i >= 0; i--) {
-                Floor floor = officeGenerator.GetFloors()[i];
+            for (int i = OfficeGenerator.instance.GetFloors().Count - 1; i >= 0; i--) {
+                Floor floor = OfficeGenerator.instance.GetFloors()[i];
                 FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
                 newFloor.floorNo = floor.floorNo;
                 newFloor.population = floor.population;
@@ -129,10 +122,10 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateEmployeesTab()
     {
-        if (director && employeesContent && employeesButtonPrefab)
+        if (Director.Instance && employeesContent && employeesButtonPrefab)
         {
             DeleteButtonsInTab(employeesContent);
-            foreach(Employee employee in director.employees)
+            foreach(Employee employee in Director.Instance.employees)
             {
                 EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
                 newButton.employeeName = employee.name;
@@ -167,10 +160,10 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateBusinessTab()
     {
-        if (businesses && businessesContent && businessesButtonPrefab)
+        if (Businesses.instance && businessesContent && businessesButtonPrefab)
         {
             DeleteButtonsInTab(businessesContent);
-            foreach (Businesses.Business business in businesses.ListOfBusinesses)
+            foreach (Businesses.Business business in Businesses.instance.ListOfBusinesses)
             {
                 if (!business.purchased)
                 {
