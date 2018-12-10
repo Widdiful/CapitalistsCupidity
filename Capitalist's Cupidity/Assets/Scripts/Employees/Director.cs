@@ -137,6 +137,8 @@ public class Director : MonoBehaviour
         }
     }
 
+    
+
     public Vector3 flockingCohesion(Employee flocker)
     {
         if (flock)
@@ -215,6 +217,7 @@ public class Director : MonoBehaviour
         }
 
         return findClosestFacility(facilityName, emp.Desk);
+        
     }
 
     public GameObject findClosestFacility(string facilityName, GameObject assignedDesk)
@@ -244,7 +247,34 @@ public class Director : MonoBehaviour
         }
     }
 
-    public Floor findClosestFloor(GameObject assignedDesk)
+    public GameObject findClosestLift(GameObject assignedDesk)
+    {
+        GameObject best = null;
+        var closeLift = FindObjectsOfType<GameObject>();
+        float closest = Mathf.Infinity;
+
+        foreach (GameObject lift in closeLift)
+        {
+            Vector3 direction = lift.transform.position - assignedDesk.transform.position;
+            float squareDistance = direction.magnitude;
+
+            if (squareDistance < closest && lift.gameObject.name == "Lift(Clone)")
+            {
+                closest = squareDistance;
+                best = lift.gameObject;
+            }
+        }
+        if (best != null)
+        {
+            return best;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Floor findClosestFloor(GameObject Obj)
     {
         Floor best = null;
         var closeFacilities = FindObjectsOfType<Floor>();
@@ -252,7 +282,7 @@ public class Director : MonoBehaviour
 
         foreach (Floor fal in closeFacilities)
         {
-            Vector3 direction = fal.transform.position - assignedDesk.transform.position;
+            Vector3 direction = fal.transform.position - Obj.transform.position;
             float squareDistance = direction.magnitude;
 
             if (squareDistance < closest)

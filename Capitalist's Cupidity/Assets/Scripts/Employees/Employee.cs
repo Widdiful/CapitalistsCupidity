@@ -47,8 +47,6 @@ public class Employee : MonoBehaviour
     public GameObject Cafe;
     public GameObject waterFountain;
     public GameObject Exit;
-    public GameObject groundLift;
-    public GameObject workfloorLift;
 
     public List<Actions> actions;
 
@@ -59,6 +57,8 @@ public class Employee : MonoBehaviour
 
     public int assignedFloor;
     int currentFloor;
+    int targetFloor;
+    public List<GameObject> liftList;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -69,22 +69,20 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
+        liftList = GameObject.FindObjectOfType<OfficeGenerator>().lifts;
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
         Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", this);
         Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
         waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
-        groundLift = null;
-        workfloorLift = null;
-        if (assignedFloor != 0)
-        {
-            groundLift = Director.Instance.findClosestFacility("Lift(Clone)", gameObject);
-            workfloorLift = Director.Instance.assignFacilities(assignedFloor, "Lift(Clone)", this);
-        }
+   
+        //groundLift = Director.Instance.findClosestLift(gameObject);
+       // workfloorLift = Director.Instance.findClosestLift(Desk);
+        
         Exit = Director.Instance.Exit;
 
-            //Create actions
-            actions = new List<Actions>();
+        //Create actions
+        actions = new List<Actions>();
 
         Work = new Actions();
         Leave = new Actions();
@@ -143,6 +141,10 @@ public class Employee : MonoBehaviour
         //Delegate to pay employees
         Director.payTheGuys += payWages;
         currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
+        targetFloor = Director.Instance.findClosestFloor(Desk).floorNo;
+
+        
+        
     }
 
     // Update is called once per frame
@@ -216,20 +218,52 @@ public class Employee : MonoBehaviour
         return salary;
     }
 
+    GameObject findObjectOnTargetLevel(List<GameObject> objects, int target)
+    {
+        foreach (GameObject obj in objects)
+        {
+            if (Director.Instance.findClosestFloor(obj).floorNo == targetFloor)
+            {
+                return obj;
+            }
+        }
+           
+        return null;
+    }
 
+    GameObject findClosest(List<GameObject> objects)
+    {
+        GameObject best = null;
+        float closest = Mathf.Infinity;
+
+        foreach (GameObject obj in objects)
+        {
+            Vector3 direction = obj.transform.position - transform.position;
+            float squareDistance = direction.magnitude;
+
+            if (squareDistance < closest)
+            {
+                closest = squareDistance;
+                best = obj.gameObject;
+            }
+        }
+
+        return best;
+    }
     //Using director positions, set employee target pos
     public void moveTo(Director.Positions pos)
     {
         Debug.Log("Changing pos");
 
-        if (currentFloor != assignedFloor)
+        if (currentFloor != targetFloor)
         {
-            targetPos = groundLift.transform.position;
+            targetPos = findClosest(liftList).transform.position;
 
-            if(transform.position == targetPos)
+            if(Vector3.Distance(transform.position, targetPos) < 1)
             {
-                transform.position = workfloorLift.transform.position;
+                transform.position = findObjectOnTargetLevel(liftList, targetFloor).transform.position;
                 currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
+                //moveTo(pos);
             }
         }
         else
@@ -239,27 +273,47 @@ public class Employee : MonoBehaviour
 
                 case Director.Positions.desk:
                     {
-                        targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
+                        targetFloor = Director.Instance.findClosestFloor(Desk).floorNo;
+                        if(currentFloor == targetFloor)
+                        {
+                            targetPos = Desk.transform.position;
+                        }
                         break;
                     }
                 case Director.Positions.waterfountain:
                     {
-                        targetPos = new Vector3(waterFountain.transform.position.x, waterFountain.transform.position.y, waterFountain.transform.position.z);
+                        targetFloor = Director.Instance.findClosestFloor(waterFountain).floorNo;
+                        if (currentFloor == targetFloor)
+                        {
+                            targetPos = waterFountain.transform.position;
+                        }
                         break;
                     }
                 case Director.Positions.cafe:
                     {
-                        targetPos = new Vector3(Cafe.transform.position.x, Cafe.transform.position.y, Cafe.transform.position.z);
+                        targetFloor = Director.Instance.findClosestFloor(Cafe).floorNo;
+                        if (currentFloor == targetFloor)
+                        {
+                            targetPos = Cafe.transform.position;
+                        }
                         break;
                     }
                 case Director.Positions.exit:
                     {
-                        targetPos = new Vector3(Exit.transform.position.x, Exit.transform.position.y, Exit.transform.position.z);
+                        targetFloor = Director.Instance.findClosestFloor(Exit).floorNo;
+                        if (currentFloor == targetFloor)
+                        {
+                            targetPos = Exit.transform.position;
+                        }                      
                         break;
                     }
                 case Director.Positions.toilet:
                     {
-                        targetPos = new Vector3(Toilet.transform.position.x, Toilet.transform.position.y, Toilet.transform.position.z);
+                        targetFloor = Director.Instance.findClosestFloor(Toilet).floorNo;
+                        if (currentFloor == targetFloor)
+                        {
+                            targetPos = Toilet.transform.position;
+                        }
                         break;
                     }
                 default: break;
