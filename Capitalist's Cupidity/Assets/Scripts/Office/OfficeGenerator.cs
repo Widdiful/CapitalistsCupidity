@@ -21,6 +21,7 @@ public class OfficeGenerator : MonoBehaviour {
     public int workspaceCount;
     public int workspacePadding;
     public List<FacilitySpawnInformation> facilitySpawnInformation = new List<FacilitySpawnInformation>();
+    public List<GameObject> lifts = new List<GameObject>();
 
     private List<Floor> floors = new List<Floor>();
     private List<Facility> facilities = new List<Facility>();
@@ -110,6 +111,8 @@ public class OfficeGenerator : MonoBehaviour {
                     tempFacilities.Remove(temp);
                 }
             }
+
+            lifts.Add(newFloor.lift);
         }
 
         // Set all empty facilities to workspaces

@@ -22,6 +22,7 @@ public class Floor : MonoBehaviour {
     private float stairDepth = 6.0f;
     private Vector2 floorSize;
     public List<Facility> facilities = new List<Facility>();
+    public GameObject lift;
 
     void Awake()
     {
@@ -139,5 +140,6 @@ public class Floor : MonoBehaviour {
     {
         GameObject newLift = Instantiate(Resources.Load("OfficeParts/Lift"), transform) as GameObject;
         newLift.transform.localPosition = new Vector3((floorSize.x * 0.5f) - 1, 1, -(floorSize.y / 2f) + 0.1f);
+        lift = newLift;
     }
 }

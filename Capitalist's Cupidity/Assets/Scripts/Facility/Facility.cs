@@ -59,12 +59,14 @@ public class Facility : MonoBehaviour
     {
         CalculateAverageEmployeeHappiness();
         facilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
+        GameObject.FindObjectOfType<UIManager>().openedWindow = facilityCanvas.GetComponent<Canvas>();
     }
 
     public void OpenBuyFacilityWindow()
     {
         purchaseCanvas.enabled = true;
         purchaseFacility.SetFacility(this);
+        GameObject.FindObjectOfType<UIManager>().openedWindow = purchaseCanvas;
     }
 
     public void UpdateFromFacilityWindow(float FundingPercentage)

@@ -18,8 +18,10 @@ public class UIManager : MonoBehaviour {
     public GameObject businessesButtonPrefab;
     public Transform abilitiesContent;
     public GameObject abilitiesButtonPrefab;
+    public Canvas pauseMenuCanvas;
 
     public bool windowOpen;
+    public Canvas openedWindow;
 
     private Coroutine managementPanelCoroutine;
     private Animator buttonAnim;
@@ -183,5 +185,35 @@ public class UIManager : MonoBehaviour {
         {
             Destroy(button.gameObject);
         }
+    }
+
+    public void CloseOpenedWindow()
+    {
+        openedWindow.enabled = false;
+        openedWindow = null;
+        windowOpen = false;
+    }
+
+    public void OpenPauseMenu()
+    {
+        if (openedWindow == pauseMenuCanvas)
+        {
+            CloseOpenedWindow();
+            return;
+        }
+
+        if (windowOpen)
+        {
+            CloseOpenedWindow();
+        }
+
+        pauseMenuCanvas.enabled = true;
+        openedWindow = pauseMenuCanvas;
+        windowOpen = true;
+    }
+
+    public void ClosePauseMenu()
+    {
+        CloseOpenedWindow();
     }
 }
