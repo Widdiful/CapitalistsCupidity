@@ -12,7 +12,7 @@ public class Facility : MonoBehaviour
     private GameObject facilityCanvas;
     private Canvas purchaseCanvas;
     private PurchaseFacilityCanvas purchaseFacility;
-
+    private GameObject childObject;
     // Use this for initialization
     void Start()
     {
@@ -21,7 +21,7 @@ public class Facility : MonoBehaviour
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
 
         fundingPercentage = 1;
-
+        childObject = GameObject.Instantiate(facilityInfo.child, transform);
     }
 
     private void CalculateAverageEmployeeHappiness()
@@ -32,6 +32,14 @@ public class Facility : MonoBehaviour
     public void CutFacility()
     {
         facilityInfo = GameObject.FindObjectOfType<FacilityList>().GetFacilityByName("Empty");
+        if(childObject)
+        {
+            Destroy(childObject.gameObject);
+        }
+        if(facilityInfo.child != null)
+        {
+            GameObject.Instantiate(facilityInfo.child, transform);
+        }
         name = "Empty";
     }
 
@@ -41,6 +49,14 @@ public class Facility : MonoBehaviour
         fundingPercentage = 1;
         facilityInfo = facilityInformation;
         name = facilityInfo.facilityName;
+        if (transform.GetChild(0))
+        {
+            Destroy(transform.GetChild(0));
+        }
+        if (facilityInfo.child != null)
+        {
+            GameObject.Instantiate(facilityInfo.child, transform);
+        }
     }
 
     public void OpenFacilityWindow()
@@ -59,14 +75,14 @@ public class Facility : MonoBehaviour
     {
         CalculateAverageEmployeeHappiness();
         facilityCanvas.GetComponent<FacilityCanvas>().OpenFacilityWindow(this, facilityInfo.facilityName, facilityInfo.baseMonthlyExpenses, fundingPercentage, averageEmployeeHappiness); // Open the facility window and populate the values
-        GameObject.FindObjectOfType<UIManager>().openedWindow = facilityCanvas.GetComponent<Canvas>();
+        UIManager.instance.openedWindow = facilityCanvas.GetComponent<Canvas>();
     }
 
     public void OpenBuyFacilityWindow()
     {
         purchaseCanvas.enabled = true;
         purchaseFacility.SetFacility(this);
-        GameObject.FindObjectOfType<UIManager>().openedWindow = purchaseCanvas;
+        UIManager.instance.openedWindow = purchaseCanvas;
     }
 
     public void UpdateFromFacilityWindow(float FundingPercentage)

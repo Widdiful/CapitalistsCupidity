@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4595107789845922}
   - component: {fileID: 114682790724731204}
-  - component: {fileID: 33157981995615814}
   - component: {fileID: 65143019386379782}
   - component: {fileID: 23100312821880684}
   m_Layer: 0
@@ -78,13 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33157981995615814
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1175278755677340}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65143019386379782
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -95,8 +87,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114682790724731204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -112,5 +104,6 @@ MonoBehaviour:
     costToBuy: 0
     baseMonthlyExpenses: 0
     facilityName: 
+    child: {fileID: 0}
     facilityType: 7
   averageEmployeeHappiness: 0

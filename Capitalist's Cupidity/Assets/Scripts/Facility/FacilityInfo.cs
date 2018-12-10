@@ -11,5 +11,6 @@ public class FacilityInfo
     public float costToBuy;
     public float baseMonthlyExpenses;
     public string facilityName;
+    public GameObject child;
     public FacilityType facilityType = FacilityType.Empty;
 }
