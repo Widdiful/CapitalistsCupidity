@@ -8,6 +8,7 @@ public class EmployeeButton : MonoBehaviour {
     public string employeeName;
     public int floor;
     public float happiness;
+    public Employee employee;
 
     public Text nameText;
     public Text floorText;
@@ -20,6 +21,6 @@ public class EmployeeButton : MonoBehaviour {
     }
 
     public void Click() {
-
+        UIManager.instance.OpenEmployeeWindow(employee);
     }
 }

@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour {
     public Transform abilitiesContent;
     public GameObject abilitiesButtonPrefab;
     public Canvas pauseMenuCanvas;
+    public Canvas employeeMenuCanvas;
 
     public bool windowOpen;
     public Canvas openedWindow;
@@ -38,7 +39,15 @@ public class UIManager : MonoBehaviour {
     private Director director;
     private Businesses businesses;
 
+    public static UIManager instance;
+
     void Start() {
+
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+
         managementButtonText = managementButton.GetComponentInChildren<Text>();
 
         officeGenerator = FindObjectOfType<OfficeGenerator>();
@@ -129,6 +138,7 @@ public class UIManager : MonoBehaviour {
                 newButton.employeeName = employee.name;
                 newButton.floor = employee.assignedFloor;
                 newButton.happiness = employee.getHappiness() / 100f;
+                newButton.employee = employee;
                 newButton.UpdateInformation();
             }
         }
@@ -212,8 +222,19 @@ public class UIManager : MonoBehaviour {
         windowOpen = true;
     }
 
-    public void ClosePauseMenu()
+    public void OpenEmployeeWindow(Employee employee)
     {
-        CloseOpenedWindow();
+        if (windowOpen)
+        {
+            CloseOpenedWindow();
+        }
+
+        employeeMenuCanvas.enabled = true;
+        openedWindow = employeeMenuCanvas;
+        windowOpen = true;
+
+        EmployeeMenu menu = employeeMenuCanvas.GetComponent<EmployeeMenu>();
+        menu.employee = employee;
+        menu.UpdateUI();
     }
 }

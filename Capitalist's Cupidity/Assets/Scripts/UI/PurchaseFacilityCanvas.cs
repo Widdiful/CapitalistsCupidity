@@ -14,7 +14,6 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     private FacilityInfo selectedFacilityInfo;
     private PlayerStats playerStats;
     private Button confirmButton;
-    private UIManager uiManager;
 
     // Use this for initialization
     void Start ()
@@ -24,7 +23,6 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
         toggleGroup = GetComponent<ToggleGroup>();
         playerStats = GameObject.FindObjectOfType<PlayerStats>();
         confirmButton = canvas.transform.Find("PurchaseButton").GetComponent<Button>();
-        uiManager = GameObject.FindObjectOfType<UIManager>();
         foreach (FacilityInfo facility in facilityList.facilityList)
         {
             if(facility.facilityType != FacilityInfo.FacilityType.Empty)
@@ -83,7 +81,7 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     {
         selectedFacility = null;
         canvas.enabled = false;
-        uiManager.windowOpen = false;
+        UIManager.instance.windowOpen = false;
     }
 
 }

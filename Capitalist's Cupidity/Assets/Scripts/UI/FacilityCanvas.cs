@@ -16,7 +16,6 @@ public class FacilityCanvas : MonoBehaviour
     float funding;
     float baseExpense;
     float fundingPercent;
-    private UIManager uiManager;
 
     // Use this for initialization
     void Start ()
@@ -27,7 +26,6 @@ public class FacilityCanvas : MonoBehaviour
         happinessSlider = transform.GetChild(0).Find("HappinessSlider").GetComponent<Slider>();
         confirmButton = transform.GetChild(0).Find("ConfirmButton").GetComponent<Button>();
         cancelButton = transform.GetChild(0).Find("CancelButton").GetComponent<Button>();
-        uiManager = GameObject.FindObjectOfType<UIManager>();
 
         cancelButton.onClick.AddListener(CancelChanges);
         confirmButton.onClick.AddListener(ConfirmChanges);
@@ -77,13 +75,13 @@ public class FacilityCanvas : MonoBehaviour
     {
         selectedFacility.UpdateFromFacilityWindow(fundingPercent); // Update the facility with the new values
         GetComponent<Canvas>().enabled = false; // Close the canvas
-        uiManager.windowOpen = false;
+        UIManager.instance.windowOpen = false;
     }
 
     private void CancelChanges()
     {
         selectedFacility = null; // Deselect the facility
         GetComponent<Canvas>().enabled = false; // Close the canvas
-        uiManager.windowOpen = false;
+        UIManager.instance.windowOpen = false;
     }
 }
