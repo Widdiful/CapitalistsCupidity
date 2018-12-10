@@ -214,10 +214,10 @@ public class Director : MonoBehaviour
     
         }
 
-        return findClosestFacility(floor, facilityName, emp.Desk);
+        return findClosestFacility(facilityName, emp.Desk);
     }
 
-    public GameObject findClosestFacility(int floor, string facilityName, GameObject assignedDesk)
+    public GameObject findClosestFacility(string facilityName, GameObject assignedDesk)
     {
         GameObject best = null;
         var closeFacilities = FindObjectsOfType<Facility>();
@@ -241,6 +241,34 @@ public class Director : MonoBehaviour
         else
         {
             return Exit;
+        }
+    }
+
+    public Floor findClosestFloor(GameObject assignedDesk)
+    {
+        Floor best = null;
+        var closeFacilities = FindObjectsOfType<Floor>();
+        float closest = Mathf.Infinity;
+
+        foreach (Floor fal in closeFacilities)
+        {
+            Vector3 direction = fal.transform.position - assignedDesk.transform.position;
+            float squareDistance = direction.magnitude;
+
+            if (squareDistance < closest)
+            {
+                closest = squareDistance;
+                best = fal;
+            }
+        }
+        if (best != null)
+        {
+            return best;
+        }
+        else
+        {
+            Debug.Log("Could not find floor");
+            return null;
         }
     }
 

@@ -47,6 +47,8 @@ public class Employee : MonoBehaviour
     public GameObject Cafe;
     public GameObject waterFountain;
     public GameObject Exit;
+    public GameObject groundLift;
+    public GameObject workfloorLift;
 
     public List<Actions> actions;
 
@@ -56,6 +58,7 @@ public class Employee : MonoBehaviour
     float salary = 0.0f;
 
     public int assignedFloor;
+    int currentFloor;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -71,10 +74,17 @@ public class Employee : MonoBehaviour
         Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", this);
         Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
         waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
-        Exit = Director.Instance.Exit; 
+        groundLift = null;
+        workfloorLift = null;
+        if (assignedFloor != 0)
+        {
+            groundLift = Director.Instance.findClosestFacility("Lift(Clone)", gameObject);
+            workfloorLift = Director.Instance.assignFacilities(assignedFloor, "Lift(Clone)", this);
+        }
+        Exit = Director.Instance.Exit;
 
-        //Create actions
-        actions = new List<Actions>();
+            //Create actions
+            actions = new List<Actions>();
 
         Work = new Actions();
         Leave = new Actions();
@@ -132,6 +142,7 @@ public class Employee : MonoBehaviour
 
         //Delegate to pay employees
         Director.payTheGuys += payWages;
+        currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
     }
 
     // Update is called once per frame
@@ -145,7 +156,6 @@ public class Employee : MonoBehaviour
         needForBathroom = goToToilet.priority;
         hunger = getFood.priority;
         thirst = drinkADrink.priority;
-
 
         //If current action need is greater than the current action, current action will be executed
         foreach (Actions action in actions)
@@ -212,36 +222,50 @@ public class Employee : MonoBehaviour
     {
         Debug.Log("Changing pos");
 
-        switch (pos)
+        if (currentFloor != assignedFloor)
         {
+            targetPos = groundLift.transform.position;
 
-            case Director.Positions.desk:
-                {
-                    targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
-                    break;
-                }
-            case Director.Positions.waterfountain:
-                {
-                    targetPos = new Vector3(waterFountain.transform.position.x, transform.position.y, waterFountain.transform.position.z);
-                    break;
-                }
-            case Director.Positions.cafe:
-                {
-                    targetPos = new Vector3(Cafe.transform.position.x, transform.position.y, Cafe.transform.position.z);
-                    break;
-                }
-            case Director.Positions.exit:
-                {
-                    targetPos = new Vector3(Exit.transform.position.x, transform.position.y, Exit.transform.position.z);
-                    break;
-                }
-            case Director.Positions.toilet:
-                {
-                    targetPos = new Vector3(Toilet.transform.position.x, transform.position.y, Toilet.transform.position.z);
-                    break;
-                }
-            default: break;
+            if(transform.position == targetPos)
+            {
+                transform.position = workfloorLift.transform.position;
+                currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
+            }
         }
+        else
+        {
+            switch (pos)
+            {
+
+                case Director.Positions.desk:
+                    {
+                        targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
+                        break;
+                    }
+                case Director.Positions.waterfountain:
+                    {
+                        targetPos = new Vector3(waterFountain.transform.position.x, waterFountain.transform.position.y, waterFountain.transform.position.z);
+                        break;
+                    }
+                case Director.Positions.cafe:
+                    {
+                        targetPos = new Vector3(Cafe.transform.position.x, Cafe.transform.position.y, Cafe.transform.position.z);
+                        break;
+                    }
+                case Director.Positions.exit:
+                    {
+                        targetPos = new Vector3(Exit.transform.position.x, Exit.transform.position.y, Exit.transform.position.z);
+                        break;
+                    }
+                case Director.Positions.toilet:
+                    {
+                        targetPos = new Vector3(Toilet.transform.position.x, Toilet.transform.position.y, Toilet.transform.position.z);
+                        break;
+                    }
+                default: break;
+            }
+        }
+        
     }
 
     
@@ -271,7 +295,7 @@ public class Employee : MonoBehaviour
         if(velocity != Vector3.zero)
         {
             Vector3 delta = targetPos - transform.position;
-            //delta.y = transform.position.y;
+            delta.y = transform.position.y;
             Quaternion rotation = Quaternion.LookRotation(delta);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * maxTurnSpeed);
             //transform.LookAt(targetPos);
@@ -321,8 +345,8 @@ public class Employee : MonoBehaviour
     {
         if(Desk.transform.position != targetPos)
         {
-            //moveTo(Director.Positions.desk);
-            targetPos = new Vector3(Desk.transform.position.x, Desk.transform.position.y, Desk.transform.position.z);
+            moveTo(Director.Positions.desk);
+            
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -343,8 +367,8 @@ public class Employee : MonoBehaviour
     {
         if (Exit.transform.position != targetPos)
         {
-            //moveTo(Director.Positions.exit);
-            targetPos = new Vector3(Exit.transform.position.x, Exit.transform.position.y, Exit.transform.position.z);
+            moveTo(Director.Positions.exit);
+         
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -363,8 +387,8 @@ public class Employee : MonoBehaviour
     {
         if (Toilet.transform.position != targetPos)
         {
-            //moveTo(Director.Positions.toilet);
-            targetPos = new Vector3(Toilet.transform.position.x, Toilet.transform.position.y, Toilet.transform.position.z);
+            moveTo(Director.Positions.toilet);
+            
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -383,8 +407,8 @@ public class Employee : MonoBehaviour
     {
         if (Cafe.transform.position != targetPos)
         {
-            //moveTo(Director.Positions.cafe);
-            targetPos = new Vector3(Cafe.transform.position.x, Cafe.transform.position.y, Cafe.transform.position.z);
+            moveTo(Director.Positions.cafe);
+            
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
@@ -404,8 +428,7 @@ public class Employee : MonoBehaviour
     {
         if (waterFountain.transform.position != targetPos)
         {
-            //moveTo(Director.Positions.waterfountain);
-            targetPos = new Vector3(waterFountain.transform.position.x, waterFountain.transform.position.y, waterFountain.transform.position.z);
+            moveTo(Director.Positions.waterfountain);
         }
 
         if (Vector3.Distance(transform.position, targetPos) > 1)
