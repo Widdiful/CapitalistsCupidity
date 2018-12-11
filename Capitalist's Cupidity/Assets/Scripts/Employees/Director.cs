@@ -205,7 +205,7 @@ public class Director : MonoBehaviour
         return Random.Range(0, floors.Count - 1);
     }
 
-    public GameObject assignFacilities(int floor, string facilityName, Employee emp)
+    public GameObject assignFacilities(int floor, string facilityName, GameObject obj)
     {
         for(int i = 0; i < floors[floor].facilities.Count; i++)
         {
@@ -216,8 +216,21 @@ public class Director : MonoBehaviour
     
         }
 
-        return findClosestFacility(facilityName, emp.Desk);
+        return findClosestFacility(facilityName, obj);
         
+    }
+
+    public GameObject findObjectOnTargetLevel(List<GameObject> objects, int target)
+    {
+        foreach (GameObject obj in objects)
+        {
+            if (Director.Instance.findClosestFloor(obj).floorNo == target)
+            {
+                return obj;
+            }
+        }
+
+        return null;
     }
 
     public GameObject findClosestFacility(string facilityName, GameObject assignedDesk)
@@ -300,6 +313,26 @@ public class Director : MonoBehaviour
             Debug.Log("Could not find floor");
             return null;
         }
+    }
+
+    public GameObject findClosestGObj(List<GameObject> objects)
+    {
+        GameObject best = null;
+        float closest = Mathf.Infinity;
+
+        foreach (GameObject obj in objects)
+        {
+            Vector3 direction = obj.transform.position - transform.position;
+            float squareDistance = direction.magnitude;
+
+            if (squareDistance < closest)
+            {
+                closest = squareDistance;
+                best = obj.gameObject;
+            }
+        }
+
+        return best;
     }
 
     private void updateFunds()

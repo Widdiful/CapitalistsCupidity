@@ -5,20 +5,19 @@ using System.Linq;
 
 public class Employee : MonoBehaviour
 {
-    
     public Vector3 targetPos;
     public Vector3 velocity = Vector3.zero;
     float orientation;
 
-    float maxTurnSpeed = 5.0f;
-    float maxMoveSpeed = 5.0f;
+    float maxTurnSpeed = 3.0f;
+    float maxMoveSpeed = 3.0f;
 
     Vector3 seeAhead = Vector3.zero;
     Vector3 seeAheadNear = Vector3.zero;
-    float maxSeeAheadDistance = 3.0f;
+    float maxSeeAheadDistance = 6.0f;
 
     Vector3 avoidanceForce;
-    float maxAvoidanceForce = 3f;
+    float maxAvoidanceForce = 6f;
 
     //Actions.employeeFunc(this)
 
@@ -42,11 +41,11 @@ public class Employee : MonoBehaviour
     float thirstModifier = 0.0f;
 
 
-    public GameObject Desk;
-    public GameObject Toilet;
-    public GameObject Cafe;
-    public GameObject waterFountain;
-    public GameObject Exit;
+    GameObject Desk;
+    GameObject Toilet;
+    GameObject Cafe;
+    GameObject waterFountain;
+    GameObject Exit;
 
     public List<Actions> actions;
 
@@ -58,6 +57,7 @@ public class Employee : MonoBehaviour
     public int assignedFloor;
     int currentFloor;
     int targetFloor;
+
     public List<GameObject> liftList;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
@@ -71,10 +71,10 @@ public class Employee : MonoBehaviour
     {
         liftList = OfficeGenerator.instance.lifts;
         assignedFloor = Director.Instance.assignFloor();
-        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", this);
-        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", this);
-        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", this);
-        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", this);
+        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", Desk);
+        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk);
+        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk);
+        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk);
    
         //groundLift = Director.Instance.findClosestLift(gameObject);
        // workfloorLift = Director.Instance.findClosestLift(Desk);
@@ -218,38 +218,6 @@ public class Employee : MonoBehaviour
         return salary;
     }
 
-    GameObject findObjectOnTargetLevel(List<GameObject> objects, int target)
-    {
-        foreach (GameObject obj in objects)
-        {
-            if (Director.Instance.findClosestFloor(obj).floorNo == targetFloor)
-            {
-                return obj;
-            }
-        }
-           
-        return null;
-    }
-
-    GameObject findClosest(List<GameObject> objects)
-    {
-        GameObject best = null;
-        float closest = Mathf.Infinity;
-
-        foreach (GameObject obj in objects)
-        {
-            Vector3 direction = obj.transform.position - transform.position;
-            float squareDistance = direction.magnitude;
-
-            if (squareDistance < closest)
-            {
-                closest = squareDistance;
-                best = obj.gameObject;
-            }
-        }
-
-        return best;
-    }
     //Using director positions, set employee target pos
     public void moveTo(Director.Positions pos)
     {
@@ -257,12 +225,13 @@ public class Employee : MonoBehaviour
 
         if (currentFloor != targetFloor)
         {
-            targetPos = findClosest(liftList).transform.position;
+            targetPos = Director.Instance.findClosestGObj(liftList).transform.position;
 
             if(Vector3.Distance(transform.position, targetPos) < 1)
             {
-                transform.position = findObjectOnTargetLevel(liftList, targetFloor).transform.position;
+                transform.position = Director.Instance.findObjectOnTargetLevel(liftList, targetFloor).transform.position;
                 currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
+                gameObject.layer = Director.Instance.findClosestFloor(gameObject).gameObject.layer;
                 //moveTo(pos);
             }
         }
