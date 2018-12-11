@@ -47,6 +47,12 @@ public class Employee : MonoBehaviour
     GameObject waterFountain;
     GameObject Exit;
 
+    int deskFloor;
+    int toiletFloor;
+    int cafeFloor;
+    int waterFountainFloor;
+    int exitFloor;
+
     public List<Actions> actions;
 
     bool isBootLicker;
@@ -75,10 +81,9 @@ public class Employee : MonoBehaviour
         Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk);
         Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk);
         waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk);
-   
         //groundLift = Director.Instance.findClosestLift(gameObject);
-       // workfloorLift = Director.Instance.findClosestLift(Desk);
-        
+        // workfloorLift = Director.Instance.findClosestLift(Desk);
+
         Exit = Director.Instance.Exit;
 
         //Create actions
@@ -143,15 +148,18 @@ public class Employee : MonoBehaviour
         currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
         targetFloor = Director.Instance.findClosestFloor(Desk).floorNo;
 
-        
-        
+        deskFloor = Director.Instance.findClosestFloor(Desk).floorNo;
+        toiletFloor = Director.Instance.findClosestFloor(Toilet).floorNo;
+        cafeFloor = Director.Instance.findClosestFloor(Cafe).floorNo;
+        waterFountainFloor = Director.Instance.findClosestFloor(waterFountain).floorNo;
+        exitFloor = Director.Instance.findClosestFloor(Exit).floorNo;
     }
 
     // Update is called once per frame
     void Update()
     {
         Steer(targetPos);
-
+        
         //Set floats to worker priorities to see them in inspector
         needToWork = Work.priority;
         homeTime = Leave.priority;
@@ -242,7 +250,7 @@ public class Employee : MonoBehaviour
 
                 case Director.Positions.desk:
                     {
-                        targetFloor = Director.Instance.findClosestFloor(Desk).floorNo;
+                        targetFloor = deskFloor;
                         if(currentFloor == targetFloor)
                         {
                             targetPos = Desk.transform.position;
@@ -251,7 +259,7 @@ public class Employee : MonoBehaviour
                     }
                 case Director.Positions.waterfountain:
                     {
-                        targetFloor = Director.Instance.findClosestFloor(waterFountain).floorNo;
+                        targetFloor = waterFountainFloor;
                         if (currentFloor == targetFloor)
                         {
                             targetPos = waterFountain.transform.position;
@@ -260,7 +268,7 @@ public class Employee : MonoBehaviour
                     }
                 case Director.Positions.cafe:
                     {
-                        targetFloor = Director.Instance.findClosestFloor(Cafe).floorNo;
+                        targetFloor = cafeFloor;
                         if (currentFloor == targetFloor)
                         {
                             targetPos = Cafe.transform.position;
@@ -269,7 +277,7 @@ public class Employee : MonoBehaviour
                     }
                 case Director.Positions.exit:
                     {
-                        targetFloor = Director.Instance.findClosestFloor(Exit).floorNo;
+                        targetFloor = exitFloor;
                         if (currentFloor == targetFloor)
                         {
                             targetPos = Exit.transform.position;
@@ -278,7 +286,7 @@ public class Employee : MonoBehaviour
                     }
                 case Director.Positions.toilet:
                     {
-                        targetFloor = Director.Instance.findClosestFloor(Toilet).floorNo;
+                        targetFloor = toiletFloor;
                         if (currentFloor == targetFloor)
                         {
                             targetPos = Toilet.transform.position;
@@ -320,7 +328,8 @@ public class Employee : MonoBehaviour
             Vector3 delta = targetPos - transform.position;
             delta.y = transform.position.y;
             Quaternion rotation = Quaternion.LookRotation(delta);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * maxTurnSpeed);
+            float turnStrength = Mathf.Min(maxTurnSpeed * Time.deltaTime, 1);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnStrength);
             //transform.LookAt(targetPos);
         }
     }

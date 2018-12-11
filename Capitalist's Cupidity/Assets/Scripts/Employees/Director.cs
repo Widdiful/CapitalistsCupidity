@@ -90,11 +90,7 @@ public class Director : MonoBehaviour
                   flockToExit(Positions.exit);
               }
         }
-        if (workerHappiness != null)
-        {
-            workerHappiness(-1f);
-        }
-
+ 
         if (numberOfMonths == oldMonths + 1)
         {
             updateFunds();
@@ -224,7 +220,7 @@ public class Director : MonoBehaviour
     {
         foreach (GameObject obj in objects)
         {
-            if (Director.Instance.findClosestFloor(obj).floorNo == target)
+            if (findClosestFloor(obj).floorNo == target)
             {
                 return obj;
             }
@@ -257,33 +253,6 @@ public class Director : MonoBehaviour
         else
         {
             return Exit;
-        }
-    }
-
-    public GameObject findClosestLift(GameObject assignedDesk)
-    {
-        GameObject best = null;
-        var closeLift = FindObjectsOfType<GameObject>();
-        float closest = Mathf.Infinity;
-
-        foreach (GameObject lift in closeLift)
-        {
-            Vector3 direction = lift.transform.position - assignedDesk.transform.position;
-            float squareDistance = direction.magnitude;
-
-            if (squareDistance < closest && lift.gameObject.name == "Lift(Clone)")
-            {
-                closest = squareDistance;
-                best = lift.gameObject;
-            }
-        }
-        if (best != null)
-        {
-            return best;
-        }
-        else
-        {
-            return null;
         }
     }
 

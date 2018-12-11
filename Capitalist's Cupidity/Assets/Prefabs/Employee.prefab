@@ -104,9 +104,6 @@ MonoBehaviour:
   needForBathroom: 0
   hunger: 0
   thirst: 0
-  Desk: {fileID: 0}
-  Toilet: {fileID: 0}
-  Cafe: {fileID: 0}
-  waterFountain: {fileID: 0}
-  Exit: {fileID: 0}
   moneyInBank: 0
+  assignedFloor: 0
+  liftList: []
