@@ -1,29 +1,37 @@
 fileFormatVersion: 2
-guid: 9dae2189e79cda84db7999fc07489bbe
+guid: 34af3e46af917cf4684d62ee945d371e
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Cubicle Walls
-    100004: Desk
+    100002: Desk
+    100004: Keyboard
     100006: Monitor
+    100008: Mouse
     400000: //RootNode
-    400002: Cubicle Walls
-    400004: Desk
+    400002: Desk
+    400004: Keyboard
     400006: Monitor
+    400008: Mouse
     2100000: 09 - Default
-    2100002: 01 - Default
-    2100004: 08 - Default
-    2100006: 03 - Default
-    2300000: Cubicle Walls
+    2100002: 03 - Default
+    2100004: 01 - Default
+    2100006: 08 - Default
+    2300000: //RootNode
     2300002: Desk
-    2300004: Monitor
-    3300000: Cubicle Walls
+    2300004: Keyboard
+    2300006: Monitor
+    2300008: Mouse
+    3300000: //RootNode
     3300002: Desk
-    3300004: Monitor
+    3300004: Keyboard
+    3300006: Monitor
+    3300008: Mouse
     4300000: Cubicle Walls
-    4300002: Monitor
-    4300004: Desk
+    4300002: Desk
+    4300004: Keyboard
+    4300006: Monitor
+    4300008: Mouse
     7400000: Take 001
     9500000: //RootNode
   externalObjects: {}

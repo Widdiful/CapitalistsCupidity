@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: 7ff193635251d094bbca7f069168f8a2
+guid: e3171c5469a57154289d81f86250dbcf
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: 03 - Default
+    2100000: 01 - Default
+    2100002: 02 - Default
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Desk
+    4300000: Human Sitting
+    7400000: Take 001
+    9500000: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -84,7 +87,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

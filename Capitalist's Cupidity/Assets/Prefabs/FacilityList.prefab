@@ -60,7 +60,7 @@ MonoBehaviour:
   - costToBuy: 15000
     baseMonthlyExpenses: 500
     facilityName: Water Fountain
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
+    child: {fileID: 100000, guid: 96f22db2d7bb6f545bf02bf84157094f, type: 3}
     facilityType: 1
   - costToBuy: 5000
     baseMonthlyExpenses: 750
@@ -75,7 +75,7 @@ MonoBehaviour:
   - costToBuy: 40000
     baseMonthlyExpenses: -2000
     facilityName: Work Space
-    child: {fileID: 100000, guid: 9dae2189e79cda84db7999fc07489bbe, type: 3}
+    child: {fileID: 100000, guid: 34af3e46af917cf4684d62ee945d371e, type: 3}
     facilityType: 4
   - costToBuy: 30000
     baseMonthlyExpenses: 5000

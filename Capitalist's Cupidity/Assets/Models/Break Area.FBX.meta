@@ -1,14 +1,33 @@
 fileFormatVersion: 2
-guid: c3fe19480adfc8b42a0ce3bbc5dc646d
+guid: 96f22db2d7bb6f545bf02bf84157094f
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Fountain
+    100004: Stool
+    100006: Stool 1
+    100008: Table
     400000: //RootNode
+    400002: Fountain
+    400004: Stool
+    400006: Stool 1
+    400008: Table
     2100000: 07 - Default
-    2300000: //RootNode
-    3300000: //RootNode
+    2100002: 03 - Default
+    2100004: 13 - Default
+    2300000: Fountain
+    2300002: Stool
+    2300004: Stool 1
+    2300006: Table
+    3300000: Fountain
+    3300002: Stool
+    3300004: Stool 1
+    3300006: Table
     4300000: Fountain
+    4300002: Table
+    4300004: Stool
+    4300006: Stool
   externalObjects: {}
   materials:
     importMaterials: 1
