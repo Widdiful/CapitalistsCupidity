@@ -63,6 +63,19 @@ public class PlayerStats : MonoBehaviour
         return companyFunds;
     }
 
+    public bool SpendMoney(float amount)
+    {
+        if (companyFunds >= amount)
+        {
+            ChangeCompanyFunds(amount);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void ChangeCompanyFunds(float income)
     {
         if(income > 0)

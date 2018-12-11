@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
                         SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
                         UIManager.instance.windowOpen = true;
                     }
+                    else if (SelectHit.transform.GetComponent<Employee>())
+                    {
+                        UIManager.instance.OpenEmployeeWindow(SelectHit.transform.GetComponent<Employee>());
+                    }
                 }
             }
         }

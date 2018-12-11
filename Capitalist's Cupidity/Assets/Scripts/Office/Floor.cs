@@ -89,7 +89,7 @@ public class Floor : MonoBehaviour {
             for (int j = 0; j < width * spacing; j += spacing)
             {
                 GameObject newWorkspace = Instantiate(workspacePrefab,
-                    transform.TransformPoint(new Vector3(x + j, workspacePrefab.transform.localScale.y / 2f, y - i)),
+                    transform.TransformPoint(new Vector3(x + j, 0, y - i)),
                     Quaternion.identity, transform);
                 facilities.Add(newWorkspace.GetComponent<Facility>());
             }

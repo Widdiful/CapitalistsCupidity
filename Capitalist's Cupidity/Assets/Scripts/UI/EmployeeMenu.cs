@@ -17,5 +17,6 @@ public class EmployeeMenu : MonoBehaviour {
     {
         employee.gameObject.SetActive(false);
         UIManager.instance.CloseOpenedWindow();
+        UIManager.instance.UpdateEmployeesTab();
     }
 }

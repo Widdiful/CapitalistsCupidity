@@ -8,6 +8,7 @@ public class BusinessButton : MonoBehaviour {
     public string businessName;
     public float cost;
     public float earnings;
+    public Businesses.Business business;
 
     public Text nameText;
     public Text costText;
@@ -20,6 +21,6 @@ public class BusinessButton : MonoBehaviour {
     }
 
     public void Click() {
-
+        UIManager.instance.OpenBusinessWindow(business);
     }
 }

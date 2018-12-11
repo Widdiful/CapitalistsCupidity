@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour {
     public GameObject abilitiesButtonPrefab;
     public Canvas pauseMenuCanvas;
     public Canvas employeeMenuCanvas;
+    public Canvas businessMenuCanvas;
 
     public bool windowOpen;
     public Canvas openedWindow;
@@ -171,6 +172,7 @@ public class UIManager : MonoBehaviour {
                     newButton.businessName = business.businessName;
                     newButton.cost = business.costToBuy;
                     newButton.earnings = business.monthlyIncome;
+                    newButton.business = business;
                     newButton.UpdateInformation();
                 }
             }
@@ -228,6 +230,22 @@ public class UIManager : MonoBehaviour {
 
         EmployeeMenu menu = employeeMenuCanvas.GetComponent<EmployeeMenu>();
         menu.employee = employee;
+        menu.UpdateUI();
+    }
+
+    public void OpenBusinessWindow(Businesses.Business business)
+    {
+        if (windowOpen)
+        {
+            CloseOpenedWindow();
+        }
+
+        businessMenuCanvas.enabled = true;
+        openedWindow = businessMenuCanvas;
+        windowOpen = true;
+
+        BusinessMenu menu = businessMenuCanvas.GetComponent<BusinessMenu>();
+        menu.business = business;
         menu.UpdateUI();
     }
 }
