@@ -65,7 +65,7 @@ MonoBehaviour:
   - costToBuy: 5000
     baseMonthlyExpenses: 750
     facilityName: Toilets
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
+    child: {fileID: 100004, guid: 58fe79837dcaa784dbcefcf3dbf1c8ba, type: 3}
     facilityType: 2
   - costToBuy: 15000
     baseMonthlyExpenses: 7000
