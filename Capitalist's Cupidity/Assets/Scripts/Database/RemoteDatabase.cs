@@ -5,7 +5,7 @@ using UnityEngine;
 public class RemoteDatabase : MonoBehaviour {
 
     private string hostURL = "http://localhost/cupidity/";
-    private string userID;
+    public string userID;
     private string userName;
 
     public string[] dbLines;
@@ -101,5 +101,42 @@ public class RemoteDatabase : MonoBehaviour {
         string value = line.Substring(line.IndexOf(index) + index.Length);
         if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
         return value;
+    }
+
+    public void UploadScore(string companyName, int score, float time, HighScoreManager.GameTypes gameType) {
+        StartCoroutine(UploadScoreAwait(companyName, score, time, gameType));
+    }
+
+    IEnumerator UploadScoreAwait(string companyName, int score, float time, HighScoreManager.GameTypes gameType) {
+        string tableName = "";
+        switch (gameType) {
+            case HighScoreManager.GameTypes.Free:
+                tableName = "highscoresfree";
+                break;
+            case HighScoreManager.GameTypes.Time:
+                tableName = "highscorestime";
+                break;
+            case HighScoreManager.GameTypes.Gold:
+                tableName = "highscoresgold";
+                break;
+
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField("playerID", userID);
+        form.AddField("companyName", companyName);
+        form.AddField("score", score);
+        form.AddField("time", time.ToString());
+        form.AddField("tableName", tableName);
+
+        WWW www = new WWW(hostURL + "uploadScore.php", form);
+        yield return www;
+
+        if (www.text == "0") {
+            Debug.Log("Score not updated.");
+        }
+        else if (www.text == "1") {
+            Debug.Log("Score updated.");
+        }
     }
 }

@@ -10,7 +10,7 @@
 	$table = $_POST["tableName"];
     
     $sql = "SELECT t2.name, t1.company_name, t1.score FROM ".$table." t1 JOIN players t2 ON t1.player_id = t2.id ORDER BY t1.score DESC";
-    if ($table = "highscorestime"){
+    if ($table == "highscorestime"){
         $sql = str_replace("DESC", "ASC", $sql);
     }
     
