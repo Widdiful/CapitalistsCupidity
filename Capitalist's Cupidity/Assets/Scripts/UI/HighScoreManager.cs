@@ -13,6 +13,10 @@ public class HighScoreManager : MonoBehaviour {
     public enum ScoreTypes { Local, Global };
     public ScoreTypes scoreType;
 
+    private void Start() {
+        LoadScores();
+    }
+
     public void GameTime() {
         gameType = GameTypes.Time;
         LoadScores();

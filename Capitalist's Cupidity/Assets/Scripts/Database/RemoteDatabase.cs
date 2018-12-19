@@ -5,8 +5,8 @@ using UnityEngine;
 public class RemoteDatabase : MonoBehaviour {
 
     private string hostURL = "http://localhost/cupidity/";
-    public string userID;
-    public string userName;
+    private string userID;
+    private string userName;
 
     public string[] dbLines;
     public bool fetchingComplete;
@@ -18,14 +18,6 @@ public class RemoteDatabase : MonoBehaviour {
             instance = this;
         if (instance != this)
             Destroy(this);
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown("s"))
-            Register();
-
-        if (Input.GetKeyDown("d"))
-            RenamePlayer("test");
     }
 
     public void Register() {
