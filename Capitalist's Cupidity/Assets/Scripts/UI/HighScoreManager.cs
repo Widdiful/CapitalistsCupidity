@@ -43,13 +43,40 @@ public class HighScoreManager : MonoBehaviour {
             Destroy(button.gameObject);
         }
 
-        LeaderboardItem newItem = Instantiate(leaderboardItemPrefab, content).GetComponent<LeaderboardItem>();
-        if (newItem) {
-            newItem.position = 1;
-            newItem.playerName = gameType.ToString();
-            newItem.companyName = scoreType.ToString();
-            newItem.score = "$123,456,789";
-            newItem.UpdateInformation();
+        StartCoroutine(LoadScoresAwait());
+    }
+
+    IEnumerator LoadScoresAwait() {
+
+        switch (gameType) {
+            case GameTypes.Free:
+                RemoteDatabase.instance.GetScoresFree();
+                break;
+            case GameTypes.Gold:
+                RemoteDatabase.instance.GetScoresGold();
+                break;
+            case GameTypes.Time:
+                RemoteDatabase.instance.GetScoresTime();
+                break;
+        }
+
+        while (!RemoteDatabase.instance.fetchingComplete) {
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        int position = 1;
+
+        foreach (string line in RemoteDatabase.instance.dbLines) {
+
+            if (line.Length > 0) {
+                LeaderboardItem newItem = Instantiate(leaderboardItemPrefab, content).GetComponent<LeaderboardItem>();
+                newItem.position = position;
+                newItem.playerName = RemoteDatabase.instance.GetDBLineValue(line, "player:");
+                newItem.companyName = RemoteDatabase.instance.GetDBLineValue(line, "company:");
+                newItem.score = RemoteDatabase.instance.GetDBLineValue(line, "score:");
+                newItem.UpdateInformation();
+                position++;
+            }
         }
     }
 }

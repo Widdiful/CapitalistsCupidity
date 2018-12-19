@@ -8,6 +8,18 @@ public class RemoteDatabase : MonoBehaviour {
     public string userID;
     public string userName;
 
+    public string[] dbLines;
+    public bool fetchingComplete;
+
+    public static RemoteDatabase instance;
+
+    private void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     private void Update() {
         if (Input.GetKeyDown("s"))
             Register();
@@ -55,5 +67,47 @@ public class RemoteDatabase : MonoBehaviour {
         else {
             Debug.Log("Registration failed. Error " + www.text);
         }
+    }
+
+    public void GetScoresFree() {
+        StartCoroutine(FetchScores(HighScoreManager.GameTypes.Free));
+    }
+
+    public void GetScoresTime() {
+        StartCoroutine(FetchScores(HighScoreManager.GameTypes.Time));
+    }
+
+    public void GetScoresGold() {
+        StartCoroutine(FetchScores(HighScoreManager.GameTypes.Gold));
+    }
+
+    IEnumerator FetchScores(HighScoreManager.GameTypes gameType) {
+        fetchingComplete = false;
+        string tableName = "";
+        switch (gameType) {
+            case HighScoreManager.GameTypes.Free:
+                tableName = "highscoresfree";
+                break;
+            case HighScoreManager.GameTypes.Time:
+                tableName = "highscorestime";
+                break;
+            case HighScoreManager.GameTypes.Gold:
+                tableName = "highscoresgold";
+                break;
+
+        }
+        WWWForm form = new WWWForm();
+        form.AddField("tableName", tableName);
+        WWW www = new WWW(hostURL + "getScores.php", form);
+        yield return www;
+
+        dbLines = www.text.Split(';');
+        fetchingComplete = true;
+    }
+
+    public string GetDBLineValue(string line, string index) {
+        string value = line.Substring(line.IndexOf(index) + index.Length);
+        if (value.Contains("|")) value = value.Remove(value.IndexOf("|"));
+        return value;
     }
 }
