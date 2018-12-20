@@ -13,6 +13,8 @@ public class HighScoreManager : MonoBehaviour {
     public enum ScoreTypes { Local, Global };
     public ScoreTypes scoreType;
 
+    public RectTransform loadingImage;
+
     private void Start() {
         LoadScores();
     }
@@ -92,6 +94,9 @@ public class HighScoreManager : MonoBehaviour {
 
     IEnumerator LoadScoresGlobal() {
 
+        loadingImage.gameObject.SetActive(true);
+        loadingImage.rotation = Quaternion.identity;
+
         switch (gameType) {
             case GameTypes.Free:
                 RemoteDatabase.instance.GetScoresFree();
@@ -105,8 +110,11 @@ public class HighScoreManager : MonoBehaviour {
         }
 
         while (!RemoteDatabase.instance.fetchingComplete) {
-            yield return new WaitForSecondsRealtime(0.1f);
+            loadingImage.Rotate(0, 0, -10);
+            yield return new WaitForSecondsRealtime(0.01f);
         }
+
+        loadingImage.gameObject.SetActive(false);
 
         int position = 1;
 
