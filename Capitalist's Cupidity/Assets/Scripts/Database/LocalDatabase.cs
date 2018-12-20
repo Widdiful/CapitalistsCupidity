@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class LocalDatabase : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [System.Serializable]
+	public class LocalDatabaseItem {
+        public string companyName;
+        public string score;
+    }
+
+    public List<LocalDatabaseItem> databaseFree = new List<LocalDatabaseItem>();
+    public List<LocalDatabaseItem> databaseGold = new List<LocalDatabaseItem>();
+    public List<LocalDatabaseItem> databaseTime = new List<LocalDatabaseItem>();
+
+    public static LocalDatabase instance;
+
+    private void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
 }

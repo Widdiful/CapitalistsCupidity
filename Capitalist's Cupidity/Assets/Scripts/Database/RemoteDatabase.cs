@@ -6,7 +6,7 @@ public class RemoteDatabase : MonoBehaviour {
 
     private string hostURL = "http://localhost/cupidity/";
     public string userID;
-    private string userName;
+    public string userName;
 
     public string[] dbLines;
     public bool fetchingComplete;

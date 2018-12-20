@@ -47,10 +47,50 @@ public class HighScoreManager : MonoBehaviour {
             Destroy(button.gameObject);
         }
 
-        StartCoroutine(LoadScoresAwait());
+        if (scoreType == ScoreTypes.Global)
+            StartCoroutine(LoadScoresGlobal());
+        else
+            LoadScoresLocal();
     }
 
-    IEnumerator LoadScoresAwait() {
+    private void LoadScoresLocal() {
+        List<LocalDatabase.LocalDatabaseItem> db = new List<LocalDatabase.LocalDatabaseItem>();
+
+        switch (gameType) {
+            case GameTypes.Free:
+                db = LocalDatabase.instance.databaseFree;
+                db.Sort(SortByScore);
+                db.Reverse();
+                break;
+            case GameTypes.Gold:
+                db = LocalDatabase.instance.databaseGold;
+                db.Sort(SortByScore);
+                db.Reverse();
+                break;
+            case GameTypes.Time:
+                db = LocalDatabase.instance.databaseTime;
+                db.Sort(SortByScore);
+                break;
+        }
+
+        int position = 1;
+
+        foreach (LocalDatabase.LocalDatabaseItem item in db) {
+                LeaderboardItem newItem = Instantiate(leaderboardItemPrefab, content).GetComponent<LeaderboardItem>();
+                newItem.position = position;
+                newItem.playerName = RemoteDatabase.instance.userName;
+                newItem.companyName = item.companyName;
+                newItem.score = item.score.ToString();
+                newItem.UpdateInformation();
+                position++;
+        }
+    }
+
+    static int SortByScore(LocalDatabase.LocalDatabaseItem item1, LocalDatabase.LocalDatabaseItem item2) {
+        return item1.score.CompareTo(item2.score);
+    }
+
+    IEnumerator LoadScoresGlobal() {
 
         switch (gameType) {
             case GameTypes.Free:
