@@ -6,6 +6,7 @@ public class HighScoreManager : MonoBehaviour {
 
     public Transform content;
     public GameObject leaderboardItemPrefab;
+    public GameObject failText;
 
     public enum GameTypes { Time, Gold, Free };
     public GameTypes gameType;
@@ -95,6 +96,7 @@ public class HighScoreManager : MonoBehaviour {
     IEnumerator LoadScoresGlobal() {
 
         loadingImage.gameObject.SetActive(true);
+        failText.SetActive(false);
         loadingImage.rotation = Quaternion.identity;
 
         switch (gameType) {
@@ -116,18 +118,24 @@ public class HighScoreManager : MonoBehaviour {
 
         loadingImage.gameObject.SetActive(false);
 
-        int position = 1;
+        if (RemoteDatabase.instance.dbLines.Length <= 1) {
+            failText.SetActive(true);
+        }
 
-        foreach (string line in RemoteDatabase.instance.dbLines) {
+        else {
+            int position = 1;
 
-            if (line.Length > 0) {
-                LeaderboardItem newItem = Instantiate(leaderboardItemPrefab, content).GetComponent<LeaderboardItem>();
-                newItem.position = position;
-                newItem.playerName = RemoteDatabase.instance.GetDBLineValue(line, "player:");
-                newItem.companyName = RemoteDatabase.instance.GetDBLineValue(line, "company:");
-                newItem.score = RemoteDatabase.instance.GetDBLineValue(line, "score:");
-                newItem.UpdateInformation();
-                position++;
+            foreach (string line in RemoteDatabase.instance.dbLines) {
+
+                if (line.Length > 0) {
+                    LeaderboardItem newItem = Instantiate(leaderboardItemPrefab, content).GetComponent<LeaderboardItem>();
+                    newItem.position = position;
+                    newItem.playerName = RemoteDatabase.instance.GetDBLineValue(line, "player:");
+                    newItem.companyName = RemoteDatabase.instance.GetDBLineValue(line, "company:");
+                    newItem.score = RemoteDatabase.instance.GetDBLineValue(line, "score:");
+                    newItem.UpdateInformation();
+                    position++;
+                }
             }
         }
     }

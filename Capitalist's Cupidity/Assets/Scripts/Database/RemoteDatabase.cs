@@ -20,6 +20,11 @@ public class RemoteDatabase : MonoBehaviour {
             Destroy(this);
     }
 
+    private void Start() {
+        if (userID == "")
+            Register();
+    }
+
     public void Register() {
         StartCoroutine(Registration());
     }
@@ -103,11 +108,11 @@ public class RemoteDatabase : MonoBehaviour {
         return value;
     }
 
-    public void UploadScore(string companyName, int score, float time, HighScoreManager.GameTypes gameType) {
-        StartCoroutine(UploadScoreAwait(companyName, score, time, gameType));
+    public void UploadScore(string companyName, string score, HighScoreManager.GameTypes gameType) {
+        StartCoroutine(UploadScoreAwait(companyName, score, gameType));
     }
 
-    IEnumerator UploadScoreAwait(string companyName, int score, float time, HighScoreManager.GameTypes gameType) {
+    IEnumerator UploadScoreAwait(string companyName, string score, HighScoreManager.GameTypes gameType) {
         string tableName = "";
         switch (gameType) {
             case HighScoreManager.GameTypes.Free:
@@ -126,7 +131,6 @@ public class RemoteDatabase : MonoBehaviour {
         form.AddField("playerID", userID);
         form.AddField("companyName", companyName);
         form.AddField("score", score);
-        form.AddField("time", time.ToString());
         form.AddField("tableName", tableName);
 
         WWW www = new WWW(hostURL + "uploadScore.php", form);

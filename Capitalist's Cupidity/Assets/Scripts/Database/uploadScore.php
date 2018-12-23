@@ -28,7 +28,7 @@
         echo("1");
     }
     else{ // Score doesn't exist
-        $sql = "INSERT INTO highscoresfree (id, player_id, company_name, score) VALUES (NULL, '" . (int) $playerID . "', '" . $companyName . "', '" . (int) $score . "')";
+        $sql = "INSERT INTO " . $tableName . " (id, player_id, company_name, score) VALUES (NULL, '" . (int) $playerID . "', '" . $companyName . "', '" . $score . "')";
         mysqli_query($con, $sql) or die("2: Failed to create user");
         echo("1");
     }
