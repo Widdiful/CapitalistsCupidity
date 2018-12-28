@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour {
     public Transform abilitiesContent;
     public GameObject abilitiesButtonPrefab;
     public Canvas pauseMenuCanvas;
+    public Canvas adminMenuCanvas;
     public Canvas employeeMenuCanvas;
     public Canvas businessMenuCanvas;
 
@@ -214,6 +215,21 @@ public class UIManager : MonoBehaviour {
 
         pauseMenuCanvas.enabled = true;
         openedWindow = pauseMenuCanvas;
+        windowOpen = true;
+    }
+
+    public void OpenAdminMenu() {
+        if (openedWindow == adminMenuCanvas) {
+            CloseOpenedWindow();
+            return;
+        }
+
+        if (windowOpen) {
+            CloseOpenedWindow();
+        }
+
+        adminMenuCanvas.enabled = true;
+        openedWindow = adminMenuCanvas;
         windowOpen = true;
     }
 

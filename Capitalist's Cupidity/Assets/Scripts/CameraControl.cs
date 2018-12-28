@@ -128,6 +128,10 @@ public class CameraControl : MonoBehaviour {
         //office.GetFloors()[selectedFloor].transform.Find("WestWall").gameObject.layer = invisibleFloorLayer;
     }
 
+    public void MoveFloor(int adjust) {
+        ChangeFloor(selectedFloor + adjust);
+    }
+
     // Checks which walls to hide
     private void CheckWalls() {
         Transform currentFloor = OfficeGenerator.instance.GetFloors()[selectedFloor].transform;
