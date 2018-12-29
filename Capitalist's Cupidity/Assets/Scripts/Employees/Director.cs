@@ -5,10 +5,19 @@ using UnityEngine.UI;
 
 public class Director : MonoBehaviour
 {
+    
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
     public int employeePoolCount = 10;
+
+    public List<GameObject> liftList;
+    public Dictionary<int, Grid> getCurrentGrid;
+    public List<Grid> gridList;
+    public Dictionary<int, GameObject> Lifts;
+    public Dictionary<int, GameObject> facilities;
+    public List<Floor> floors;
+
 
     string[] names;
 
@@ -38,7 +47,8 @@ public class Director : MonoBehaviour
     public Text months;
     private PlayerStats playerStats;
 
-    List<Floor> floors;
+
+
 
     public static Director Instance
     {
@@ -61,20 +71,49 @@ public class Director : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        floors = OfficeGenerator.instance.GetFloors();
-        names = new string[3] {"Ed", "Lewis", "Jack" };
+        transform.position = Exit.transform.position + (Exit.transform.forward / 1.2f);
+
+        names = new string[3] { "Ed", "Lewis", "Jack" };
         employees = new List<Employee>();
         playerStats = PlayerStats.instance;
 
         for (int i = 0; i < employeePoolCount; i++)
         {
-            employeePrefab = Instantiate(employeePrefab);
+            employeePrefab = Instantiate(employeePrefab, transform);
             employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + UnityEngine.Random.Range(100, 1000).ToString();
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }
         oldMonths = numberOfMonths;
-	}
+
+
+        liftList = OfficeGenerator.instance.lifts;
+        floors = OfficeGenerator.instance.GetFloors();
+
+        Lifts = new Dictionary<int, GameObject>();
+
+        for (int i = 0; i < liftList.Count; i++)
+        {
+            GameObject obj = findObjectOnTargetLevel(liftList, i);
+            Lifts.Add(i, obj);
+        }
+
+        getCurrentGrid = new Dictionary<int, Grid>();
+        gridList = new List<Grid>();
+
+        for (int i = 0; i < floors.Count; i++)
+        {
+            Grid grid = floors[i].GetComponentInChildren<Grid>();
+            gridList.Add(grid);
+        }
+
+        for (int i = 0; i < gridList.Count; i++)
+        {
+            Grid grid = gridList[i];
+            getCurrentGrid.Add(i, grid);
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update ()

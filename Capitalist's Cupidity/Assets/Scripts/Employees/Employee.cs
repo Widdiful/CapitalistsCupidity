@@ -10,16 +10,7 @@ public class Employee : MonoBehaviour
     float orientation;
 
     float maxTurnSpeed = 3.0f;
-    float maxMoveSpeed = 3.0f;
-
-    Vector3 seeAhead = Vector3.zero;
-    Vector3 seeAheadNear = Vector3.zero;
-    float maxSeeAheadDistance = 6.0f;
-
-    Vector3 avoidanceForce;
-    float maxAvoidanceForce = 6f;
-
-    //Actions.employeeFunc(this)
+    float maxMoveSpeed = 1.0f;
 
     public float happiness = 100;
 
@@ -61,10 +52,23 @@ public class Employee : MonoBehaviour
     float salary = 0.0f;
 
     public int assignedFloor;
-    int currentFloor;
+    public int currentFloor;
     int targetFloor;
+    
+    public bool pathComplete;
+
+    Pathfinding pathFinding;
+    Vector3 followPath;
+    public int currentPathPoint = 0;
 
     public List<GameObject> liftList;
+    public Dictionary<int, Grid> getCurrentGrid;
+    public List<Grid> gridList;
+    public Dictionary<int, GameObject> Lifts;
+    public Dictionary<int, GameObject> facilities;
+    public List<Floor> floors;
+
+    
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -75,15 +79,11 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
-        liftList = OfficeGenerator.instance.lifts;
         assignedFloor = Director.Instance.assignFloor();
         Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", Desk);
         Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk);
         Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk);
         waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk);
-        //groundLift = Director.Instance.findClosestLift(gameObject);
-        // workfloorLift = Director.Instance.findClosestLift(Desk);
-
         Exit = Director.Instance.Exit;
 
         //Create actions
@@ -153,12 +153,23 @@ public class Employee : MonoBehaviour
         cafeFloor = Director.Instance.findClosestFloor(Cafe).floorNo;
         waterFountainFloor = Director.Instance.findClosestFloor(waterFountain).floorNo;
         exitFloor = Director.Instance.findClosestFloor(Exit).floorNo;
+
+        liftList = Director.Instance.liftList;
+        getCurrentGrid = Director.Instance.getCurrentGrid;
+        gridList = Director.Instance.gridList;
+        Lifts = Director.Instance.Lifts;
+        facilities = Director.Instance.facilities;
+        floors = Director.Instance.floors;
+
+        
+        pathComplete = true;
+        pathFinding = GetComponent<Pathfinding>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Steer(targetPos);
+       
         
         //Set floats to worker priorities to see them in inspector
         needToWork = Work.priority;
@@ -172,6 +183,7 @@ public class Employee : MonoBehaviour
         {
                 if (action.priority > actions[0].priority && actions[0].priority <= 0)
                 {
+                    pathComplete = true;
                     Swap(actions, 0, actions.IndexOf(action));
                 }
 
@@ -187,6 +199,11 @@ public class Employee : MonoBehaviour
             Director.flockToExit += moveTo;
         }
 
+        if (pathFinding.newPath != null)
+        {
+            followPath = pathFinding.newPath[currentPathPoint].worldPos;
+            Move(followPath);
+        }
     }
 
     public float getHappiness()
@@ -229,109 +246,177 @@ public class Employee : MonoBehaviour
     //Using director positions, set employee target pos
     public void moveTo(Director.Positions pos)
     {
-        Debug.Log("Changing pos");
-
-        if (currentFloor != targetFloor)
-        {
-            targetPos = Director.Instance.findClosestGObj(liftList).transform.position;
-
-            if(Vector3.Distance(transform.position, targetPos) < 1)
+        switch (pos)
             {
-                transform.position = Director.Instance.findObjectOnTargetLevel(liftList, targetFloor).transform.position;
-                currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
-                gameObject.layer = Director.Instance.findClosestFloor(gameObject).gameObject.layer;
-                //moveTo(pos);
-            }
-        }
-        else
-        {
-            switch (pos)
-            {
+            case Director.Positions.desk:
+                {
+                    targetFloor = deskFloor;
+                    if (currentFloor == targetFloor)
+                    {
+                        targetPos = Desk.transform.position;
+                    }
+                    else
+                    {
+                        targetPos = Lifts[currentFloor].transform.position;
 
-                case Director.Positions.desk:
-                    {
-                        targetFloor = deskFloor;
-                        if(currentFloor == targetFloor)
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
                         {
-                            targetPos = Desk.transform.position;
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
                         }
+                    }
+                 
                         break;
                     }
-                case Director.Positions.waterfountain:
+            case Director.Positions.cafe:
+                {
+                    targetFloor = cafeFloor;
+                    if (currentFloor == targetFloor)
                     {
-                        targetFloor = waterFountainFloor;
-                        if (currentFloor == targetFloor)
+                        targetPos = Cafe.transform.position;
+                    }
+                    else
+                    {
+                        targetPos = Lifts[currentFloor].transform.position;
+
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
                         {
-                            targetPos = waterFountain.transform.position;
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
                         }
-                        break;
                     }
-                case Director.Positions.cafe:
+
+                    break;
+                }
+            case Director.Positions.exit:
+                {
+                    targetFloor = exitFloor;
+                    if (currentFloor == targetFloor)
                     {
-                        targetFloor = cafeFloor;
-                        if (currentFloor == targetFloor)
+                        targetPos = Exit.transform.position;
+                    }
+                    else
+                    {
+                        targetPos = Lifts[currentFloor].transform.position;
+
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
                         {
-                            targetPos = Cafe.transform.position;
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
                         }
-                        break;
                     }
-                case Director.Positions.exit:
+
+                    break;
+                }
+            case Director.Positions.toilet:
+                {
+                    targetFloor = toiletFloor;
+                    if (currentFloor == targetFloor)
                     {
-                        targetFloor = exitFloor;
-                        if (currentFloor == targetFloor)
-                        {
-                            targetPos = Exit.transform.position;
-                        }                      
-                        break;
+                        targetPos = Toilet.transform.position;
                     }
-                case Director.Positions.toilet:
+                    else
                     {
-                        targetFloor = toiletFloor;
-                        if (currentFloor == targetFloor)
+                        targetPos = Lifts[currentFloor].transform.position;
+
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
                         {
-                            targetPos = Toilet.transform.position;
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
                         }
-                        break;
                     }
-                default: break;
+
+                    break;
+                }
+            case Director.Positions.waterfountain:
+                {
+                    targetFloor = waterFountainFloor;
+                    if (currentFloor == targetFloor)
+                    {
+                        targetPos = waterFountain.transform.position;
+                    }
+                    else
+                    {
+                        targetPos = Lifts[currentFloor].transform.position;
+
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
+                        {
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
+                        }
+                    }
+
+                    break;
+                }
+            case Director.Positions.workstation:
+                {
+                    targetFloor = deskFloor;
+                    if (currentFloor == targetFloor)
+                    {
+                        targetPos = Desk.transform.position;
+                    }
+                    else
+                    {
+                        targetPos = Lifts[currentFloor].transform.position;
+
+                        if (Vector3.Distance(transform.position, targetPos) < 2)
+                        {
+                            pathComplete = true;
+                            transform.position = Lifts[targetFloor].transform.position;
+                            currentFloor = targetFloor;
+                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
+                        }
+                    }
+
+                    break;
+                }
+
+            default: break;
             }
-        }
-        
+
     }
 
     
-    void Steer(Vector3 targetPos)
+    void Move(Vector3 nextMove)
     {
-        targetPos = targetPos - transform.position;
-        if (avoidCollision() == Vector3.zero)
-        {
-            //If no avoidance needed, move as usual unless in flocking mode
-            velocity = (targetPos.normalized * maxMoveSpeed) + (Director.Instance.flockingCohesion(this) + Director.Instance.flockingAlignment(this) + Director.Instance.flockingSeperation(this));
-        }
-        else
-        {
-            //Avoid collision and ignore flocking so individual employees avoid col
-            velocity = (targetPos.normalized * maxMoveSpeed) + avoidCollision();
-        }
-        //Stop them going super fast
-        transform.position +=  Vector3.ClampMagnitude(new Vector3(velocity.x, velocity.y, velocity.z), 800) * Time.deltaTime;
+        var targetDirection = new Vector3(nextMove.x, transform.position.y, nextMove.z) - transform.position;
+        targetDirection = targetDirection.normalized;
 
-        //Rotate to face target
-        rotate(targetPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                Quaternion.LookRotation(targetDirection),
+                                                 maxTurnSpeed * Time.deltaTime);
+
+        transform.position += transform.forward * Time.deltaTime * maxMoveSpeed;
+
+        var targ = new Vector3(nextMove.x, transform.position.y, nextMove.z);
+
+        if (Vector3.Distance(targ, transform.position) <= 0.5)
+        {
+            currentPathPoint = (currentPathPoint + 1) % pathFinding.newPath.Count;
+        }
     }
 
-    void rotate(Vector3 targetPos)
+    /*void rotate(Vector3 targetPos)
     {
         //Rotate 
-        if(velocity != Vector3.zero)
-        {
-            Vector3 delta = targetPos - transform.position;
-            delta.y = transform.position.y;
-            Quaternion rotation = Quaternion.LookRotation(delta);
-            float turnStrength = Mathf.Min(maxTurnSpeed * Time.deltaTime, 1);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnStrength);
-            //transform.LookAt(targetPos);
-        }
+
+        Vector3 delta = targetPos;
+        //delta.z = transform.position.z;
+        delta.x = transform.position.x;
+        //delta.y = transform.position.y;
+        Quaternion rotation = Quaternion.LookRotation(delta);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, maxTurnSpeed);
+        
     }
 
     Vector3 avoidCollision()
@@ -340,7 +425,7 @@ public class Employee : MonoBehaviour
 
         //If raycast hits something, check if seeahead and seeahead near fall in collider, if so 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
-        {
+        { 
             Collider obj = hit.collider;
 
             seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
@@ -371,17 +456,15 @@ public class Employee : MonoBehaviour
 
         return Vector3.zero;
     }
-
+    */
 
     public bool sitAtDesk()
     {
         if(Desk.transform.position != targetPos)
         {
             moveTo(Director.Positions.desk);
-            
         }
-
-        if (Vector3.Distance(transform.position, targetPos) > 1)
+        if (Vector3.Distance(transform.position, targetPos) > 2)
         {
             return false;
         }

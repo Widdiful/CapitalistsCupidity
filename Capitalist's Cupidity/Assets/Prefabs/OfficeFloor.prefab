@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 33651596757585138}
   - component: {fileID: 23049204068015388}
   - component: {fileID: 65200519176087202}
+  - component: {fileID: 114584266514081164}
   m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
@@ -914,3 +915,21 @@ MonoBehaviour:
   floorType: 0
   workspacePrefab: {fileID: 1175278755677340, guid: f8dfc5641717adb41a568d2b8dab40e3,
     type: 2}
+  facilities: []
+  lift: {fileID: 0}
+--- !u!114 &114584266514081164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358624762024126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7415f9328b5f0da499340054ab99cd32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unwalkableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  gridWorldSize: {x: 0, y: 0}
+  nodeRadius: 0.5
