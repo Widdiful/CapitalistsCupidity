@@ -112,5 +112,8 @@ MonoBehaviour:
     costToBuy: 0
     baseMonthlyExpenses: 0
     facilityName: Test
+    child: {fileID: 0}
     facilityType: 4
+    height: 1
+    width: 1
   averageEmployeeHappiness: 0

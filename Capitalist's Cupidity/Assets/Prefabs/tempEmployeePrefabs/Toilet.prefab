@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65081136836768338}
   m_Layer: 0
   m_Name: Toilet
-  m_TagString: Untagged
+  m_TagString: unwalkable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

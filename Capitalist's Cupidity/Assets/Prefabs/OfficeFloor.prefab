@@ -917,6 +917,7 @@ MonoBehaviour:
     type: 2}
   facilities: []
   lift: {fileID: 0}
+  facilityArray: []
 --- !u!114 &114584266514081164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,6 +931,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   gridWorldSize: {x: 0, y: 0}
-  nodeRadius: 0.5
+  nodeDiameter: 0

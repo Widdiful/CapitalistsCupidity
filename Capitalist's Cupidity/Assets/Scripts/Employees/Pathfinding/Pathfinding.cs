@@ -110,4 +110,26 @@ public class Pathfinding : MonoBehaviour
 
         return (int)Mathf.Sqrt((distX * distX) + (distY * distY));
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position, new Vector3(grid.gridWorldSize.x, 1, grid.gridWorldSize.y)); //Draws the grid
+
+        if (grid != null)
+        {
+            foreach (Node n in grid.worldGrid)
+            {
+                Gizmos.color = (n.walkable) ? Color.white : Color.red;
+
+                if (newPath != null)
+                {
+                    if (newPath.Contains(n))
+                    {
+                        Gizmos.color = Color.blue;
+                    }
+                }
+                Gizmos.DrawCube(n.worldPos, Vector3.one * (grid.nodeDiameter - 0.1f));
+            }
+        }
+    }
 }

@@ -71,6 +71,7 @@ public class Director : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        Exit = GameObject.Find("Entrance");
         transform.position = Exit.transform.position + (Exit.transform.forward / 1.2f);
 
         names = new string[3] { "Ed", "Lewis", "Jack" };
@@ -246,7 +247,7 @@ public class Director : MonoBehaviour
         {
             if (floors[floor].facilities[i].facilityInfo.facilityName == facilityName) 
             {
-                return floors[floor].facilities[i].gameObject;
+                return floors[floor].facilities[i].gameObject.transform.GetChild(0).gameObject;
             }
     
         }

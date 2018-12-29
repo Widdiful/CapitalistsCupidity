@@ -6,11 +6,13 @@ public class Grid : MonoBehaviour
 { 
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
-    float nodeRadius = 0.1f;
-    Node[,] worldGrid;
+    float nodeRadius = 0.25f;
+    public Node[,] worldGrid;
 
-    float nodeDiameter;
+    public float nodeDiameter;
     int gridSizeX, gridSizeY;
+
+
 
     private void Start()
     {
@@ -85,8 +87,18 @@ public class Grid : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius)
                     + Vector3.forward * (y * nodeDiameter + nodeRadius);
 
-                bool walkable = !Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask);
+                Collider[] hit = Physics.OverlapSphere(worldPoint, nodeRadius / 2);
 
+                bool walkable = true;
+
+                foreach (Collider h in hit)
+                {
+                    if(h.tag == "unwalkable")
+                    {
+                        walkable = false;
+                    }
+
+                }
                 worldGrid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }

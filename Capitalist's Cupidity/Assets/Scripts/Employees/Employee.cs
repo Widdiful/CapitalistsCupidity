@@ -169,8 +169,6 @@ public class Employee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        
         //Set floats to worker priorities to see them in inspector
         needToWork = Work.priority;
         homeTime = Leave.priority;
