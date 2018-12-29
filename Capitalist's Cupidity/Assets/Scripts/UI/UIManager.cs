@@ -129,12 +129,14 @@ public class UIManager : MonoBehaviour {
             DeleteButtonsInTab(employeesContent);
             foreach(Employee employee in Director.Instance.employees)
             {
-                EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
-                newButton.employeeName = employee.name;
-                newButton.floor = employee.assignedFloor;
-                newButton.happiness = employee.getHappiness() / 100f;
-                newButton.employee = employee;
-                newButton.UpdateInformation();
+                if (employee.gameObject.activeInHierarchy) {
+                    EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
+                    newButton.employeeName = employee.name;
+                    newButton.floor = employee.assignedFloor;
+                    newButton.happiness = employee.getHappiness() / 100f;
+                    newButton.employee = employee;
+                    newButton.UpdateInformation();
+                }
             }
         }
     }
@@ -213,6 +215,7 @@ public class UIManager : MonoBehaviour {
             CloseOpenedWindow();
         }
 
+        Time.timeScale = 0;
         pauseMenuCanvas.enabled = true;
         openedWindow = pauseMenuCanvas;
         windowOpen = true;
@@ -263,5 +266,9 @@ public class UIManager : MonoBehaviour {
         BusinessMenu menu = businessMenuCanvas.GetComponent<BusinessMenu>();
         menu.business = business;
         menu.UpdateUI();
+    }
+
+    public void QuitToMenu() {
+        FindObjectOfType<LoadLevel>().Load(3);
     }
 }

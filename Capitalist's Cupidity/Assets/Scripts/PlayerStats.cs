@@ -63,6 +63,10 @@ public class PlayerStats : MonoBehaviour
         return companyFunds;
     }
 
+    public float GetPersonalFunds() {
+        return personalFunds;
+    }
+
     public bool SpendMoney(float amount)
     {
         if (companyFunds >= amount)
