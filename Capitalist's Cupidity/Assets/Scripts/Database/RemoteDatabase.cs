@@ -23,6 +23,7 @@ public class RemoteDatabase : MonoBehaviour {
     private void Start() {
         if (userID == "")
             Register();
+
     }
 
     public void Register() {

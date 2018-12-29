@@ -41,6 +41,7 @@ public class OfficeGenerator : MonoBehaviour {
     void Start() {
         if (MainMenuManager.instance) {
             officeName = MainMenuManager.instance.companyName;
+            PlayerStats.instance.SetFiveCoins(MainMenuManager.instance.fiveCoins);
             Destroy(MainMenuManager.instance.gameObject);
         }
 

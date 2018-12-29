@@ -52,10 +52,10 @@ public class PlayerStats : MonoBehaviour
 
     public void updateUI()
     {
-        personalFundsTextRef.text = "Personal Funds: $" + personalFunds.ToString("##,#0.00");
-        companyFundsTextRef.text = "Company Funds: $" + companyFunds.ToString("##,#0.00");
-        fiveCoinTextRef.text = "5Coins: " + fiveCoins.ToString();
-        employeeCountTextRef.text = "# Of Employees: " + employeeCount.ToString();
+        personalFundsTextRef.text = "$" + personalFunds.ToString("##,#0.00");
+        companyFundsTextRef.text = "$" + companyFunds.ToString("##,#0.00");
+        fiveCoinTextRef.text = fiveCoins.ToString();
+        employeeCountTextRef.text = Director.Instance.totalActiveEmployees().ToString("n0");
     }
 
     public float GetCompanyFunds()
@@ -92,5 +92,9 @@ public class PlayerStats : MonoBehaviour
     public void ChangePersonalFunds(float income)
     {
         personalFunds += income * incomeKeepPercent;
+    }
+
+    public void SetFiveCoins(int amount) {
+        fiveCoins = amount;
     }
 }
