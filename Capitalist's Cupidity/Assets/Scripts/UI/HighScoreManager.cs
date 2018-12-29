@@ -46,6 +46,7 @@ public class HighScoreManager : MonoBehaviour {
     }
 
     public void LoadScores() {
+        failText.SetActive(false);
         foreach (Transform button in content) {
             Destroy(button.gameObject);
         }

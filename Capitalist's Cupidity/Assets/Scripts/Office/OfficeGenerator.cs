@@ -39,6 +39,11 @@ public class OfficeGenerator : MonoBehaviour {
     }
 
     void Start() {
+        if (MainMenuManager.instance) {
+            officeName = MainMenuManager.instance.companyName;
+            Destroy(MainMenuManager.instance.gameObject);
+        }
+
         for (int i = 0; i < floorCount; i++)
             facilitiesPerFloor.Add(0);
 
