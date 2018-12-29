@@ -13,4 +13,6 @@ public class FacilityInfo
     public string facilityName;
     public GameObject child;
     public FacilityType facilityType = FacilityType.Empty;
+    public int height = 1;
+    public int width = 1;
 }

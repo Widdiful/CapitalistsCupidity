@@ -13,13 +13,15 @@ public class Facility : MonoBehaviour
     private Canvas purchaseCanvas;
     private PurchaseFacilityCanvas purchaseFacility;
     private GameObject childObject;
+    private int floor;
+    private int padding;
     // Use this for initialization
     void Start()
     {
         facilityCanvas = GameObject.Find("FacilityCanvas");
         purchaseCanvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
-
+        padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
         fundingPercentage = 1;
         childObject = GameObject.Instantiate(facilityInfo.child, transform);
     }
@@ -43,7 +45,7 @@ public class Facility : MonoBehaviour
         name = "Empty";
     }
 
-    public void BuyFacility(FacilityInfo facilityInformation)
+    public void BuyFacility(FacilityInfo facilityInformation, int xDirection, int yDirection)
     {
         PlayerStats.instance.ChangeCompanyFunds(-facilityInformation.costToBuy);
         fundingPercentage = 1;
@@ -51,11 +53,15 @@ public class Facility : MonoBehaviour
         name = facilityInfo.facilityName;
         if (transform.GetChild(0))
         {
-            Destroy(transform.GetChild(0));
+            Destroy(transform.GetChild(0).gameObject);
         }
         if (facilityInfo.child != null)
         {
-            GameObject.Instantiate(facilityInfo.child, transform);
+            childObject = GameObject.Instantiate(facilityInfo.child, transform);
+            if(facilityInformation.width > 1 || facilityInformation.height > 1)
+            {
+                childObject.transform.localPosition = new Vector3(((facilityInformation.width / 2) * padding / 2) * xDirection, 0 , ((facilityInformation.height / 2) * padding/ 2) * yDirection);
+            }
         }
     }
 
@@ -109,5 +115,15 @@ public class Facility : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void SetFloor(int floorNo)
+    {
+        floor = floorNo;
+    }
+
+    public int GetFloor()
+    {
+        return floor;
     }
 }

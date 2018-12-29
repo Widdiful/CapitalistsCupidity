@@ -23,7 +23,12 @@ public class Floor : MonoBehaviour {
     private Vector2 floorSize;
     public List<Facility> facilities = new List<Facility>();
     public GameObject lift;
-
+    [System.Serializable]
+    public class FacilityRow
+    {
+        public List<Facility> row = new List<Facility>();
+    }
+    public List<FacilityRow> facilityArray = new List<FacilityRow>();
     void Awake()
     {
         if (!floorArea) {
@@ -86,13 +91,16 @@ public class Floor : MonoBehaviour {
     {
         for (int i = 0; i < height * spacing ; i += spacing)
         {
+            FacilityRow newRow = new FacilityRow();
             for (int j = 0; j < width * spacing; j += spacing)
             {
                 GameObject newWorkspace = Instantiate(workspacePrefab,
                     transform.TransformPoint(new Vector3(x + j, 0, y - i)),
                     Quaternion.identity, transform);
                 facilities.Add(newWorkspace.GetComponent<Facility>());
+                newRow.row.Add(newWorkspace.GetComponent<Facility>());
             }
+            facilityArray.Add(newRow);
         }
     }
 
