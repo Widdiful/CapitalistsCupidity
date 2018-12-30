@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class FacilityInfo
 {
     //Public
-    public enum FacilityType { Catering, WaterFountain, Toilets,  Security, WorkSpace, Gym, Relax, Empty }
+    public enum FacilityType { Catering, WaterFountain, Toilets,  Security, WorkSpace, Gym, Relax, Empty, Copy }
     public float costToBuy;
     public float baseMonthlyExpenses;
     public string facilityName;

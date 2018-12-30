@@ -97,6 +97,7 @@ public class Floor : MonoBehaviour {
                 GameObject newWorkspace = Instantiate(workspacePrefab,
                     transform.TransformPoint(new Vector3(x + j, 0, y - i)),
                     Quaternion.identity, transform);
+                newWorkspace.GetComponent<Facility>().SetFloor(this);
                 facilities.Add(newWorkspace.GetComponent<Facility>());
                 newRow.row.Add(newWorkspace.GetComponent<Facility>());
             }

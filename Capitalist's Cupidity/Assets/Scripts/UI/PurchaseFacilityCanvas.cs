@@ -15,21 +15,19 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     private PlayerStats playerStats;
     private Button confirmButton;
     private Floor selectedFloor;
-    private int x, y;
-    private int xDirection, yDirection;
     private OfficeGenerator officeGenerator;
     // Use this for initialization
     void Start ()
     {
         officeGenerator = GameObject.FindObjectOfType<OfficeGenerator>();
         canvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
-        facilityList = GameObject.FindObjectOfType<FacilityList>();//FacilityList.instance;
+        facilityList = FacilityList.instance;
         toggleGroup = GetComponent<ToggleGroup>();
         playerStats = PlayerStats.instance;
         confirmButton = canvas.transform.Find("PurchaseButton").GetComponent<Button>();
         foreach (FacilityInfo facility in facilityList.facilityList)
         {
-            if(facility.facilityType != FacilityInfo.FacilityType.Empty)
+            if(facility.facilityType != FacilityInfo.FacilityType.Empty && facility.facilityType != FacilityInfo.FacilityType.Copy)
             {
                 GameObject newButton = GameObject.Instantiate(buttonPrefab, this.transform);
                 newButton.GetComponent<Toggle>().group = toggleGroup;
@@ -51,7 +49,7 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
             }
             if(selectedToggle != null)
             {
-                if (playerStats.GetCompanyFunds() >= selectedFacilityInfo.costToBuy && CheckFacilitySize(selectedFacilityInfo))
+                if (playerStats.GetCompanyFunds() >= selectedFacilityInfo.costToBuy && selectedFacility.CheckFacilitySize(selectedFacilityInfo, selectedFacility.GetFloor()))
                 {
                     confirmButton.interactable = true;
                 }
@@ -70,21 +68,16 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     public void SetFacility(Facility facility)
     {
         selectedFacility = facility;
-        foreach(Floor floor in GameObject.FindObjectsOfType<Floor>())
-        {
-            if(floor.floorNo == facility.GetFloor())
-            {
-                selectedFloor = floor;
-            }
-        }
+        selectedFloor = facility.GetFloor();
+
         for(int i = 0; i < selectedFloor.facilityArray.Count; i++)
         {
             for(int j = 0; j < selectedFloor.facilityArray[i].row.Count; j++)
             {
                 if(selectedFloor.facilityArray[i].row[j] == facility)
                 {
-                    x = i;
-                    y = j;
+                    selectedFacility.xPosition = i;
+                    selectedFacility.yPosition = j;
                 }
             }
         }
@@ -94,7 +87,7 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
     {
         if(selectedFacility != null)
         {
-            selectedFacility.BuyFacility(selectedFacilityInfo, xDirection, yDirection);
+            selectedFacility.BuyFacility(selectedFacilityInfo);
         }
         ClosePurchaseFacilityWindow();
     }
@@ -104,123 +97,5 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
         selectedFacility = null;
         canvas.enabled = false;
         UIManager.instance.windowOpen = false;
-    }
-
-    private bool CheckFacilitySize(FacilityInfo facilityInformation)
-    {
-        bool buildOK = false;
-        float noOfFAcilities = (Mathf.Sqrt(officeGenerator.floorCount) - 1);
-        //Check empty on X+ and Y+
-        for (int i = 0; i < facilityInformation.width; i++)
-        {
-            xDirection = 1;
-            for (int j = 0; j < facilityInformation.height; j++)
-            {
-                yDirection = 1;
-                if ((x + i <= noOfFAcilities && x + i >= 0) && (y + j <= noOfFAcilities && y + j >= 0))
-                {
-                    if (selectedFloor.facilityArray[y + j].row[x + i].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
-                    {
-                        buildOK = true;
-                    }
-                    else
-                    {
-                        buildOK = false;
-                        break;
-                    }
-                }
-                else
-                {
-                    buildOK = false;
-                    break;
-                }
-            }
-        }
-        if(buildOK == false) // if failed Check empty on X+ and Y-
-        {
-            for (int i = 0; i < facilityInformation.width; i++)
-            {
-                xDirection = 1;
-                for (int j = 0; j > -facilityInformation.height; j--)
-                {
-                    yDirection = -1;
-                    if ((x + i <= noOfFAcilities && x + i >= 0) && (y + j <= noOfFAcilities && y + j >= 0))
-                    {
-                        if (selectedFloor.facilityArray[y + j].row[x + i].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
-                        {
-                            buildOK = true;
-                        }
-                        else
-                        {
-                            buildOK = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        buildOK = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (!buildOK)// if failed Check empty on X- and Y+
-        {
-            for (int i = 0; i > -facilityInformation.width; i--)
-            {
-                xDirection = -1;
-                for (int j = 0; j < facilityInformation.height; j++)
-                {
-                    yDirection = 1;
-                    if ((x + i <= noOfFAcilities && x + i >= 0) && (y + j <= noOfFAcilities && y + j >= 0))
-                    {
-                        if (selectedFloor.facilityArray[y + j].row[x + i].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
-                        {
-                            buildOK = true;
-                        }
-                        else
-                        {
-                            buildOK = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        buildOK = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (!buildOK)// if failed Check empty on X- and Y-
-        {
-            for (int i = 0; i > -facilityInformation.width; i--)
-            {
-                xDirection = -1;
-                for (int j = 0; j > -facilityInformation.height; j--)
-                {
-                    yDirection = -1;
-                    if ((x + i <= noOfFAcilities && x + i >= 0) && (y + j <= noOfFAcilities && y + j >= 0))
-                    {
-                        if (selectedFloor.facilityArray[y + j].row[x + i].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
-                        {
-                            buildOK = true;
-                        }
-                        else
-                        {
-                            buildOK = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        buildOK = false;
-                        break;
-                    }
-                }
-            }
-        }
-        // if all tiles needed are empty, return true for buildable
-        return buildOK;
     }
 }

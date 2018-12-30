@@ -84,4 +84,5 @@ public class FacilityCanvas : MonoBehaviour
         GetComponent<Canvas>().enabled = false; // Close the canvas
         UIManager.instance.windowOpen = false;
     }
+
 }

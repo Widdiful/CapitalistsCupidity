@@ -57,38 +57,61 @@ MonoBehaviour:
     facilityName: Cafeteria
     child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
     facilityType: 0
+    height: 2
+    width: 2
   - costToBuy: 15000
     baseMonthlyExpenses: 500
     facilityName: Water Fountain
     child: {fileID: 100000, guid: 96f22db2d7bb6f545bf02bf84157094f, type: 3}
     facilityType: 1
+    height: 1
+    width: 1
   - costToBuy: 5000
     baseMonthlyExpenses: 750
     facilityName: Toilets
     child: {fileID: 100004, guid: 58fe79837dcaa784dbcefcf3dbf1c8ba, type: 3}
     facilityType: 2
+    height: 1
+    width: 2
   - costToBuy: 15000
     baseMonthlyExpenses: 7000
     facilityName: Security
     child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
     facilityType: 3
+    height: 1
+    width: 1
   - costToBuy: 40000
     baseMonthlyExpenses: -2000
     facilityName: Work Space
     child: {fileID: 100000, guid: 34af3e46af917cf4684d62ee945d371e, type: 3}
     facilityType: 4
+    height: 1
+    width: 1
   - costToBuy: 30000
     baseMonthlyExpenses: 5000
     facilityName: Break Room
     child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
     facilityType: 6
+    height: 1
+    width: 1
   - costToBuy: 70000
     baseMonthlyExpenses: 20000
     facilityName: Gym
     child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
     facilityType: 5
+    height: 1
+    width: 1
   - costToBuy: 0
     baseMonthlyExpenses: 100
     facilityName: Empty
     child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
     facilityType: 7
+    height: 1
+    width: 1
+  - costToBuy: 0
+    baseMonthlyExpenses: 0
+    facilityName: Copy
+    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
+    facilityType: 8
+    height: 1
+    width: 1
