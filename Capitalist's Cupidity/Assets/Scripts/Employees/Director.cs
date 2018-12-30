@@ -13,7 +13,6 @@ public class Director : MonoBehaviour
 
     public List<GameObject> liftList;
     public Dictionary<int, Grid> getCurrentGrid;
-    public List<Grid> gridList;
     public Dictionary<int, GameObject> Lifts;
     public Dictionary<int, GameObject> facilities;
     public List<Floor> floors;
@@ -100,19 +99,14 @@ public class Director : MonoBehaviour
         }
 
         getCurrentGrid = new Dictionary<int, Grid>();
-        gridList = new List<Grid>();
 
         for (int i = 0; i < floors.Count; i++)
         {
-            Grid grid = floors[i].GetComponentInChildren<Grid>();
-            gridList.Add(grid);
-        }
-
-        for (int i = 0; i < gridList.Count; i++)
-        {
-            Grid grid = gridList[i];
+            Grid grid = floors[i].transform.GetChild(0).GetComponent<Grid>();
             getCurrentGrid.Add(i, grid);
         }
+
+       
 
     }
 	
@@ -247,13 +241,23 @@ public class Director : MonoBehaviour
         {
             if (floors[floor].facilities[i].facilityInfo.facilityName == facilityName) 
             {
-                return floors[floor].facilities[i].gameObject.transform.GetChild(0).gameObject;
+                for (int j = 0; j < floors[floor].facilities[i].gameObject.transform.childCount; j++)
+                {
+                    if (floors[floor].facilities[i].gameObject.transform.GetChild(j).name == "workPoint")
+                    {
+                        return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
+                    }
+                    else
+                    {
+                        Debug.Log("Shit broke fam");
+                        return null;
+                    }
+                }
             }
     
         }
-
         return findClosestFacility(facilityName, obj);
-        
+
     }
 
     public GameObject findObjectOnTargetLevel(List<GameObject> objects, int target)
@@ -288,7 +292,7 @@ public class Director : MonoBehaviour
         }
         if (best != null)
         {
-            return best;
+            return best.transform.GetChild(0).gameObject;
         }
         else
         {

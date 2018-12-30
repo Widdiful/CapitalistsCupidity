@@ -16,21 +16,19 @@ public class Pathfinding : MonoBehaviour
     private void Start()
     {
         emp = GetComponent<Employee>();
-        grid = emp.getCurrentGrid[0];
-        foundPath = false;
     }
-    
+
 
     private void Update()
     {
         if (emp.pathComplete)
         {
             grid = emp.getCurrentGrid[emp.currentFloor];
+            newPath = new List<Node>();
             target = target = emp.targetPos;
             emp.pathComplete = false;
             emp.currentPathPoint = 0;
             findPath(emp.transform.position, target);
-            foundPath = true;
         }
     }
 

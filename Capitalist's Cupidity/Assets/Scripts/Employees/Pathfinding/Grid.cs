@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 { 
-    public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
-    float nodeRadius = 0.25f;
+    float nodeRadius = 0.15f;
     public Node[,] worldGrid;
 
     public float nodeDiameter;
@@ -87,7 +86,7 @@ public class Grid : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius)
                     + Vector3.forward * (y * nodeDiameter + nodeRadius);
 
-                Collider[] hit = Physics.OverlapSphere(worldPoint, nodeRadius / 2);
+                Collider[] hit = Physics.OverlapSphere(worldPoint, nodeRadius);
 
                 bool walkable = true;
 
