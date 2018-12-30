@@ -57,13 +57,33 @@ public class PlayerStats : MonoBehaviour
         employeeCountTextRef.text = Director.Instance.totalActiveEmployees().ToString("n0");
     }
 
+    public int GetFiveCoin()
+    {
+        return fiveCoins;
+    }
+
+    public void SetFiveCoin(int amount)
+    {
+        fiveCoins = amount;
+    }
+
     public float GetCompanyFunds()
     {
         return companyFunds;
     }
 
+    public void SetCompanyFunds(float amount)
+    {
+        companyFunds = amount;
+    }
+
     public float GetPersonalFunds() {
         return personalFunds;
+    }
+
+    public void SetPersonalFunds(float amount)
+    {
+        personalFunds = amount;
     }
 
     public bool SpendMoney(float amount)

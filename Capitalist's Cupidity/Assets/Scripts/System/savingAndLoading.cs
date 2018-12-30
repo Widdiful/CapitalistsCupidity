@@ -10,6 +10,12 @@ public class SaveData
 {
     public List<Employee> employees;
     public int numberOfMonths;
+    public float personalFunds;
+    public float companyFunds;
+    public int fiveCoin;
+    public List<FacilityInfo> facilityList;
+
+
 }
 
 public class savingAndLoading : MonoBehaviour
@@ -17,11 +23,14 @@ public class savingAndLoading : MonoBehaviour
     Director directorScript;
     PlayerStats playerStatScript;
     SaveData saveData;
+    FacilityList facilityScript;
 
     private void Start()
     {
         saveData = new SaveData();
         directorScript = Director.Instance;
+        playerStatScript = PlayerStats.instance;
+        facilityScript = FacilityList.instance;
     }
 
 
@@ -52,15 +61,23 @@ public class savingAndLoading : MonoBehaviour
         }
     }
 
-    public void readData()
+    void readData()
     {
         saveData.employees = directorScript.employees;
         saveData.numberOfMonths = directorScript.numberOfMonths;
+        saveData.personalFunds = playerStatScript.GetPersonalFunds();
+        saveData.companyFunds = playerStatScript.GetCompanyFunds();
+        saveData.fiveCoin = playerStatScript.GetFiveCoin();
+        saveData.facilityList = facilityScript.facilityList;
     }
 
-    public void writeData()
+    void writeData()
     {
         directorScript.employees = saveData.employees;
         directorScript.numberOfMonths = saveData.numberOfMonths;
+        facilityScript.facilityList = saveData.facilityList;
+        playerStatScript.SetPersonalFunds(saveData.personalFunds);
+        playerStatScript.SetCompanyFunds(saveData.companyFunds);
+        playerStatScript.SetFiveCoin(saveData.fiveCoin);
     }
 }

@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour
 
     public float nodeDiameter;
     int gridSizeX, gridSizeY;
-
+    Vector3 worldBottomLeft;
 
 
     private void Start()
@@ -72,11 +72,39 @@ public class Grid : MonoBehaviour
         return neighbours;
     }
 
+
+
+    public void updateGrid()
+    {
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius)
+                    + Vector3.forward * (y * nodeDiameter + nodeRadius);
+
+                Collider[] hit = Physics.OverlapSphere(worldPoint, nodeRadius);
+
+                bool walkable = true;
+
+                foreach (Collider h in hit)
+                {
+                    if (h.tag == "unwalkable")
+                    {
+                        walkable = false;
+                    }
+
+                }
+                worldGrid[x, y].walkable = walkable;
+            }
+        }
+    }
+
     void createGrid()
     {
         worldGrid = new Node[gridSizeX, gridSizeY];
 
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 //Gives bottom left corner of world
+        worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 //Gives bottom left corner of world
             - Vector3.forward * gridWorldSize.y / 2;
 
         for(int x = 0; x < gridSizeX; x++)
