@@ -13,7 +13,7 @@ public class Employee : MonoBehaviour
     float maxTurnSpeed = 20.0f;
     float maxMoveSpeed = 1.0f;
 
-    public float happiness = 100;
+    float happiness = 100;
 
     Actions Work;
     Actions Leave;
@@ -50,7 +50,7 @@ public class Employee : MonoBehaviour
     bool isBootLicker;
 
     public float moneyInBank = 0.0f;
-    float salary = 0.0f;
+    int salary;
 
     public int assignedFloor;
     public int currentFloor;
@@ -69,9 +69,8 @@ public class Employee : MonoBehaviour
     public List<Floor> floors;
 
     float targetOffset = 2.0f;
-
-
-
+    bool quit = false;
+    
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
         T temp = list[index1];
@@ -143,7 +142,7 @@ public class Employee : MonoBehaviour
         }
 
         //Give random monthly salary
-        salary = Random.Range(1, 100);
+        salary = 1200;
 
         //Delegate to pay employees
         Director.payTheGuys += payWages;
@@ -162,9 +161,28 @@ public class Employee : MonoBehaviour
         facilities = Director.Instance.facilities;
         floors = Director.Instance.floors;
 
-        
+        quit = false;
         pathComplete = true;
         pathFinding = GetComponent<Pathfinding>();
+    }
+
+    public void fireEmployee()
+    {
+        quit = true;
+        Leave.priority = 100;
+    }
+
+    void updateHappiness()
+    {
+        if(happiness > 100)
+        {
+            happiness = 100;
+        }
+
+        if(happiness <= 0)
+        {
+            fireEmployee();
+        }
     }
 
     // Update is called once per frame
@@ -188,17 +206,17 @@ public class Employee : MonoBehaviour
             actions[0].execute();
         }
 
-        if (actions[0].canInterupt == false)
+        /*if (actions[0].canInterupt == false)
         {
             Director.flockToExit -= moveTo;
         }
         else
         {
             Director.flockToExit += moveTo;
-        }
+        }*/
 
-            Move();
-        
+        Move();
+        updateHappiness();
     }
 
     public float getHappiness()
@@ -228,7 +246,7 @@ public class Employee : MonoBehaviour
         return moneyInBank;
     }
 
-    public void setSalary(float value)
+    public void setSalary(int value)
     {
         salary += value;
     }
@@ -422,6 +440,11 @@ public class Employee : MonoBehaviour
         else
         {
             pathComplete = true;
+            if(quit)
+            {
+                Start();
+                gameObject.SetActive(false);
+            }
         }
     }
 

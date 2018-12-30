@@ -113,18 +113,8 @@ public class Director : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        
         months.text = "Number of months: " + numberOfMonths.ToString();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-              flock = !flock;
-              Debug.Log("Updating pos");
-              if (!flock)
-              {
-                  flockToExit(Positions.exit);
-              }
-        }
- 
+
         if (numberOfMonths == oldMonths + 1)
         {
             updateFunds();
@@ -143,8 +133,23 @@ public class Director : MonoBehaviour
         }
     }
 
+    public float getGlobalHappiness()
+    {
+        float happiness = 0;
+        int numOfActive = 0;
+        foreach (Employee emp in employees)
+        {
+            if (emp.gameObject.activeSelf)
+            {
+                happiness += emp.getHappiness();
+                numOfActive++;
+            }
+        }
 
-    public Vector3 flockingAlignment(Employee flocker)
+        return happiness / numOfActive;
+    }
+
+    /*public Vector3 flockingAlignment(Employee flocker)
     {
         if(flock)
         {
@@ -165,11 +170,11 @@ public class Director : MonoBehaviour
         {
             return Vector3.zero;
         }
-    }
+    }*?
 
     
 
-    public Vector3 flockingCohesion(Employee flocker)
+    /*public Vector3 flockingCohesion(Employee flocker)
     {
         if (flock)
         {
@@ -189,9 +194,9 @@ public class Director : MonoBehaviour
         {
             return Vector3.zero;
         }
-    }
+    }*/
 
-    public Vector3 flockingSeperation(Employee flocker)
+    /*public Vector3 flockingSeperation(Employee flocker)
     {
         if (flock)
         {
@@ -214,7 +219,7 @@ public class Director : MonoBehaviour
         {
             return Vector3.zero;
         }
-    }
+    }*/
 
     public int totalActiveEmployees()
     {
