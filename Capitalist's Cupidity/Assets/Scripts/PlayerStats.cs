@@ -41,7 +41,6 @@ public class PlayerStats : MonoBehaviour
 
         companyFunds = startingCompanyFunds;
         incomeKeepPercent = startingIncomeKept;
-        fiveCoins = 0;
     }
 	
 	// Update is called once per frame

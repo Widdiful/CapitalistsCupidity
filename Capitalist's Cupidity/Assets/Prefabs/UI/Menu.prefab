@@ -5133,9 +5133,9 @@ MonoBehaviour:
     m_Options:
     - m_Text: Free Mode
       m_Image: {fileID: 0}
-    - m_Text: Gold Rush
-      m_Image: {fileID: 0}
     - m_Text: Time Challenge
+      m_Image: {fileID: 0}
+    - m_Text: Gold Rush
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

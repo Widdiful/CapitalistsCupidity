@@ -21,6 +21,7 @@ public class LocalDatabase : MonoBehaviour {
             instance = this;
         if (instance != this)
             Destroy(this);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start() {

@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour {
     public Canvas adminMenuCanvas;
     public Canvas employeeMenuCanvas;
     public Canvas businessMenuCanvas;
+    public Canvas gameOverMenu;
 
     public bool windowOpen;
     public Canvas openedWindow;
@@ -266,6 +267,16 @@ public class UIManager : MonoBehaviour {
         BusinessMenu menu = businessMenuCanvas.GetComponent<BusinessMenu>();
         menu.business = business;
         menu.UpdateUI();
+    }
+
+    public void OpenGameOverWindow() {
+        if (windowOpen) {
+            CloseOpenedWindow();
+        }
+
+        gameOverMenu.enabled = true;
+        openedWindow = gameOverMenu;
+        windowOpen = true;
     }
 
     public void QuitToMenu() {

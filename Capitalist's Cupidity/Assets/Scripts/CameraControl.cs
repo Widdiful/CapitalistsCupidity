@@ -37,21 +37,35 @@ public class CameraControl : MonoBehaviour {
         targetPos.y = selectedFloor * floorHeight;
         transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            mouseStartX = Input.mousePosition.x;
-            canRotateCamera = true;
-        }
+        if (Input.touchCount > 0) {
+            if (Input.touches[0].phase == TouchPhase.Began) {
+                mouseStartX = Input.touches[0].position.x;
+                canRotateCamera = true;
+            }
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && canRotateCamera)
-        {
-            transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
-            mouseStartX = Input.mousePosition.x;
-            //CheckWalls();
+            if (Input.touches[0].phase == TouchPhase.Moved && !EventSystem.current.IsPointerOverGameObject() && canRotateCamera) {
+                transform.Rotate(0, (Input.touches[0].position.x - mouseStartX) * 0.1f, 0);
+                mouseStartX = Input.touches[0].position.x;
+                //CheckWalls();
+            }
+            if (Input.touches[0].phase == TouchPhase.Ended) {
+                canRotateCamera = false;
+            }
         }
-        else if (!Input.GetMouseButtonDown(0))
-        {
-            canRotateCamera = false;
+        else {
+            if (Input.GetMouseButtonDown(0)) {
+                mouseStartX = Input.mousePosition.x;
+                canRotateCamera = true;
+            }
+
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && canRotateCamera) {
+                transform.Rotate(0, (Input.mousePosition.x - mouseStartX) * 0.1f, 0);
+                mouseStartX = Input.mousePosition.x;
+                //CheckWalls();
+            }
+            else if (!Input.GetMouseButtonDown(0)) {
+                canRotateCamera = false;
+            }
         }
 
         // really bad fix for a bug but idk what else to do
