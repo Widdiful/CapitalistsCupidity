@@ -11,6 +11,7 @@ public class Businesses : MonoBehaviour
         public float costToBuy;
         public float monthlyIncome;
         public bool purchased;
+        public string description;
 
         public void BuyBusiness()
         {

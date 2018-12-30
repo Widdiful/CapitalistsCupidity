@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23942857994146522}
   - component: {fileID: 114187205433920634}
   - component: {fileID: 114643258863610194}
+  - component: {fileID: 65940319671962530}
   m_Layer: 0
   m_Name: Employee
   m_TagString: Untagged
@@ -86,6 +87,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1424913325353034}
   m_Mesh: {fileID: 4300000, guid: 4b699720394f58c4d98578dc8c3f83b9, type: 3}
+--- !u!65 &65940319671962530
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1424913325353034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.508, y: 1.5239999, z: 0.508}
+  m_Center: {x: 0, y: 0.76199996, z: 0}
 --- !u!114 &114187205433920634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
+  targetObject: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
-  happiness: 100
   needToWork: 10
   homeTime: 0
   needForBathroom: 0
@@ -108,8 +121,10 @@ MonoBehaviour:
   moneyInBank: 0
   assignedFloor: 0
   currentFloor: 0
-  liftList: []
   pathComplete: 0
+  currentPathPoint: 0
+  liftList: []
+  floors: []
 --- !u!114 &114643258863610194
 MonoBehaviour:
   m_ObjectHideFlags: 1
