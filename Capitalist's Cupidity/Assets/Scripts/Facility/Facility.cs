@@ -12,13 +12,14 @@ public class Facility : MonoBehaviour
     private GameObject facilityCanvas;
     private Canvas purchaseCanvas;
     private PurchaseFacilityCanvas purchaseFacility;
-    private GameObject childObject;
+    public GameObject childObject;
     private Floor floor;
     private int padding;
     public Facility CopyOf;
     public int xDirection, yDirection;
     public int xPosition, yPosition;
     public List<Employee> employees = new List<Employee>();
+
     // Use this for initialization
     void Start()
     {
@@ -27,9 +28,10 @@ public class Facility : MonoBehaviour
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
         padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
         fundingPercentage = 1;
-        childObject = GameObject.Instantiate(facilityInfo.child, transform);
+        
         xDirection = 1;
         yDirection = 1;
+        ChangeFacility(FacilityList.instance.GetFacilityByName("Empty"));
     }
 
     private void CalculateAverageEmployeeHappiness()
@@ -77,59 +79,76 @@ public class Facility : MonoBehaviour
     public void ChangeFacility(FacilityInfo facilityInformation)
     {
         int noOfFAcilities = 2; //3-1
-        //Check empty on X+ and Y+
-        for (int x = 0; Mathf.Abs(x) < facilityInformation.height; x += xDirection) // iterate through x in xdirection
+
+        for (int i = 0; i < floor.facilityArray.Count; i++)
         {
-            for (int y = 0; Mathf.Abs(y) < facilityInformation.width; y += yDirection) // iterate through y in ydirection
+            for (int j = 0; j < floor.facilityArray[i].row.Count; j++)
             {
-                if ((xPosition + x <= noOfFAcilities && xPosition + x >= 0) && (yPosition + y <= noOfFAcilities && yPosition + y >= 0))
+                if (floor.facilityArray[i].row[j] == this)
                 {
-                    if (floor.facilityArray[xPosition + x].row[yPosition + y].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
+                    xPosition = i;
+                    yPosition = j;
+                }
+            }
+        }
+        if (xDirection == 0) xDirection = 1;
+        if (yDirection == 0) yDirection = 1;
+        if (xDirection != 0 && yDirection != 0)
+        {
+            //Check empty on X+ and Y+
+            for (int x = 0; Mathf.Abs(x) < facilityInformation.height; x += xDirection) // iterate through x in xdirection
+            {
+                for (int y = 0; Mathf.Abs(y) < facilityInformation.width; y += yDirection) // iterate through y in ydirection
+                {
+                    if ((xPosition + x <= noOfFAcilities && xPosition + x >= 0) && (yPosition + y <= noOfFAcilities && yPosition + y >= 0))
                     {
-                        if (x == 0 && y == 0) // if tile is the starting one, place facility
+                        if (floor.facilityArray[xPosition + x].row[yPosition + y].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
                         {
-                            fundingPercentage = 1;
-                            facilityInfo = facilityInformation;
-                            name = facilityInfo.facilityName;
+                            if (x == 0 && y == 0) // if tile is the starting one, place facility
+                            {
+                                fundingPercentage = 1;
+                                facilityInfo = facilityInformation;
+                                name = facilityInfo.facilityName;
 
-                            if (childObject.gameObject) // if there's a child object
-                            {
-                                Destroy(childObject.gameObject);    // destroy it
-                            }
-                            if (facilityInfo.child != null)
-                            {
-                                childObject = GameObject.Instantiate(facilityInfo.child, transform); // spawn the new facility child object if it exists
-                            }
+                                if (childObject.gameObject != null) // if there's a child object
+                                {
+                                    Destroy(childObject.gameObject);    // destroy it
+                                }
+                                if (facilityInfo.child != null)
+                                {
+                                    childObject = GameObject.Instantiate(facilityInfo.child, transform); // spawn the new facility child object if it exists
+                                }
 
-                            float xMove = ((facilityInformation.width / 2) * padding / 2) * yDirection; // set the move distance on the x axis to the middle of all the facilitie spaces used
-                            if (facilityInfo.width == 1)
-                            {
-                                xMove = 0;
-                            }
+                                float xMove = ((facilityInformation.width / 2) * padding / 2) * yDirection; // set the move distance on the x axis to the middle of all the facilitie spaces used
+                                if (facilityInfo.width == 1)
+                                {
+                                    xMove = 0;
+                                }
 
-                            float zMove = ((facilityInformation.height / 2) * padding / 2) * xDirection; // set the move distance on the z axis to the middle of all the facilitie spaces used
-                            if (facilityInfo.height == 1)
-                            {
-                                zMove = 0;
-                            }
+                                float zMove = ((facilityInformation.height / 2) * padding / 2) * xDirection; // set the move distance on the z axis to the middle of all the facilitie spaces used
+                                if (facilityInfo.height == 1)
+                                {
+                                    zMove = 0;
+                                }
 
-                            childObject.transform.localPosition = new Vector3(xMove, 0, -zMove); // move child object to the middle
-                        }
-                        else // otherwise make it a copy of placed facility
-                        {
-                            Facility copyFacility = floor.facilityArray[xPosition + x].row[yPosition + y];
-                            copyFacility.fundingPercentage = 1;
-                            copyFacility.facilityInfo = FacilityList.instance.GetFacilityByName("Copy");
-                            copyFacility.name = copyFacility.facilityInfo.facilityName;
-                            copyFacility.CopyOf = this;
-
-                            if (copyFacility.childObject)
-                            {
-                                Destroy(copyFacility.childObject.gameObject);
+                                childObject.transform.localPosition = new Vector3(xMove, 0, -zMove); // move child object to the middle
                             }
-                            if (copyFacility.facilityInfo.child != null)
+                            else // otherwise make it a copy of placed facility
                             {
-                                copyFacility.childObject = GameObject.Instantiate(copyFacility.facilityInfo.child, copyFacility.transform);
+                                Facility copyFacility = floor.facilityArray[xPosition + x].row[yPosition + y];
+                                copyFacility.fundingPercentage = 1;
+                                copyFacility.facilityInfo = FacilityList.instance.GetFacilityByName("Copy");
+                                copyFacility.name = copyFacility.facilityInfo.facilityName;
+                                copyFacility.CopyOf = this;
+
+                                if (copyFacility.childObject)
+                                {
+                                    Destroy(copyFacility.childObject.gameObject);
+                                }
+                                if (copyFacility.facilityInfo.child != null)
+                                {
+                                    copyFacility.childObject = GameObject.Instantiate(copyFacility.facilityInfo.child, copyFacility.transform);
+                                }
                             }
                         }
                     }
@@ -173,6 +192,13 @@ public class Facility : MonoBehaviour
 
     public void UpdateFromFacilityWindow(float FundingPercentage)
     {
+        if(employees.Count > 0)
+        {
+            foreach(Employee employee in employees)
+            {
+                employee.setHappiness(-(fundingPercentage - FundingPercentage));
+            }
+        }
         fundingPercentage = FundingPercentage; // Set funding value based on slider position
         if (fundingPercentage <= 0)
         {
@@ -207,7 +233,7 @@ public class Facility : MonoBehaviour
         return floor;
     }
 
-    public bool CheckFacilitySize(FacilityInfo facilityInformation, Floor selectedFloor)
+    public bool CheckFacilitySize(FacilityInfo facilityInformation)
     {
         bool buildOK = false;
         float noOfFAcilities = 2; //3-1
@@ -230,7 +256,7 @@ public class Facility : MonoBehaviour
                         yDirection = yMod;
                         if ((xPosition + x <= noOfFAcilities && xPosition + x >= 0) && (yPosition + y <= noOfFAcilities && yPosition + y >= 0)) // out of bounds check
                         {
-                            if (selectedFloor.facilityArray[xPosition + x].row[yPosition + y].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty) // if space is empty
+                            if (floor.facilityArray[xPosition + x].row[yPosition + y].facilityInfo.facilityType == FacilityInfo.FacilityType.Empty) // if space is empty
                             {
                                 buildOK = true;
                             }
@@ -266,6 +292,7 @@ public class Facility : MonoBehaviour
             }
         }
         // if all tiles needed are empty, return true for buildable
+        print(facilityInformation.facilityType + " xDirection " + xDirection + " yDirection " + yDirection);
         return buildOK;
     }
 }

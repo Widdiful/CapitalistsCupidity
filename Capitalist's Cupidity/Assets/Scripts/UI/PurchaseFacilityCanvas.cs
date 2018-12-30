@@ -49,7 +49,7 @@ public class PurchaseFacilityCanvas : MonoBehaviour {
             }
             if(selectedToggle != null)
             {
-                if (playerStats.GetCompanyFunds() >= selectedFacilityInfo.costToBuy && selectedFacility.CheckFacilitySize(selectedFacilityInfo, selectedFacility.GetFloor()))
+                if (playerStats.GetCompanyFunds() >= selectedFacilityInfo.costToBuy && selectedFacility.CheckFacilitySize(selectedFacilityInfo))
                 {
                     confirmButton.interactable = true;
                 }

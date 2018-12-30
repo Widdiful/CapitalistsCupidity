@@ -115,8 +115,13 @@ public class OfficeGenerator : MonoBehaviour {
                 if (facilityFloors[facilityType].Contains(i))
                 {
                     Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
-                    temp.facilityInfo = FacilityList.instance.GetFacilityByName(facilityType);
-                    temp.name = facilityType;
+                    if (temp.CheckFacilitySize(FacilityList.instance.GetFacilityByName(facilityType)))
+                    {                        
+                        print(facilityType + " xDirection " + temp.xDirection + " yDirection " + temp.yDirection);
+                        temp.ChangeFacility(FacilityList.instance.GetFacilityByName(facilityType));
+                    }
+                    //temp.facilityInfo = FacilityList.instance.GetFacilityByName(facilityType);
+                    //temp.name = facilityType;
                     tempFacilities.Remove(temp);
                 }
             }
@@ -129,8 +134,9 @@ public class OfficeGenerator : MonoBehaviour {
         {
             if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
             {
-                facility.facilityInfo = FacilityList.instance.GetFacilityByName("Work Space");
-                facility.name = "Work Space";
+                facility.ChangeFacility(FacilityList.instance.GetFacilityByName("Work Space"));
+                //facility.facilityInfo = FacilityList.instance.GetFacilityByName("Work Space");
+                //facility.name = "Work Space";
             }
         }
     }
