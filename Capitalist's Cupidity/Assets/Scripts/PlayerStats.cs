@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour
     //Private
     private float personalFunds;
     private float companyFunds;
-    private float incomeKeepPercent;
+    public float incomeKeepPercent;
     private int employeeCount;
     private int fiveCoins;
 
