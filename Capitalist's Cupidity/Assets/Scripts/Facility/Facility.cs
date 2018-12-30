@@ -18,6 +18,7 @@ public class Facility : MonoBehaviour
     public Facility CopyOf;
     public int xDirection, yDirection;
     public int xPosition, yPosition;
+    public List<Employee> employees = new List<Employee>();
     // Use this for initialization
     void Start()
     {
@@ -33,7 +34,15 @@ public class Facility : MonoBehaviour
 
     private void CalculateAverageEmployeeHappiness()
     {
-
+        if(employees.Count > 0)
+        {
+            float total = 0;
+            foreach(Employee employee in employees)
+            {
+                total += employee.getHappiness();
+            }
+            total /= employees.Count;
+        }
     }
 
     public void CutFacility()
