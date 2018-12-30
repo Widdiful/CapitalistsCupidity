@@ -235,7 +235,7 @@ public class Director : MonoBehaviour
         return Random.Range(0, floors.Count - 1);
     }
 
-    public GameObject assignFacilities(int floor, string facilityName, GameObject obj)
+    public GameObject assignFacilities(int floor, string facilityName, GameObject obj, Employee emp)
     {
         for(int i = 0; i < floors[floor].facilities.Count; i++)
         {
@@ -245,6 +245,7 @@ public class Director : MonoBehaviour
                 {
                     if (floors[floor].facilities[i].gameObject.transform.GetChild(j).name == "workPoint")
                     {
+                        floors[floor].facilities[i].employees.Add(emp);
                         return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
                     }
                     else

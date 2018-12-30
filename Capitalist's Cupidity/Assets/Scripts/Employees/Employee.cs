@@ -82,10 +82,10 @@ public class Employee : MonoBehaviour
     private void Start()
     {
         assignedFloor = Director.Instance.assignFloor();
-        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", Desk);
-        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk);
-        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk);
-        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk);
+        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", Desk, this);
+        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk, this);
+        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk, this);
+        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk, this);
         Exit = Director.Instance.Exit;
 
         //Create actions

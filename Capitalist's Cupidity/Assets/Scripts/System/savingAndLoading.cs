@@ -10,11 +10,16 @@ public class SaveData
 {
     public List<Employee> employees;
     public int numberOfMonths;
+
     public float personalFunds;
     public float companyFunds;
     public int fiveCoin;
+
     public List<FacilityInfo> facilityList;
 
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseFree;
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseGold;
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseTime;
 
 }
 
@@ -24,6 +29,7 @@ public class savingAndLoading : MonoBehaviour
     PlayerStats playerStatScript;
     SaveData saveData;
     FacilityList facilityScript;
+    LocalDatabase localDatabaseScript;
 
     private void Start()
     {
@@ -31,6 +37,7 @@ public class savingAndLoading : MonoBehaviour
         directorScript = Director.Instance;
         playerStatScript = PlayerStats.instance;
         facilityScript = FacilityList.instance;
+        localDatabaseScript = LocalDatabase.instance;
     }
 
 
@@ -65,19 +72,31 @@ public class savingAndLoading : MonoBehaviour
     {
         saveData.employees = directorScript.employees;
         saveData.numberOfMonths = directorScript.numberOfMonths;
+
         saveData.personalFunds = playerStatScript.GetPersonalFunds();
         saveData.companyFunds = playerStatScript.GetCompanyFunds();
         saveData.fiveCoin = playerStatScript.GetFiveCoin();
+
         saveData.facilityList = facilityScript.facilityList;
+
+        saveData.dataBaseFree = LocalDatabase.instance.databaseFree;
+        saveData.dataBaseGold = LocalDatabase.instance.databaseGold;
+        saveData.dataBaseTime = LocalDatabase.instance.databaseTime;
     }
 
     void writeData()
     {
         directorScript.employees = saveData.employees;
         directorScript.numberOfMonths = saveData.numberOfMonths;
+
         facilityScript.facilityList = saveData.facilityList;
+
         playerStatScript.SetPersonalFunds(saveData.personalFunds);
         playerStatScript.SetCompanyFunds(saveData.companyFunds);
         playerStatScript.SetFiveCoin(saveData.fiveCoin);
+
+        LocalDatabase.instance.databaseFree = saveData.dataBaseFree;
+        LocalDatabase.instance.databaseGold = saveData.dataBaseGold;
+        LocalDatabase.instance.databaseTime = saveData.dataBaseTime;
     }
 }
