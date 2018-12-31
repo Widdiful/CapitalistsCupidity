@@ -73,6 +73,10 @@ public class CameraControl : MonoBehaviour {
             ChangeFloor(selectedFloor);
             changedFloor = true;
         }
+
+        foreach(Employee emp in Director.Instance.employees) {
+            // change layers
+        }
 	}
 
     // Changes layers of floors

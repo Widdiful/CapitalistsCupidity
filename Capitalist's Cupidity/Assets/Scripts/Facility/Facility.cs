@@ -219,7 +219,7 @@ public class Facility : MonoBehaviour
         {
             foreach(Employee employee in employees)
             {
-                employee.setHappiness(-(fundingPercentage - FundingPercentage) * averageEmployeeHappiness);
+                employee.setHappiness((-(fundingPercentage - FundingPercentage) * averageEmployeeHappiness) * 100);
                 employee.fireEmployee();
             }
         }
