@@ -73,10 +73,6 @@ public class CameraControl : MonoBehaviour {
             ChangeFloor(selectedFloor);
             changedFloor = true;
         }
-
-        foreach(Employee emp in Director.Instance.employees) {
-            // change layers
-        }
 	}
 
     // Changes layers of floors
@@ -137,6 +133,11 @@ public class CameraControl : MonoBehaviour {
                         obj.gameObject.layer = visibleFloorLayer;
                 }
             }
+        }
+
+        foreach (Employee emp in Director.Instance.employees) {
+            if (emp.gameObject.activeInHierarchy)
+                emp.changeEmployeeLayer();
         }
 
         //CheckWalls();
