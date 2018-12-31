@@ -68,14 +68,17 @@ public class Employee : MonoBehaviour
     public Dictionary<int, GameObject> facilities;
     public List<Floor> floors;
 
-    float targetOffset = 2.0f;
+    float targetOffset = 1.55f;
     bool quit = false;
     
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
-        T temp = list[index1];
-        list[index1] = list[index2];
-        list[index2] = temp;
+        if (list != null)
+        {
+            T temp = list[index1];
+            list[index1] = list[index2];
+            list[index2] = temp;
+        }
     }
 
     private void Start()
@@ -139,6 +142,10 @@ public class Employee : MonoBehaviour
         if(!isBootLicker)
         {
             Director.workerHappiness += setHappiness;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Color.red;
         }
 
         //Give random monthly salary
@@ -507,7 +514,7 @@ public class Employee : MonoBehaviour
         {
             moveTo(Director.Positions.desk);
         }
-        if (Vector3.Distance(transform.position, targetPos) > 2)
+        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
         {
             return false;
         }
@@ -529,7 +536,7 @@ public class Employee : MonoBehaviour
          
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 1)
+        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
         {
             return false;
         }
@@ -561,7 +568,7 @@ public class Employee : MonoBehaviour
             
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 1)
+        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
         {
             return false;
         }
@@ -581,7 +588,7 @@ public class Employee : MonoBehaviour
             
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 1)
+        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
         {
             return false;
         }
@@ -601,7 +608,7 @@ public class Employee : MonoBehaviour
             moveTo(Director.Positions.waterfountain);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > 1)
+        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
         {
             return false;
         }
