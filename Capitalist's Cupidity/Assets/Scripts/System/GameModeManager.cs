@@ -16,6 +16,15 @@ public class GameModeManager : MonoBehaviour {
 
     private bool completed;
 
+    public static GameModeManager instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     private void Start() {
         if (MainMenuManager.instance) {
             OfficeGenerator.instance.officeName = MainMenuManager.instance.companyName;

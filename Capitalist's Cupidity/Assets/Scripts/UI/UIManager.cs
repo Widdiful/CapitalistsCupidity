@@ -235,6 +235,7 @@ public class UIManager : MonoBehaviour {
         adminMenuCanvas.enabled = true;
         openedWindow = adminMenuCanvas;
         windowOpen = true;
+        adminMenuCanvas.GetComponent<AdminMenu>().UpdateUI();
     }
 
     public void OpenEmployeeWindow(Employee employee)
