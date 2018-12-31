@@ -90,7 +90,7 @@ public class PlayerStats : MonoBehaviour
     {
         if (companyFunds >= amount)
         {
-            ChangeCompanyFunds(amount);
+            ChangeCompanyFunds(-amount);
             return true;
         }
         else

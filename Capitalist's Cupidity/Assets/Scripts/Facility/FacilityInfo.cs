@@ -15,4 +15,7 @@ public class FacilityInfo
     public FacilityType facilityType = FacilityType.Empty;
     public int height = 1;
     public int width = 1;
+    public float sabotageCost;
+    public string sabotageMessageTitle;
+    public string sabotageMessageContent;
 }

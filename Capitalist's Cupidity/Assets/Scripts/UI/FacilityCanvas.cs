@@ -11,6 +11,7 @@ public class FacilityCanvas : MonoBehaviour
     Slider happinessSlider;
     Button confirmButton;
     Button cancelButton;
+    Button sabotageButton;
     Facility selectedFacility;
     string facilityName;
     float funding;
@@ -26,9 +27,11 @@ public class FacilityCanvas : MonoBehaviour
         happinessSlider = transform.GetChild(0).Find("HappinessSlider").GetComponent<Slider>();
         confirmButton = transform.GetChild(0).Find("ConfirmButton").GetComponent<Button>();
         cancelButton = transform.GetChild(0).Find("CancelButton").GetComponent<Button>();
+        sabotageButton = transform.GetChild(0).Find("SabotageButton").GetComponent<Button>();
 
         cancelButton.onClick.AddListener(CancelChanges);
         confirmButton.onClick.AddListener(ConfirmChanges);
+        sabotageButton.onClick.AddListener(Sabotage);
     }
 	
 	// Update is called once per frame
@@ -59,6 +62,9 @@ public class FacilityCanvas : MonoBehaviour
         fundingSlider.value = fundingPercent; // Set funding slider position on canvas
 
         happinessSlider.value = AverageHappiness; // Set happiness slider position on canvas
+
+        sabotageButton.interactable = selectedFacility.canSabotage && selectedFacility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace;
+        sabotageButton.GetComponentInChildren<Text>().text = "Sabotage ($" + selectedFacility.facilityInfo.sabotageCost + ")";
     }
 
     private void UpdateUI()
@@ -83,6 +89,13 @@ public class FacilityCanvas : MonoBehaviour
         selectedFacility = null; // Deselect the facility
         GetComponent<Canvas>().enabled = false; // Close the canvas
         UIManager.instance.windowOpen = false;
+    }
+
+    private void Sabotage() {
+        if (PlayerStats.instance.SpendMoney(selectedFacility.facilityInfo.sabotageCost)) {
+            selectedFacility.SabotageFacility();
+            sabotageButton.interactable = selectedFacility.canSabotage;
+        }
     }
 
 }

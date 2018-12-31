@@ -113,7 +113,7 @@ public class Director : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        months.text = "Number of months: " + numberOfMonths.ToString();
+        months.text = "Month: " + numberOfMonths.ToString();
 
         if (numberOfMonths == oldMonths + 1)
         {

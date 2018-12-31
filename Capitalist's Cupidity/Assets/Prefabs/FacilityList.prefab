@@ -59,6 +59,12 @@ MonoBehaviour:
     facilityType: 0
     height: 2
     width: 2
+    sabotageCost: 10000
+    sabotageMessageTitle: Update on the Cafeteria
+    sabotageMessageContent: We've been listening. We hear you. The floor %FLOOR% cafeteria's
+      rat infestation is not representative of the working experience we're proud
+      of. As such, in the future we may have to temporarily shut down the cafeteria
+      in the near future to further address this issue.
   - costToBuy: 15000
     baseMonthlyExpenses: 500
     facilityName: Water Fountain
@@ -66,6 +72,13 @@ MonoBehaviour:
     facilityType: 1
     height: 2
     width: 2
+    sabotageCost: 10000
+    sabotageMessageTitle: Water Fountain Pranksters - Stop it!
+    sabotageMessageContent: DO NOT DRINK FROM THE WATER FOUNTAIN ON FLOOR %FLOOR%!
+      Traces of urine have been detected in the water. We will find the culprit and
+      see to it that they are punished for trying to ruin our wonderful working environment.
+      For your safety, we may have to temporarily shut down the break area in the
+      near future.
   - costToBuy: 5000
     baseMonthlyExpenses: 750
     facilityName: Toilets
@@ -73,6 +86,12 @@ MonoBehaviour:
     facilityType: 2
     height: 1
     width: 2
+    sabotageCost: 10000
+    sabotageMessageTitle: Toilets Clogged
+    sabotageMessageContent: Our deepest apologies, the toilets on floor %FLOOR% have
+      been experiencing blockages lately. This is at odds with our constant attempts
+      to keep the work life of our highly valued employees healthy, both physically
+      and mentally. We apologise for any inconvenience caused by this.
   - costToBuy: 15000
     baseMonthlyExpenses: 7000
     facilityName: Security
@@ -80,6 +99,9 @@ MonoBehaviour:
     facilityType: 3
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   - costToBuy: 40000
     baseMonthlyExpenses: 500
     facilityName: Work Space
@@ -87,6 +109,9 @@ MonoBehaviour:
     facilityType: 4
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   - costToBuy: 30000
     baseMonthlyExpenses: 5000
     facilityName: Break Room
@@ -94,6 +119,9 @@ MonoBehaviour:
     facilityType: 6
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   - costToBuy: 70000
     baseMonthlyExpenses: 20000
     facilityName: Gym
@@ -101,6 +129,9 @@ MonoBehaviour:
     facilityType: 5
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   - costToBuy: 0
     baseMonthlyExpenses: 100
     facilityName: Empty
@@ -108,6 +139,9 @@ MonoBehaviour:
     facilityType: 7
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   - costToBuy: 0
     baseMonthlyExpenses: 0
     facilityName: Copy
@@ -115,3 +149,6 @@ MonoBehaviour:
     facilityType: 8
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 

@@ -1439,6 +1439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1266215636}
   - component: {fileID: 1266215635}
+  - component: {fileID: 1266215637}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1477,6 +1478,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1266215637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1266215634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32214f222ae5dbe49890a2554c03a9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  employeePrefab: {fileID: 114187205433920634, guid: b9bd3bbe8b0f2ff4c8db7c802d8b4c81,
+    type: 2}
+  employees: []
+  employeePoolCount: 10
+  liftList: []
+  floors: []
+  _pos: 0
+  Desk: {fileID: 0}
+  Toilet: {fileID: 0}
+  Cafe: {fileID: 0}
+  waterFountain: {fileID: 0}
+  Exit: {fileID: 836688322}
+  numberOfMonths: 0
+  months: {fileID: 1740534336}
 --- !u!1001 &1464166307
 Prefab:
   m_ObjectHideFlags: 0
@@ -1947,32 +1973,32 @@ Prefab:
     - target: {fileID: 224968792532822078, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00002682086
+      value: 0.000019522447
       objectReference: {fileID: 0}
     - target: {fileID: 224320417702829548, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000263345
+      value: -0.000015899235
       objectReference: {fileID: 0}
     - target: {fileID: 224467106175003176, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00002682086
+      value: 0.000019522447
       objectReference: {fileID: 0}
     - target: {fileID: 224960405291986596, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00002682086
+      value: 0.000019522447
       objectReference: {fileID: 0}
     - target: {fileID: 224858588127954478, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000014267092
+      value: 0.000013597439
       objectReference: {fileID: 0}
     - target: {fileID: 224010052685898048, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00002682086
+      value: 0.000019522447
       objectReference: {fileID: 0}
     - target: {fileID: 224688759058308254, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
@@ -2494,6 +2520,26 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224307712013269024, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224447959177586380, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224149240309443894, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224491651493817260, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61, type: 2}
   m_IsPrefabParent: 0
@@ -2572,7 +2618,8 @@ Prefab:
       propertyPath: months
       value: 
       objectReference: {fileID: 1740534336}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114214111201870164, guid: d1258b10a621e94449a988fb27e5af3c, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: d1258b10a621e94449a988fb27e5af3c, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1963782064
@@ -2614,7 +2661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 367e5e932d61305419788fb63b093f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCompanyFunds: 1000000
+  startingCompanyFunds: 100000
   startingIncomeKept: 0.2
   incomeKeepPercent: 0
 --- !u!4 &1963782067

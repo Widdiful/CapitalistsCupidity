@@ -39,6 +39,15 @@ public class Messages : MonoBehaviour {
 
     private bool tickerFinished = true;
 
+    public static Messages instance;
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     void Start() {
         if (tickerMessage) {
             tickerRect = tickerMessage.rectTransform;
@@ -51,13 +60,13 @@ public class Messages : MonoBehaviour {
         negativeComments = negativeCommentsText.text.Split('\n');
         positiveComments = positiveCommentsText.text.Split('\n');
 
-        NewMessage("Test1", MessageType.Ticker);
-        NewMessage("Test2", MessageType.Ticker);
-        NewMessage("Test3", MessageType.Ticker);
+        //NewMessage("Test1", MessageType.Ticker);
+        //NewMessage("Test2", MessageType.Ticker);
+        //NewMessage("Test3", MessageType.Ticker);
 
-        CreateNoticeboardMessage("test1", "This is a test.");
-        CreateNoticeboardMessage("test2", "This is a test.");
-        CreateNoticeboardMessage("test3", "This is a test.");
+        //CreateNoticeboardMessage("test1", "This is a test.");
+        //CreateNoticeboardMessage("test2", "This is a test.");
+        //CreateNoticeboardMessage("test3", "This is a test.");
     }
 
     public void NewMessage(string message, MessageType messageType) {
@@ -83,6 +92,7 @@ public class Messages : MonoBehaviour {
         newNoticeManager.titleText.text = newNotice.title;
         newNoticeManager.bodyText.text = newNotice.message;
         newNoticeManager.AddComments(newNotice.comments);
+        newNoticeManager.transform.SetAsFirstSibling();
     }
 
     public void AddNegativeComment(NoticeboardItem noticeboardItem) {

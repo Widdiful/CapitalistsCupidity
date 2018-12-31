@@ -19,6 +19,7 @@ public class Facility : MonoBehaviour
     public int xDirection, yDirection;
     public int xPosition, yPosition;
     public List<Employee> employees = new List<Employee>();
+    public bool canSabotage = true;
 
     // Use this for initialization
     void Start()
@@ -28,6 +29,7 @@ public class Facility : MonoBehaviour
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
         padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
         fundingPercentage = 1;
+        averageEmployeeHappiness = 1;
         
         xDirection = 1;
         yDirection = 1;
@@ -74,6 +76,27 @@ public class Facility : MonoBehaviour
     {
         PlayerStats.instance.ChangeCompanyFunds(-facilityInformation.costToBuy);
         ChangeFacility(facilityInformation);
+    }
+
+    public void SabotageFacility() {
+        if (canSabotage) {
+            float employeeHappinessAdjust = 25;
+            float facilityHappinessAdjust = 0.5f;
+
+            if (employees.Count > 0) {
+                foreach (Employee employee in employees) {
+                    employee.setHappiness(-employeeHappinessAdjust);
+                }
+            }
+
+            averageEmployeeHappiness -= facilityHappinessAdjust;
+            OpenFacilityWindow();
+
+            Messages.instance.NewMessage(facilityInfo.facilityName + " has been self-sabotaged.", Messages.MessageType.Ticker);
+            Messages.instance.CreateNoticeboardMessage(facilityInfo.sabotageMessageTitle.Replace("%NAME%", facilityInfo.facilityName), facilityInfo.sabotageMessageContent.Replace("%NAME%", facilityInfo.facilityName).Replace("%FLOOR%", floor.floorNo.ToString()));
+
+            canSabotage = false;
+        }
     }
 
     public void ChangeFacility(FacilityInfo facilityInformation)
@@ -196,7 +219,8 @@ public class Facility : MonoBehaviour
         {
             foreach(Employee employee in employees)
             {
-                employee.setHappiness(-(fundingPercentage - FundingPercentage));
+                employee.setHappiness(-(fundingPercentage - FundingPercentage) * averageEmployeeHappiness);
+                employee.fireEmployee();
             }
         }
         fundingPercentage = FundingPercentage; // Set funding value based on slider position
