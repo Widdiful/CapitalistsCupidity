@@ -262,7 +262,7 @@ public class Director : MonoBehaviour
             }
     
         }
-        return findClosestFacility(facilityName, obj);
+        return findClosestFacility(facilityName, obj, emp);
 
     }
 
@@ -279,9 +279,9 @@ public class Director : MonoBehaviour
         return null;
     }
 
-    public GameObject findClosestFacility(string facilityName, GameObject assignedDesk)
+    public GameObject findClosestFacility(string facilityName, GameObject assignedDesk, Employee emp)
     {
-        GameObject best = null;
+        Facility best = null;
         var closeFacilities = FindObjectsOfType<Facility>();
         float closest = Mathf.Infinity;
 
@@ -293,11 +293,12 @@ public class Director : MonoBehaviour
             if(squareDistance < closest && fal.facilityInfo.facilityName == facilityName)
             {
                 closest = squareDistance;
-                best = fal.gameObject;
+                best = fal;
             }
         }
         if (best != null)
         {
+            best.employees.Add(emp);
             return best.transform.GetChild(0).gameObject;
         }
         else
