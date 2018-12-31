@@ -169,7 +169,9 @@ public class Employee : MonoBehaviour
     public void fireEmployee()
     {
         quit = true;
+        actions[0] = Leave;
         Leave.priority = 100;
+        pathComplete = true;
     }
 
     void updateHappiness()
@@ -537,7 +539,13 @@ public class Employee : MonoBehaviour
             Leave.priority = 0;
             if (quit)
             {
+                if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
+                {
+                    Director.Instance.setMaxEmployees(-1);
+                }
+
                 Director.Instance.setCurrentEmployees(-1);
+
                 Start();      
                 gameObject.SetActive(false);
             }

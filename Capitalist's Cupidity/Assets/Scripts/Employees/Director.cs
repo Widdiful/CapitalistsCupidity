@@ -115,11 +115,14 @@ public class Director : MonoBehaviour
     }
 
     public void setCurrentEmployees(int value)
-    {
-        if(currentEmployees + value < maxEmployees)
+    { 
+        currentEmployees += value;
+
+        if(currentEmployees > maxEmployees)
         {
-            currentEmployees += value;
+            currentEmployees = maxEmployees;
         }
+        
     }
 
     public int getMaxEmployees()
@@ -127,12 +130,16 @@ public class Director : MonoBehaviour
         return maxEmployees;
     }
 
-    void setMaxEmployees(int value)
+    public void setMaxEmployees(int value)
     {
-        if(maxEmployees < employeePoolCount)
+       
+        maxEmployees += value;
+
+        if(maxEmployees > employeePoolCount)
         {
-            maxEmployees += value;
+            maxEmployees = employeePoolCount;
         }
+        
     }
 
     // Update is called once per frame
