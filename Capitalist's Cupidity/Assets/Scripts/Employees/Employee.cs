@@ -256,6 +256,10 @@ public class Employee : MonoBehaviour
         return salary;
     }
 
+    public void changeEmployeeLayer()
+    {
+        gameObject.layer = Lifts[currentFloor].layer;
+    }
     //Using director positions, set employee target pos
     public void moveTo(Director.Positions pos)
     {
@@ -419,7 +423,7 @@ public class Employee : MonoBehaviour
 
     void Move()
     {
-        if (pathFinding.newPath != null && inBounds(pathFinding.newPath.Count - 1, pathFinding.newPath) && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
+        if (pathFinding.newPath != null && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
         {
             followPath = pathFinding.newPath[currentPathPoint].worldPos;
             Vector3 pathPosition = new Vector3(followPath.x, transform.position.y, followPath.z);
@@ -440,11 +444,6 @@ public class Employee : MonoBehaviour
         else
         {
             pathComplete = true;
-            if(quit)
-            {
-                Start();
-                gameObject.SetActive(false);
-            }
         }
     }
 
@@ -536,6 +535,12 @@ public class Employee : MonoBehaviour
         {
             //gameObject.SetActive(false);
             Leave.priority = 0;
+            if (quit)
+            {
+                Director.Instance.setCurrentEmployees(-1);
+                Start();      
+                gameObject.SetActive(false);
+            }
             return true;
         }
     }

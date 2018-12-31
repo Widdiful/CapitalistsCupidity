@@ -9,7 +9,9 @@ public class Director : MonoBehaviour
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
-    public int employeePoolCount = 10;
+    int employeePoolCount = 20;
+    int currentEmployees = 0;
+    int maxEmployees = 5;
 
     public List<GameObject> liftList;
     public Dictionary<int, Grid> getCurrentGrid;
@@ -105,13 +107,36 @@ public class Director : MonoBehaviour
             Grid grid = floors[i].transform.GetChild(0).GetComponent<Grid>();
             getCurrentGrid.Add(i, grid);
         }
-
-       
-
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public int getCurrentEmployees()
+    {
+        return currentEmployees;
+    }
+
+    public void setCurrentEmployees(int value)
+    {
+        if(currentEmployees + value < maxEmployees)
+        {
+            currentEmployees += value;
+        }
+    }
+
+    public int getMaxEmployees()
+    {
+        return maxEmployees;
+    }
+
+    void setMaxEmployees(int value)
+    {
+        if(maxEmployees < employeePoolCount)
+        {
+            maxEmployees += value;
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         months.text = "Month: " + numberOfMonths.ToString();
 
@@ -120,16 +145,23 @@ public class Director : MonoBehaviour
             updateFunds();
             oldMonths = numberOfMonths;
         }
-        if (Input.GetKeyDown(KeyCode.A))
+
+        StartCoroutine(spawnEmployee());
+    }
+
+    public IEnumerator spawnEmployee()
+    {
+        WaitForSeconds wait = new WaitForSeconds(2.0f);
+        foreach (Employee employee in employees)
         {
-            foreach(Employee employee in employees)
+            if (!employee.gameObject.activeSelf && currentEmployees < maxEmployees)
             {
-                if(!employee.gameObject.activeSelf)
-                {
-                    employee.gameObject.SetActive(true);
-                    break;
-                }
+                employee.gameObject.SetActive(true);
+                currentEmployees++;
+                break;
+                
             }
+            yield return wait;
         }
     }
 
@@ -223,16 +255,7 @@ public class Director : MonoBehaviour
 
     public int totalActiveEmployees()
     {
-        int total = 0;
-        foreach(Employee emp in employees)
-        {
-            if(emp.gameObject.activeSelf)
-            {
-                total++;
-            }
-        }
-
-        return total;
+        return currentEmployees;
     }
 
     public int assignFloor()
@@ -250,8 +273,22 @@ public class Director : MonoBehaviour
                 {
                     if (floors[floor].facilities[i].gameObject.transform.GetChild(j).name == "workPoint")
                     {
-                        floors[floor].facilities[i].employees.Add(emp);
-                        return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
+                        if(floors[floor].facilities[i].facilityInfo.facilityName != "Work Space")
+                        {
+                            floors[floor].facilities[i].employees.Add(emp);
+                            return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
+                        }
+                        else
+                        {
+                            foreach (Facility fal in floors[floor].facilities)
+                            {
+                                if(fal.facilityInfo.facilityName == "Work Space" && fal.employees.Count < 1)
+                                {
+                                    fal.employees.Add(emp);
+                                    return fal.gameObject.transform.GetChild(j).gameObject;
+                                }
+                            }
+                        }
                     }
                     else
                     {
