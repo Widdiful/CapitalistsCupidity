@@ -81,16 +81,18 @@ public class OfficeGenerator : MonoBehaviour {
 
     private void CreateFloors() {
         officeParent = new GameObject(officeName).transform;
+        List<int> floorsWithFacility = new List<int>();
 
         // Decide which floors each facility will spawn on
         foreach(FacilitySpawnInformation info in facilitySpawnInformation)
         {
             List<int> floors = new List<int>();
+            int j = 0;
             for (int i = 0; i < info.count; i++)
             {
                 int floorNumber = Random.Range(0, floorCount);
                 int attempts = 0;
-                while ((floors.Contains(floorNumber) || facilitiesPerFloor[floorNumber] >= workspaceCount) && attempts < 25)
+                while (((floors.Contains(floorNumber) && (floorsWithFacility.Contains(floorNumber) && floorsWithFacility.Count <= floorCount) || facilitiesPerFloor[floorNumber] >= 1)  && attempts < 25))
                 {
                     floorNumber = Random.Range(0, floorCount);
                     attempts++;
@@ -99,9 +101,16 @@ public class OfficeGenerator : MonoBehaviour {
                 {
                     floors.Add(floorNumber);
                     facilitiesPerFloor[floorNumber]++;
+                    floorsWithFacility.Add(floorNumber);
                 }
+                j = i;
             }
+            print(j);
             facilityFloors.Add(info.name, floors);
+            print(info.name);
+            foreach(int i in facilityFloors[info.name]) {
+                print(i);
+            }
         }
 
         // Create floors

@@ -9,7 +9,7 @@ public class Director : MonoBehaviour
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
-    int employeePoolCount = 20;
+    int employeePoolCount = 45;
     int currentEmployees = 0;
     int maxEmployees = 5;
 
