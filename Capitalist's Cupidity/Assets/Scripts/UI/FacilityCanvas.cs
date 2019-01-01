@@ -72,7 +72,7 @@ public class FacilityCanvas : MonoBehaviour
     {
         funding = (baseExpense * fundingPercent); // Set the funding amount
         fundingText.text = "$" + funding.ToString("0.00") + " p/m"; // Set funding number on canvas
-        happinessSlider.value = selectedFacility.averageEmployeeHappiness;
+        if (selectedFacility) happinessSlider.value = selectedFacility.averageEmployeeHappiness;
         if(funding <= 0)
         {
             fundingText.text = "Cut Facility";

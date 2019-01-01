@@ -172,6 +172,16 @@ public class Director : MonoBehaviour
         }
     }
 
+    public void HireEmployee() {
+        foreach (Employee employee in employees) {
+            if (!employee.gameObject.activeSelf) {
+                employee.gameObject.SetActive(true);
+                currentEmployees++;
+                break;
+            }
+        }
+    }
+
     public float getGlobalHappiness()
     {
         float happiness = 0;

@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour {
     private Animator buttonAnim;
     private Animator paneAnim;
 
+    private float updateTimer;
+
     // Variables
     private bool managementPaneOpen = false;
     private Text managementButtonText;
@@ -51,6 +53,29 @@ public class UIManager : MonoBehaviour {
 
         buttonAnim = managementButton.GetComponent<Animator>();
         paneAnim = managementPane.GetComponent<Animator>();
+    }
+
+    private void FixedUpdate() {
+        if (managementPaneOpen) {
+            updateTimer += Time.fixedUnscaledDeltaTime;
+            if (updateTimer >= 1) {
+                switch (managementPane.GetChild(managementPane.childCount - 1).name) {
+                    case "FloorsTab":
+                        UpdateFloorsTab();
+                        break;
+                    case "EmployeesTab":
+                        UpdateEmployeesTab();
+                        break;
+                    case "FacilitiesTab":
+                        UpdateFacilitiesTab();
+                        break;
+                    case "BusinessTab":
+                        UpdateBusinessTab();
+                        break;
+                }
+                updateTimer = 0;
+            }
+        }
     }
 
     public void ToggleManagementPane() {
@@ -192,7 +217,8 @@ public class UIManager : MonoBehaviour {
     {
         foreach(Transform button in tab)
         {
-            Destroy(button.gameObject);
+            if (button.name != "HireButton")
+                Destroy(button.gameObject);
         }
     }
 

@@ -23,4 +23,8 @@ public class EmployeeButton : MonoBehaviour {
     public void Click() {
         UIManager.instance.OpenEmployeeWindow(employee);
     }
+
+    public void Hire() {
+        Director.Instance.HireEmployee();
+    }
 }
