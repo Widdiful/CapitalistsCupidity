@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4114833821942710}
   - component: {fileID: 114346327156327298}
-  - component: {fileID: 114214111201870164}
   - component: {fileID: 114579073698119086}
   - component: {fileID: 114900694794646250}
   m_Layer: 0
@@ -118,29 +117,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1725580251157072}
   m_Enabled: 1
---- !u!114 &114214111201870164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1057739182389054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32214f222ae5dbe49890a2554c03a9f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  employeePrefab: {fileID: 114187205433920634, guid: b9bd3bbe8b0f2ff4c8db7c802d8b4c81,
-    type: 2}
-  employees: []
-  employeePoolCount: 10
-  _pos: 0
-  Desk: {fileID: 0}
-  Toilet: {fileID: 0}
-  Cafe: {fileID: 0}
-  waterFountain: {fileID: 0}
-  Exit: {fileID: 0}
-  numberOfMonths: 0
-  months: {fileID: 0}
 --- !u!114 &114346327156327298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,26 +143,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListOfBusinesses:
-  - businessName: Test 1
-    costToBuy: 1
-    monthlyIncome: 10
+  - businessName: Catering Company
+    costToBuy: 5000000
+    monthlyIncome: 5000
     purchased: 0
-  - businessName: Test 2
-    costToBuy: 2
-    monthlyIncome: 20
+    description: 
+  - businessName: Public Transport
+    costToBuy: 50000000
+    monthlyIncome: 15000
     purchased: 0
+    description: 
   - businessName: Test 3
     costToBuy: 3
     monthlyIncome: 30
     purchased: 0
+    description: 
   - businessName: Test 4
     costToBuy: 4
     monthlyIncome: 40
     purchased: 0
+    description: 
   - businessName: Test 5
     costToBuy: 5
     monthlyIncome: 50
     purchased: 0
+    description: 
 --- !u!114 &114900694794646250
 MonoBehaviour:
   m_ObjectHideFlags: 1

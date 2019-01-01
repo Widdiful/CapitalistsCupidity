@@ -174,7 +174,7 @@ public class UIManager : MonoBehaviour {
             DeleteButtonsInTab(facilitiesContent);
             foreach (Facility facility in FindObjectsOfType<Facility>())
             {
-                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty)
+                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
                 {
                     FacilityButton newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent).GetComponent<FacilityButton>();
                     newButton.facilityName = facility.facilityInfo.facilityName;

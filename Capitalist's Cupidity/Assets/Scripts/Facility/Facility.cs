@@ -28,6 +28,7 @@ public class Facility : MonoBehaviour
         purchaseCanvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
         padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
+        padding = 3;
         fundingPercentage = 1;
         averageEmployeeHappiness = 1;
         
@@ -114,6 +115,7 @@ public class Facility : MonoBehaviour
                 }
             }
         }
+
         if (xDirection == 0) xDirection = 1;
         if (yDirection == 0) yDirection = 1;
         if (xDirection != 0 && yDirection != 0)
@@ -142,13 +144,13 @@ public class Facility : MonoBehaviour
                                     childObject = GameObject.Instantiate(facilityInfo.child, transform); // spawn the new facility child object if it exists
                                 }
 
-                                float xMove = ((facilityInformation.width / 2) * padding / 2) * yDirection; // set the move distance on the x axis to the middle of all the facilitie spaces used
+                                float xMove = (((facilityInformation.width / 2) * padding / 2) + 0.5f) * yDirection; // set the move distance on the x axis to the middle of all the facilitie spaces used
                                 if (facilityInfo.width == 1)
                                 {
                                     xMove = 0;
                                 }
 
-                                float zMove = ((facilityInformation.height / 2) * padding / 2) * xDirection; // set the move distance on the z axis to the middle of all the facilitie spaces used
+                                float zMove = (((facilityInformation.height / 2) * padding / 2) + 0.5f) * xDirection; // set the move distance on the z axis to the middle of all the facilitie spaces used
                                 if (facilityInfo.height == 1)
                                 {
                                     zMove = 0;
@@ -259,6 +261,18 @@ public class Facility : MonoBehaviour
 
     public bool CheckFacilitySize(FacilityInfo facilityInformation)
     {
+        for (int i = 0; i < floor.facilityArray.Count; i++)
+        {
+            for (int j = 0; j < floor.facilityArray[i].row.Count; j++)
+            {
+                if (floor.facilityArray[i].row[j] == this)
+                {
+                    xPosition = i;
+                    yPosition = j;
+                }
+            }
+        }
+
         bool buildOK = false;
         float noOfFAcilities = 2; //3-1
         int xMod = 1;
@@ -316,7 +330,6 @@ public class Facility : MonoBehaviour
             }
         }
         // if all tiles needed are empty, return true for buildable
-        print(facilityInformation.facilityType + " xDirection " + xDirection + " yDirection " + yDirection);
         return buildOK;
     }
 }

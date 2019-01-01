@@ -112,16 +112,6 @@ MonoBehaviour:
     sabotageCost: 0
     sabotageMessageTitle: 
     sabotageMessageContent: 
-  - costToBuy: 30000
-    baseMonthlyExpenses: 5000
-    facilityName: Break Room
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
-    facilityType: 6
-    height: 1
-    width: 1
-    sabotageCost: 0
-    sabotageMessageTitle: 
-    sabotageMessageContent: 
   - costToBuy: 70000
     baseMonthlyExpenses: 20000
     facilityName: Gym
