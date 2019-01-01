@@ -55,7 +55,7 @@ MonoBehaviour:
   - costToBuy: 10000
     baseMonthlyExpenses: 1000
     facilityName: Cafeteria
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
+    child: {fileID: 100000, guid: 09c5d9e90e1032045bb7deb375a3e838, type: 3}
     facilityType: 0
     height: 2
     width: 2
