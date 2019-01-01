@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RemoteDatabase : MonoBehaviour {
 
-    private string hostURL = "http://localhost/cupidity/";
+    private string hostURL = "widdiful.co.uk/php/cupidity/";
     public string userID;
     public string userName;
 

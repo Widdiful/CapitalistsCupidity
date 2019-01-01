@@ -1,5 +1,5 @@
 <?php
-	$con = mysqli_connect('localhost', 'root', 'root', 'mobiledev');
+	$con = mysqli_connect('188.121.44.166', 'cupidity', 'Cupidity1!', 'cupidity');
 
 	// check for successful connection
 	if (mysqli_connect_errno()){
