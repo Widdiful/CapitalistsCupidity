@@ -410,6 +410,9 @@ public class Director : MonoBehaviour
         {
             payTheGuys();
         }
+        foreach(Employee emp in employees) {
+            funds += emp.getEarnings();
+        }
         if (funds > 0)
         {
             playerStats.ChangePersonalFunds(funds);

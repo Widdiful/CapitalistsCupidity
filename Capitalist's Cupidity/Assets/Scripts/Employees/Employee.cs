@@ -15,6 +15,7 @@ public class Employee : MonoBehaviour
 
     float happiness = 100;
 
+
     Actions Work;
     Actions Leave;
     Actions goToToilet;
@@ -51,6 +52,7 @@ public class Employee : MonoBehaviour
 
     public float moneyInBank = 0.0f;
     int salary;
+    float moneyEarnedForCompany;
 
     public int assignedFloor;
     public int currentFloor;
@@ -150,6 +152,7 @@ public class Employee : MonoBehaviour
 
         //Give random monthly salary
         salary = 1200;
+        moneyEarnedForCompany = salary * 10;
 
         //Delegate to pay employees
         Director.payTheGuys += payWages;
@@ -263,6 +266,10 @@ public class Employee : MonoBehaviour
     public float getSalary()
     {
         return salary;
+    }
+
+    public float getEarnings() {
+        return moneyEarnedForCompany;
     }
 
     public void changeEmployeeLayer()

@@ -16,8 +16,8 @@ public class EmployeeMenu : MonoBehaviour {
     {
         nameText.text = employee.name;
         floorText.text = "Floor #" + employee.assignedFloor.ToString();
-        earningsText.text = "123";
-        salaryText.text = "10";
+        earningsText.text = "$" + employee.getEarnings();
+        salaryText.text = "$" + employee.getSalary();
         happinessBar.size = employee.getHappiness() / 100f;
     }
 
