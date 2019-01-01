@@ -27,8 +27,6 @@ public class Facility : MonoBehaviour
         facilityCanvas = GameObject.Find("FacilityCanvas");
         purchaseCanvas = GameObject.Find("PurchaseFacilityCanvas").GetComponent<Canvas>();
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
-        padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
-        padding = 3;
         fundingPercentage = 1;
         averageEmployeeHappiness = 1;
         
@@ -143,6 +141,7 @@ public class Facility : MonoBehaviour
                                 {
                                     childObject = GameObject.Instantiate(facilityInfo.child, transform); // spawn the new facility child object if it exists
                                 }
+                                padding = GameObject.FindObjectOfType<OfficeGenerator>().workspacePadding;
 
                                 float xMove = (((facilityInformation.width / 2) * padding / 2) + 0.5f) * yDirection; // set the move distance on the x axis to the middle of all the facilitie spaces used
                                 if (facilityInfo.width == 1)
