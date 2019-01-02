@@ -13,7 +13,6 @@ public class SaveData
 
     public float personalFunds;
     public float companyFunds;
-    public int fiveCoin;
 
     public List<FacilityInfo> facilityList;
 
@@ -75,7 +74,6 @@ public class savingAndLoading : MonoBehaviour
 
         saveData.personalFunds = playerStatScript.GetPersonalFunds();
         saveData.companyFunds = playerStatScript.GetCompanyFunds();
-        saveData.fiveCoin = playerStatScript.GetFiveCoin();
 
         saveData.facilityList = facilityScript.facilityList;
 
@@ -93,7 +91,6 @@ public class savingAndLoading : MonoBehaviour
 
         playerStatScript.SetPersonalFunds(saveData.personalFunds);
         playerStatScript.SetCompanyFunds(saveData.companyFunds);
-        playerStatScript.SetFiveCoin(saveData.fiveCoin);
 
         LocalDatabase.instance.databaseFree = saveData.dataBaseFree;
         LocalDatabase.instance.databaseGold = saveData.dataBaseGold;

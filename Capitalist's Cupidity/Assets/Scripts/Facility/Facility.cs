@@ -87,6 +87,7 @@ public class Facility : MonoBehaviour
             if (employees.Count > 0) {
                 foreach (Employee employee in employees) {
                     employee.setHappiness(-employeeHappinessAdjust);
+                    employee.updateHappiness();
                 }
             }
 

@@ -185,7 +185,7 @@ public class Employee : MonoBehaviour
         pathComplete = true;
     }
 
-    void updateHappiness()
+    public void updateHappiness()
     {
         if(happiness > 100)
         {
@@ -211,9 +211,7 @@ public class Employee : MonoBehaviour
         //If current action need is greater than the current action, current action will be executed
 
         StartCoroutine(updateActions());
-
         Move();
-        updateHappiness();
     }
 
     IEnumerator updateActions()
@@ -250,6 +248,7 @@ public class Employee : MonoBehaviour
     {
         moneyInBank += salary;
         setHappiness(10.0f);
+        updateHappiness();
     }
 
     public float getBank()
@@ -291,16 +290,7 @@ public class Employee : MonoBehaviour
                     else
                     {
                         targetObject = Lifts[currentFloor];
-
                         targetPos = Lifts[currentFloor].transform.position;
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {         
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                            //pathComplete = true;
-                        }
                     }
                  
                         break;
@@ -317,14 +307,6 @@ public class Employee : MonoBehaviour
                     {
                         targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                            //pathComplete = true;
-                        }
                     }
 
                     break;
@@ -341,14 +323,6 @@ public class Employee : MonoBehaviour
                     {
                         targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                            //pathComplete = true;
-                        }
                     }
 
                     break;
@@ -365,14 +339,6 @@ public class Employee : MonoBehaviour
                     {
                         targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                           // pathComplete = true;
-                        }
                     }
 
                     break;
@@ -389,14 +355,6 @@ public class Employee : MonoBehaviour
                     {
                         targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                            //pathComplete = true;
-                        }
                     }
 
                     break;
@@ -413,14 +371,6 @@ public class Employee : MonoBehaviour
                     {
                         targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
-
-                        if (Vector3.Distance(transform.position, targetPos) < targetOffset)
-                        {
-                            transform.position = Lifts[targetFloor].transform.position - Lifts[targetFloor].transform.up;
-                            currentFloor = targetFloor;
-                            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-                            //pathComplete = true;
-                        }
                     }
 
                     break;
@@ -465,58 +415,7 @@ public class Employee : MonoBehaviour
         }
     }
 
-    /*void rotate(Vector3 targetPos)
-    {
-        //Rotate 
-
-        Vector3 delta = targetPos;
-        //delta.z = transform.position.z;
-        delta.x = transform.position.x;
-        //delta.y = transform.position.y;
-        Quaternion rotation = Quaternion.LookRotation(delta);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, maxTurnSpeed);
-        
-    }
-
-    Vector3 avoidCollision()
-    {
-        RaycastHit hit;
-
-        //If raycast hits something, check if seeahead and seeahead near fall in collider, if so 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxSeeAheadDistance))
-        { 
-            Collider obj = hit.collider;
-
-            seeAhead = transform.position + (velocity.normalized * maxSeeAheadDistance);
-            seeAheadNear = transform.position + (velocity.normalized * (maxSeeAheadDistance * 0.5f));
-
-            return checkCollisionBounds(obj, seeAhead, seeAheadNear);
-        }
-
-        return Vector3.zero;
-    }
-    
-    Vector3 checkCollisionBounds(Collider obj, Vector3 seeAhead, Vector3 seeAheadNear)
-    {
-        if (obj.bounds.Contains(seeAhead))
-        {
-            avoidanceForce = seeAhead - obj.transform.position;
-            avoidanceForce = avoidanceForce.normalized * (maxAvoidanceForce * 2);
-
-            return avoidanceForce;
-        }
-        else if (obj.bounds.Contains(seeAheadNear))
-        {
-            avoidanceForce = seeAheadNear - obj.transform.position;
-            avoidanceForce = avoidanceForce.normalized * (maxAvoidanceForce * 4);
-
-            return avoidanceForce;
-        }
-
-        return Vector3.zero;
-    }
-    */
-
+  
     public bool sitAtDesk()
     {
         if(Desk.transform.position != targetPos)
@@ -627,6 +526,16 @@ public class Employee : MonoBehaviour
             goToToilet.priority += (Time.deltaTime * bladderModifier);
             drinkADrink.priority -= (Time.deltaTime * thirstModifier);
             return true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
+        {
+            transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
+            currentFloor = targetFloor;
+            gameObject.layer = Lifts[targetFloor].gameObject.layer;
         }
     }
 }

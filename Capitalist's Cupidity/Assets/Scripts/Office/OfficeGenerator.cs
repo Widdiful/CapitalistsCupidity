@@ -46,6 +46,10 @@ public class OfficeGenerator : MonoBehaviour {
         CreateFloors();
     }
 
+    public List<Facility> getFacilities()
+    {
+        return facilities;
+    }
     private void CreateShadow()
     {
         if (shadowPrefab)

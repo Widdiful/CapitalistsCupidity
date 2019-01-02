@@ -9,7 +9,7 @@ public class Director : MonoBehaviour
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
-    public int employeePoolCount = 20;
+    public int employeePoolCount = 45;
     int currentEmployees = 0;
     int maxEmployees = 5;
 
@@ -31,16 +31,13 @@ public class Director : MonoBehaviour
     public GameObject waterFountain;
     public GameObject Exit;
 
-    public delegate void setPos(Positions pos);
-    public static event setPos flockToExit;
+
 
     public delegate void affectHappiness(float value);
     public static event affectHappiness workerHappiness;
 
     public delegate void payWorkers();
     public static event payWorkers payTheGuys;
-
-    bool flock = false;
 
     public int numberOfMonths = 0;
     int oldMonths;
@@ -82,7 +79,7 @@ public class Director : MonoBehaviour
         for (int i = 0; i < employeePoolCount; i++)
         {
             employeePrefab = Instantiate(employeePrefab, transform);
-            employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + UnityEngine.Random.Range(100, 1000).ToString();
+            employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + " " + UnityEngine.Random.Range(100, 1000).ToString();
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }
@@ -198,77 +195,6 @@ public class Director : MonoBehaviour
         return happiness / numOfActive;
     }
 
-    /*public Vector3 flockingAlignment(Employee flocker)
-    {
-        if(flock)
-        {
-            Vector3 averageVelocity = Vector3.zero;
-            flocker.velocity = Vector3.zero;
-          
-            foreach(Employee emp in employees)
-            {
-                if (emp != flocker)
-                {
-                    averageVelocity += emp.velocity;
-                }
-            }
-
-            return averageVelocity = (averageVelocity / (employees.Count - 1)).normalized;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
-    }*?
-
-    
-
-    /*public Vector3 flockingCohesion(Employee flocker)
-    {
-        if (flock)
-        {
-            Vector3 averagePos = Vector3.zero;
-
-            foreach (Employee emp in employees)
-            {
-                if (emp != flocker)
-                {
-                    averagePos += emp.transform.position;
-                }
-            }
-
-            return (averagePos / (employees.Count - 1)).normalized;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
-    }*/
-
-    /*public Vector3 flockingSeperation(Employee flocker)
-    {
-        if (flock)
-        {
-            Vector3 seperation = Vector3.zero;
-
-            foreach (Employee emp in employees)
-            {
-                if(emp != flocker)
-                {
-                    if(Vector3.Distance(flocker.transform.position, emp.transform.position) <= 5)
-                    {
-                        seperation -= (emp.transform.position - flocker.transform.position);
-                    }
-                }
-            }
-
-            return seperation.normalized * 5;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
-    }*/
 
     public int totalActiveEmployees()
     {
@@ -290,7 +216,7 @@ public class Director : MonoBehaviour
                 {
                     if (floors[floor].facilities[i].gameObject.transform.GetChild(j).name == "workPoint")
                     {
-                        if(floors[floor].facilities[i].facilityInfo.facilityName != "Work Space")
+                        if(floors[floor].facilities[i].facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
                         {
                             floors[floor].facilities[i].employees.Add(emp);
                             return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
@@ -299,7 +225,7 @@ public class Director : MonoBehaviour
                         {
                             foreach (Facility fal in floors[floor].facilities)
                             {
-                                if(fal.facilityInfo.facilityName == "Work Space" && fal.employees.Count < 1)
+                                if(fal.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace && fal.employees.Count < 1)
                                 {
                                     fal.employees.Add(emp);
                                     return fal.gameObject.transform.GetChild(j).gameObject;
@@ -336,10 +262,9 @@ public class Director : MonoBehaviour
     public GameObject findClosestFacility(string facilityName, GameObject assignedDesk, Employee emp)
     {
         Facility best = null;
-        var closeFacilities = FindObjectsOfType<Facility>();
         float closest = Mathf.Infinity;
 
-        foreach(Facility fal in closeFacilities)
+        foreach(Facility fal in OfficeGenerator.instance.getFacilities())
         {
             Vector3 direction = fal.transform.position - assignedDesk.transform.position;
             float squareDistance = direction.magnitude;
@@ -364,10 +289,9 @@ public class Director : MonoBehaviour
     public Floor findClosestFloor(GameObject Obj)
     {
         Floor best = null;
-        var closeFacilities = FindObjectsOfType<Floor>();
         float closest = Mathf.Infinity;
 
-        foreach (Floor fal in closeFacilities)
+        foreach (Floor fal in floors)
         {
             Vector3 direction = fal.transform.position - Obj.transform.position;
             float squareDistance = direction.magnitude;
@@ -412,7 +336,7 @@ public class Director : MonoBehaviour
     private void updateFunds()
     {
         float funds = 0;
-        foreach (Facility facility in GameObject.FindObjectsOfType<Facility>())
+        foreach (Facility facility in OfficeGenerator.instance.getFacilities())
         {
             funds -= facility.GetMonthlyExpense();
         }

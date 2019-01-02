@@ -15,7 +15,7 @@ public class Grid : MonoBehaviour
 
     private void Start()
     {
-        gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z); //Sizes the grid depending on the size of the floor
+        gridWorldSize = new Vector2(transform.localScale.x - 1, transform.localScale.z - 1); //Sizes the grid depending on the size of the floor
 
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);

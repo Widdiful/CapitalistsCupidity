@@ -5,12 +5,9 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     public Grid grid;
-
     Employee emp;
     public Vector3 target;
-
     public List<Node> newPath;
-
     public bool foundPath = false;
 
     private void Start()
@@ -29,12 +26,12 @@ public class Pathfinding : MonoBehaviour
             emp.pathComplete = false;
             emp.currentPathPoint = 0;
             foundPath = false;
-            StartCoroutine(findPath(emp.transform.position, target));
+            findPath(emp.transform.position, target);
         }
     }
 
 
-    public IEnumerator findPath(Vector3 startPos, Vector3 targetPos)
+    public void findPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = grid.nodeFromWorldPoint(startPos);
         Node targetNode = grid.nodeFromWorldPoint(targetPos);
@@ -51,13 +48,12 @@ public class Pathfinding : MonoBehaviour
 
             if (currentNode == targetNode)
             {
-                yield return null;
                 StartCoroutine(retracePath(startNode, targetNode));
             }
 
-            foreach(Node neighbour in grid.getNeighbours(currentNode))
+            foreach (Node neighbour in grid.getNeighbours(currentNode))
             {
-                
+
                 if (!neighbour.walkable || closedSet.Contains(neighbour))
                 {
                     continue;
@@ -75,6 +71,7 @@ public class Pathfinding : MonoBehaviour
                     if (!openSet.contains(neighbour))
                     {
                         openSet.add(neighbour);
+
                     }
                     else
                     {
@@ -82,9 +79,10 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
             }
-            
         }
     }
+
+  
 
     IEnumerator retracePath(Node start, Node end)
     {
@@ -93,11 +91,12 @@ public class Pathfinding : MonoBehaviour
 
         while(currentNode != start)
         {
-            yield return null;
-            currentNode.worldPos = new Vector3(currentNode.worldPos.x, emp.transform.position.y, currentNode.worldPos.z); 
+            //currentNode.worldPos = new Vector3(currentNode.worldPos.x, emp.transform.position.y, currentNode.worldPos.z); 
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
+
+        yield return null;
 
         path.Reverse();
 
