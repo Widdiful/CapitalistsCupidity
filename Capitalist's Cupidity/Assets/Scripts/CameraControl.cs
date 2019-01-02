@@ -7,7 +7,7 @@ using System.Linq;
 public class CameraControl : MonoBehaviour {
 
     public float moveSpeed;
-    private int selectedFloor;
+    public int selectedFloor;
     public int visibleFloorLayer;
     public int invisibleFloorLayer;
 

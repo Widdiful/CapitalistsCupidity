@@ -31,20 +31,26 @@ public class PlayerController : MonoBehaviour
             { 
                 if(SelectHit.collider)
                 {
-                    if (SelectHit.transform.GetComponent<Facility>() || SelectHit.transform.GetComponent<Employee>())
+                    Facility facility = SelectHit.transform.GetComponent<Facility>();
+                    Employee employee = SelectHit.transform.GetComponent<Employee>();
+                    if (facility || employee)
                     { 
                         if (!UIManager.instance.windowOpen)
                         {
-                            if (SelectHit.transform.GetComponent<Employee>())
+                            if (employee)
                             {
-                                UIManager.instance.OpenEmployeeWindow(SelectHit.transform.GetComponent<Employee>());
-                                break;
+                                if (employee.currentFloor == CameraControl.instance.selectedFloor) {
+                                    UIManager.instance.OpenEmployeeWindow(SelectHit.transform.GetComponent<Employee>());
+                                    break;
+                                }
                             }
-                            else if (SelectHit.transform.GetComponent<Facility>())
+                            else if (facility)
                             {
-                                SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
-                                UIManager.instance.windowOpen = true;
-                                break;
+                                if (facility.GetFloor().floorNo == CameraControl.instance.selectedFloor) {
+                                    SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
+                                    UIManager.instance.windowOpen = true;
+                                    break;
+                                }
                             }
                         }
                     }

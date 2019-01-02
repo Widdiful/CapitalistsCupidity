@@ -34,11 +34,11 @@ public class Employee : MonoBehaviour
     float thirstModifier = 0.0f;
 
 
-    GameObject Desk;
-    GameObject Toilet;
-    GameObject Cafe;
-    GameObject waterFountain;
-    GameObject Exit;
+    public GameObject Desk;
+    public GameObject Toilet;
+    public GameObject Cafe;
+    public GameObject waterFountain;
+    public GameObject Exit;
 
     int deskFloor;
     int toiletFloor;
