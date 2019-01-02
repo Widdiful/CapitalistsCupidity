@@ -11,7 +11,7 @@ public class Pathfinding : MonoBehaviour
 
     public List<Node> newPath;
 
-    public bool foundPath;
+    public bool foundPath = false;
 
     private void Start()
     {
@@ -28,12 +28,13 @@ public class Pathfinding : MonoBehaviour
             target = target = emp.targetPos;
             emp.pathComplete = false;
             emp.currentPathPoint = 0;
-            findPath(emp.transform.position, target);
+            foundPath = false;
+            StartCoroutine(findPath(emp.transform.position, target));
         }
     }
 
 
-    public void findPath(Vector3 startPos, Vector3 targetPos)
+    public IEnumerator findPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = grid.nodeFromWorldPoint(startPos);
         Node targetNode = grid.nodeFromWorldPoint(targetPos);
@@ -48,29 +49,30 @@ public class Pathfinding : MonoBehaviour
             Node currentNode = openSet.removeFirst();
             closedSet.Add(currentNode);
 
-            if(currentNode == targetNode)
+            if (currentNode == targetNode)
             {
-                retracePath(startNode, targetNode);
-                return;
+                yield return null;
+                StartCoroutine(retracePath(startNode, targetNode));
             }
 
             foreach(Node neighbour in grid.getNeighbours(currentNode))
             {
-                if(!neighbour.walkable || closedSet.Contains(neighbour))
+                
+                if (!neighbour.walkable || closedSet.Contains(neighbour))
                 {
                     continue;
                 }
 
                 int newMoveCostToNeighbour = currentNode.gCost + getDistance(currentNode, neighbour);
 
-                if(newMoveCostToNeighbour < neighbour.gCost || !openSet.contains(neighbour))
+                if (newMoveCostToNeighbour < neighbour.gCost || !openSet.contains(neighbour))
                 {
                     neighbour.gCost = newMoveCostToNeighbour;
                     neighbour.hCost = getDistance(neighbour, targetNode);
 
                     neighbour.parent = currentNode;
 
-                    if(!openSet.contains(neighbour))
+                    if (!openSet.contains(neighbour))
                     {
                         openSet.add(neighbour);
                     }
@@ -80,16 +82,18 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
             }
+            
         }
     }
 
-    void retracePath(Node start, Node end)
+    IEnumerator retracePath(Node start, Node end)
     {
         List<Node> path = new List<Node>();
         Node currentNode = end;
 
         while(currentNode != start)
         {
+            yield return null;
             currentNode.worldPos = new Vector3(currentNode.worldPos.x, emp.transform.position.y, currentNode.worldPos.z); 
             path.Add(currentNode);
             currentNode = currentNode.parent;
@@ -98,7 +102,8 @@ public class Pathfinding : MonoBehaviour
         path.Reverse();
 
         
-        newPath = path;    
+        newPath = path;
+        foundPath = true;
     }
 
     int getDistance(Node a, Node b)
@@ -109,25 +114,4 @@ public class Pathfinding : MonoBehaviour
         return (int)Mathf.Sqrt((distX * distX) + (distY * distY));
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(grid.gridWorldSize.x, 1, grid.gridWorldSize.y)); //Draws the grid
-
-        if (grid != null)
-        {
-            foreach (Node n in grid.worldGrid)
-            {
-                Gizmos.color = (n.walkable) ? Color.white : Color.red;
-
-                if (newPath != null)
-                {
-                    if (newPath.Contains(n))
-                    {
-                        Gizmos.color = Color.blue;
-                    }
-                }
-                Gizmos.DrawCube(n.worldPos, Vector3.one * (grid.nodeDiameter - 0.1f));
-            }
-        }
-    }
 }

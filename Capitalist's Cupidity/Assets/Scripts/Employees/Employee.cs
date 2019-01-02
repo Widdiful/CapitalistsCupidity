@@ -181,6 +181,7 @@ public class Employee : MonoBehaviour
         quit = true;
         actions[0] = Leave;
         Leave.priority = 100;
+        pathFinding.foundPath = false;
         pathComplete = true;
     }
 
@@ -208,27 +209,25 @@ public class Employee : MonoBehaviour
         thirst = drinkADrink.priority;
 
         //If current action need is greater than the current action, current action will be executed
-        foreach (Actions action in actions)
-        {
-                if (action.priority > actions[0].priority && actions[0].priority <= 0)
-                {
-                    Swap(actions, 0, actions.IndexOf(action));
-                }
 
-            actions[0].execute();
-        }
-
-        /*if (actions[0].canInterupt == false)
-        {
-            Director.flockToExit -= moveTo;
-        }
-        else
-        {
-            Director.flockToExit += moveTo;
-        }*/
+        StartCoroutine(updateActions());
 
         Move();
         updateHappiness();
+    }
+
+    IEnumerator updateActions()
+    {
+        foreach (Actions action in actions)
+        {
+            if (action.priority > actions[0].priority && actions[0].priority <= 0)
+            {
+                Swap(actions, 0, actions.IndexOf(action));
+            }
+
+            actions[0].execute();
+            yield return null;
+        }
     }
 
     public float getHappiness()
@@ -439,27 +438,30 @@ public class Employee : MonoBehaviour
 
     void Move()
     {
-        if (pathFinding.newPath != null && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
+        if (pathFinding.foundPath == true)
         {
-            followPath = pathFinding.newPath[currentPathPoint].worldPos;
-            Vector3 pathPosition = new Vector3(followPath.x, transform.position.y, followPath.z);
-            Vector3 targetDirection = pathPosition - transform.position;
-            targetDirection = targetDirection.normalized;
-
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                                                    Quaternion.LookRotation(targetDirection),
-                                                     maxTurnSpeed * Time.deltaTime);
-
-            transform.position += transform.forward * Time.deltaTime * maxMoveSpeed;
-
-            if (Vector3.Distance(pathPosition, transform.position) <= 0.5f)
+            if (pathFinding.newPath != null && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
             {
-                currentPathPoint = (currentPathPoint + 1) % pathFinding.newPath.Count;
+                followPath = pathFinding.newPath[currentPathPoint].worldPos;
+                Vector3 pathPosition = new Vector3(followPath.x, transform.position.y, followPath.z);
+                Vector3 targetDirection = pathPosition - transform.position;
+                targetDirection = targetDirection.normalized;
+
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                        Quaternion.LookRotation(targetDirection),
+                                                         maxTurnSpeed * Time.deltaTime);
+
+                transform.position += transform.forward * Time.deltaTime * maxMoveSpeed;
+
+                if (Vector3.Distance(pathPosition, transform.position) <= 0.5f)
+                {
+                    currentPathPoint = (currentPathPoint + 1) % pathFinding.newPath.Count;
+                }
             }
-        }
-        else
-        {
-            pathComplete = true;
+            else
+            {
+                pathComplete = true;
+            }
         }
     }
 

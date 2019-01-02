@@ -9,7 +9,7 @@ public class Director : MonoBehaviour
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
-    public int employeePoolCount = 45;
+    public int employeePoolCount = 20;
     int currentEmployees = 0;
     int maxEmployees = 5;
 
@@ -73,7 +73,7 @@ public class Director : MonoBehaviour
     void Start ()
     {
         Exit = GameObject.Find("Entrance");
-        transform.position = Exit.transform.position + (Exit.transform.forward / 1.2f);
+        transform.position = Exit.transform.position - Exit.transform.up / 2 + (Exit.transform.forward / 1.2f);
 
         names = new string[3] { "Ed", "Lewis", "Jack" };
         employees = new List<Employee>();
