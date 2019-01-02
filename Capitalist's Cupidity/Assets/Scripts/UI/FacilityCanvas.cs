@@ -7,6 +7,7 @@ public class FacilityCanvas : MonoBehaviour
 {
     Text facilityNameText;
     Text fundingText;
+    Text employeeText;
     Slider fundingSlider;
     Slider happinessSlider;
     Button confirmButton;
@@ -29,6 +30,7 @@ public class FacilityCanvas : MonoBehaviour
         confirmButton = transform.GetChild(0).Find("ConfirmButton").GetComponent<Button>();
         cancelButton = transform.GetChild(0).Find("CancelButton").GetComponent<Button>();
         sabotageButton = transform.GetChild(0).Find("SabotageButton").GetComponent<Button>();
+        employeeText = transform.GetChild(0).Find("EmployeeText").GetComponent<Text>();
 
         cancelButton.onClick.AddListener(CancelChanges);
         confirmButton.onClick.AddListener(ConfirmChanges);
@@ -66,13 +68,26 @@ public class FacilityCanvas : MonoBehaviour
 
         sabotageButton.interactable = selectedFacility.canSabotage && selectedFacility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace;
         sabotageButton.GetComponentInChildren<Text>().text = "Sabotage ($" + selectedFacility.facilityInfo.sabotageCost + ")";
+
+        if (selectedFacility.employees.Count > 1)
+            employeeText.text = selectedFacility.employees.Count.ToString() + " Employees";
+
+        else if (selectedFacility.employees.Count == 1)
+            employeeText.text = selectedFacility.employees[0].name;
+
+        else
+            employeeText.text = "Empty";
     }
 
     private void UpdateUI()
     {
         funding = (baseExpense * fundingPercent); // Set the funding amount
         fundingText.text = "$" + funding.ToString("0.00") + " p/m"; // Set funding number on canvas
-        if (selectedFacility) happinessSlider.value = selectedFacility.averageEmployeeHappiness;
+
+        if (selectedFacility) {
+            happinessSlider.value = selectedFacility.averageEmployeeHappiness;
+        }
+
         if(funding <= 0)
         {
             fundingText.text = "Cut Facility";

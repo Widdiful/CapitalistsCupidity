@@ -17,7 +17,7 @@ public class EmployeeButton : MonoBehaviour {
     public void UpdateInformation() {
         nameText.text = employee.name;
         floorText.text = employee.assignedFloor.ToString();
-        happinessBar.size = employee.getHappiness();
+        happinessBar.size = employee.getHappiness() / 100.0f;
     }
 
     public void Click() {
