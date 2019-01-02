@@ -32,7 +32,7 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     public void ConfirmStartNewGame() {
-        FindObjectOfType<LoadLevel>().Load(2);
+        FindObjectOfType<LoadLevel>().Load(1);
         GetComponent<Canvas>().enabled = false;
     }
 
