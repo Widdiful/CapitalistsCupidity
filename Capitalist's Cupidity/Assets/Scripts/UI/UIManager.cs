@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour {
     public Canvas businessMenuCanvas;
     public Canvas gameOverMenu;
 
+    private List<FloorButton> floorButtons = new List<FloorButton>();
+    private List<EmployeeButton> employeeButtons = new List<EmployeeButton>();
+    private List<FacilityButton> facilityButtons = new List<FacilityButton>();
+    private List<BusinessButton> businessButtons = new List<BusinessButton>();
+
     public bool windowOpen;
     public Canvas openedWindow;
 
@@ -36,8 +41,6 @@ public class UIManager : MonoBehaviour {
     // Variables
     private bool managementPaneOpen = false;
     private Text managementButtonText;
-    private Dictionary<int, FloorButton> floorButtons = new Dictionary<int, FloorButton>();
-    private Dictionary<int, EmployeeButton> employeeButtons = new Dictionary<int, EmployeeButton>();
 
     public static UIManager instance;
 
@@ -53,6 +56,28 @@ public class UIManager : MonoBehaviour {
 
         buttonAnim = managementButton.GetComponent<Animator>();
         paneAnim = managementPane.GetComponent<Animator>();
+
+        GameObject newButton;
+        for (int i = OfficeGenerator.instance.floorCount - 1; i >= 0; i--) {
+            FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
+            newFloor.floorNo = i;
+            floorButtons.Add(newFloor);
+        }
+        for (int i = 0; i < Director.Instance.employeePoolCount; i++) {
+            newButton = Instantiate(employeesButtonPrefab, employeesContent);
+            newButton.SetActive(false);
+            employeeButtons.Add(newButton.GetComponent<EmployeeButton>());
+        }
+        for (int i = 0; i < OfficeGenerator.instance.floorCount * OfficeGenerator.instance.workspaceCount; i++) {
+            newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent);
+            newButton.SetActive(false);
+            facilityButtons.Add(newButton.GetComponent<FacilityButton>());
+        }
+        for (int i = 0; i < Businesses.instance.ListOfBusinesses.Count; i++) {
+            newButton = Instantiate(businessesButtonPrefab, businessesContent);
+            newButton.SetActive(false);
+            businessButtons.Add(newButton.GetComponent<BusinessButton>());
+        }
     }
 
     private void FixedUpdate() {
@@ -136,14 +161,9 @@ public class UIManager : MonoBehaviour {
     public void UpdateFloorsTab()
     {
         if (OfficeGenerator.instance && floorsContent && floorsButtonPrefab) {
-            DeleteButtonsInTab(floorsContent);
-            for (int i = OfficeGenerator.instance.GetFloors().Count - 1; i >= 0; i--) {
+            for (int i = 0; i < floorButtons.Count; i++) {
                 Floor floor = OfficeGenerator.instance.GetFloors()[i];
-                FloorButton newFloor = Instantiate(floorsButtonPrefab, floorsContent).GetComponent<FloorButton>();
-                newFloor.floorNo = floor.floorNo;
-                newFloor.population = floor.population;
-                newFloor.happiness = floor.happiness;
-                newFloor.UpdateInformation();
+                floorButtons[i].UpdateInformation();
             }
         }
     }
@@ -152,16 +172,15 @@ public class UIManager : MonoBehaviour {
     {
         if (Director.Instance && employeesContent && employeesButtonPrefab)
         {
-            DeleteButtonsInTab(employeesContent);
-            foreach(Employee employee in Director.Instance.employees)
-            {
-                if (employee.gameObject.activeInHierarchy) {
-                    EmployeeButton newButton = Instantiate(employeesButtonPrefab, employeesContent).GetComponent<EmployeeButton>();
-                    newButton.employeeName = employee.name;
-                    newButton.floor = employee.assignedFloor;
-                    newButton.happiness = employee.getHappiness() / 100f;
-                    newButton.employee = employee;
-                    newButton.UpdateInformation();
+            for(int i = 0; i < employeeButtons.Count; i++) {
+                Employee emp = Director.Instance.employees[i];
+                if (emp.gameObject.activeInHierarchy) {
+                    employeeButtons[i].gameObject.SetActive(true);
+                    employeeButtons[i].employee = emp;
+                    employeeButtons[i].UpdateInformation();
+                }
+                else {
+                    employeeButtons[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -171,18 +190,19 @@ public class UIManager : MonoBehaviour {
     {
         if (facilitiesContent && facilitiesButtonPrefab)
         {
-            DeleteButtonsInTab(facilitiesContent);
-            foreach (Facility facility in FindObjectsOfType<Facility>())
-            {
-                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
-                {
-                    FacilityButton newButton = Instantiate(facilitiesButtonPrefab, facilitiesContent).GetComponent<FacilityButton>();
-                    newButton.facilityName = facility.facilityInfo.facilityName;
-                    newButton.fundingCurrent = facility.GetMonthlyExpense();
-                    newButton.happiness = 0.5f;
-                    newButton.facility = facility;
-                    newButton.floorNo = facility.GetComponentInParent<Floor>().floorNo;
-                    newButton.UpdateInformation();
+            for (int i = 0; i < facilityButtons.Count; i++) {
+                Facility facility = FindObjectsOfType<Facility>()[i];
+                if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Copy) {
+                    facilityButtons[i].gameObject.SetActive(true);
+                    facilityButtons[i].facilityName = facility.facilityInfo.facilityName;
+                    facilityButtons[i].fundingCurrent = facility.GetMonthlyExpense();
+                    facilityButtons[i].happiness = 0.5f;
+                    facilityButtons[i].facility = facility;
+                    facilityButtons[i].floorNo = facility.GetComponentInParent<Floor>().floorNo;
+                    facilityButtons[i].UpdateInformation();
+                }
+                else {
+                    facilityButtons[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -192,17 +212,18 @@ public class UIManager : MonoBehaviour {
     {
         if (Businesses.instance && businessesContent && businessesButtonPrefab)
         {
-            DeleteButtonsInTab(businessesContent);
-            foreach (Businesses.Business business in Businesses.instance.ListOfBusinesses)
-            {
-                if (!business.purchased)
-                {
-                    BusinessButton newButton = Instantiate(businessesButtonPrefab, businessesContent).GetComponent<BusinessButton>();
-                    newButton.businessName = business.businessName;
-                    newButton.cost = business.costToBuy;
-                    newButton.earnings = business.monthlyIncome;
-                    newButton.business = business;
-                    newButton.UpdateInformation();
+            for (int i = 0; i < businessButtons.Count; i++) {
+                Businesses.Business business = Businesses.instance.ListOfBusinesses[i];
+                if (!business.purchased) {
+                    businessButtons[i].gameObject.SetActive(true);
+                    businessButtons[i].businessName = business.businessName;
+                    businessButtons[i].cost = business.costToBuy;
+                    businessButtons[i].earnings = business.monthlyIncome;
+                    businessButtons[i].business = business;
+                    businessButtons[i].UpdateInformation();
+                }
+                else {
+                    businessButtons[i].gameObject.SetActive(false);
                 }
             }
         }

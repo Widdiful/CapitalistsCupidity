@@ -15,9 +15,9 @@ public class EmployeeButton : MonoBehaviour {
     public Scrollbar happinessBar;
 
     public void UpdateInformation() {
-        nameText.text = employeeName;
-        floorText.text = floor.ToString();
-        happinessBar.size = happiness;
+        nameText.text = employee.name;
+        floorText.text = employee.assignedFloor.ToString();
+        happinessBar.size = employee.getHappiness();
     }
 
     public void Click() {
