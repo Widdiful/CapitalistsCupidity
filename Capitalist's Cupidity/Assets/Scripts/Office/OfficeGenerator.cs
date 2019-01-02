@@ -105,12 +105,7 @@ public class OfficeGenerator : MonoBehaviour {
                 }
                 j = i;
             }
-            print(j);
             facilityFloors.Add(info.name, floors);
-            print(info.name);
-            foreach(int i in facilityFloors[info.name]) {
-                print(i);
-            }
         }
 
         // Create floors

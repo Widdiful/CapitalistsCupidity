@@ -131,6 +131,7 @@ MonoBehaviour:
   moveSpeed: 0.2
   visibleFloorLayer: 9
   invisibleFloorLayer: 10
+  facilityLayer: 14
 --- !u!114 &114579073698119086
 MonoBehaviour:
   m_ObjectHideFlags: 1

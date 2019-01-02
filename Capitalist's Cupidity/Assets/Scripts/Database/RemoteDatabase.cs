@@ -24,7 +24,7 @@ public class RemoteDatabase : MonoBehaviour {
         userID = PlayerPrefs.GetString("userID");
         if (userID == "")
             Register();
-        LocalDatabase.instance.UpdateDatabase();
+        if (LocalDatabase.instance) LocalDatabase.instance.UpdateDatabase();
 
     }
 
