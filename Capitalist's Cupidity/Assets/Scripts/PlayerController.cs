@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Camera cameraRef;
+    private bool justTapped;
 	// Use this for initialization
 	void Start ()
     {
@@ -14,8 +15,9 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+        if(Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && !justTapped))
         {
+            justTapped = true;
             Ray SelectRay = cameraRef.ScreenPointToRay(Input.mousePosition);
             if(Input.touchCount > 0)
             {
@@ -38,6 +40,10 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+        }
+        if(Input.touchCount == 0)
+        {
+            justTapped = false;
         }
 	}
 }
