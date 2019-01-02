@@ -25,7 +25,7 @@ public class LocalDatabase : MonoBehaviour {
     }
 
     private void Start() {
-        UpdateDatabase();
+        //UpdateDatabase();
     }
 
     public void UpdateDatabase() {
