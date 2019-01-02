@@ -21,6 +21,8 @@ public class Facility : MonoBehaviour
     public List<Employee> employees = new List<Employee>();
     public bool canSabotage = true;
 
+    private Grid grid;
+
     // Use this for initialization
     void Start()
     {
@@ -179,6 +181,7 @@ public class Facility : MonoBehaviour
                 }
             }
         }
+        grid.updateGrid();
     }
 
     public void OpenFacilityWindow()
@@ -251,6 +254,7 @@ public class Facility : MonoBehaviour
     public void SetFloor(Floor floorNo)
     {
         floor = floorNo;
+        grid = floorNo.transform.GetComponentInChildren<Grid>();
     }
 
     public Floor GetFloor()

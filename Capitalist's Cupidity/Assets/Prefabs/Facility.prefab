@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 23100312821880684}
   m_Layer: 0
   m_Name: Facility
-  m_TagString: unwalkable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,6 +166,9 @@ MonoBehaviour:
     facilityType: 7
     height: 1
     width: 1
+    sabotageCost: 0
+    sabotageMessageTitle: 
+    sabotageMessageContent: 
   averageEmployeeHappiness: 0
   childObject: {fileID: 1939210444495072}
   CopyOf: {fileID: 0}
@@ -174,3 +177,4 @@ MonoBehaviour:
   xPosition: 0
   yPosition: 0
   employees: []
+  canSabotage: 1

@@ -18,8 +18,8 @@ TagManager:
   - VisibleFloor
   - InvisibleFloor
   - unwalkable
-  - 
-  - 
+  - Pathfinding
+  - Player
   - 
   - 
   - 

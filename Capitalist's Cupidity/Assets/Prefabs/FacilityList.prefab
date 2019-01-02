@@ -55,7 +55,7 @@ MonoBehaviour:
   - costToBuy: 10000
     baseMonthlyExpenses: 1000
     facilityName: Cafeteria
-    child: {fileID: 100000, guid: 09c5d9e90e1032045bb7deb375a3e838, type: 3}
+    child: {fileID: 1787826441872452, guid: 071f442bf4975dd4bbe7443d1c3b3f6b, type: 2}
     facilityType: 0
     height: 2
     width: 2
@@ -68,7 +68,7 @@ MonoBehaviour:
   - costToBuy: 15000
     baseMonthlyExpenses: 500
     facilityName: Water Fountain
-    child: {fileID: 100000, guid: 96f22db2d7bb6f545bf02bf84157094f, type: 3}
+    child: {fileID: 1963578403305454, guid: 311e47702521d224b87ee7137dc3c841, type: 2}
     facilityType: 1
     height: 2
     width: 2
@@ -82,7 +82,7 @@ MonoBehaviour:
   - costToBuy: 5000
     baseMonthlyExpenses: 750
     facilityName: Toilets
-    child: {fileID: 100004, guid: 58fe79837dcaa784dbcefcf3dbf1c8ba, type: 3}
+    child: {fileID: 1953545673262664, guid: 3465e8229881ae841aa4842bd5af732c, type: 2}
     facilityType: 2
     height: 1
     width: 2
@@ -105,7 +105,7 @@ MonoBehaviour:
   - costToBuy: 40000
     baseMonthlyExpenses: 500
     facilityName: Work Space
-    child: {fileID: 100000, guid: 34af3e46af917cf4684d62ee945d371e, type: 3}
+    child: {fileID: 1101522993982398, guid: a63860aa0af64fa4784f26e5d4e38f5c, type: 2}
     facilityType: 4
     height: 1
     width: 1
