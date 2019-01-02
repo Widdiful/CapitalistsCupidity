@@ -230,10 +230,10 @@ public class Facility : MonoBehaviour
         fundingPercentage = FundingPercentage; // Set funding value based on slider position
         if (fundingPercentage <= 0)
         {
-            foreach (Employee employee in employees) {
-                Director.Instance.assignFacilities(employee.assignedFloor, name, employee.Desk, employee);
-            }
             CutFacility(); // if the funding percentage is now 0, then cut the facility.
+            foreach (Employee employee in employees) {
+                //Director.Instance.assignFacilities(employee.assignedFloor, name, employee.Desk, employee);
+            }
         }
     }
 
