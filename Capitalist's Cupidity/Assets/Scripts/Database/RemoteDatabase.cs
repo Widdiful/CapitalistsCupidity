@@ -21,10 +21,10 @@ public class RemoteDatabase : MonoBehaviour {
     }
 
     private void Start() {
-        userID = PlayerPrefs.GetString("userID");
+        savingAndLoading.instance.loadProfileData();
         if (userID == "")
             Register();
-        GetName();
+        else GetName();
         if (LocalDatabase.instance) LocalDatabase.instance.UpdateDatabase();
 
     }
@@ -66,7 +66,7 @@ public class RemoteDatabase : MonoBehaviour {
             Debug.Log("Registration successful");
             userID = www.text.Replace("ID", "");
             userName = "New Player";
-            PlayerPrefs.SetString("userID", userID);
+            savingAndLoading.instance.saveProfileData();
         }
         else {
             Debug.Log("Registration failed. Error " + www.text);
@@ -80,7 +80,6 @@ public class RemoteDatabase : MonoBehaviour {
         WWW www = new WWW(hostURL + "getName.php", form);
         yield return www;
 
-        print(www.text);
         userName = www.text;
     }
 

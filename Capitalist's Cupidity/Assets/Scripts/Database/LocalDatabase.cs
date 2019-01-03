@@ -25,19 +25,27 @@ public class LocalDatabase : MonoBehaviour {
     }
 
     private void Start() {
+        savingAndLoading.instance.loadLeaderboards();
         //UpdateDatabase();
-        savingAndLoading.instance.load();
     }
 
     public void UpdateDatabase() {
-        databaseFree.Sort(SortByScore);
-        databaseFree.Reverse();
-        databaseGold.Sort(SortByScore);
-        databaseGold.Reverse();
-        databaseTime.Sort(SortByScore);
-        RemoteDatabase.instance.UploadScore(databaseFree[0].companyName, databaseFree[0].score, HighScoreManager.GameTypes.Free);
-        RemoteDatabase.instance.UploadScore(databaseGold[0].companyName, databaseGold[0].score, HighScoreManager.GameTypes.Gold);
-        RemoteDatabase.instance.UploadScore(databaseTime[0].companyName, databaseTime[0].score, HighScoreManager.GameTypes.Time);
+        if (databaseFree.Count > 0) {
+            databaseFree.Sort(SortByScore);
+            databaseFree.Reverse();
+            RemoteDatabase.instance.UploadScore(databaseFree[0].companyName, databaseFree[0].score, HighScoreManager.GameTypes.Free);
+        }
+
+        if (databaseGold.Count > 0) {
+            databaseGold.Sort(SortByScore);
+            databaseGold.Reverse();
+            RemoteDatabase.instance.UploadScore(databaseGold[0].companyName, databaseGold[0].score, HighScoreManager.GameTypes.Gold);
+        }
+
+        if (databaseTime.Count > 0) {
+            databaseTime.Sort(SortByScore);
+            RemoteDatabase.instance.UploadScore(databaseTime[0].companyName, databaseTime[0].score, HighScoreManager.GameTypes.Time);
+        }
     }
 
     static int SortByScore(LocalDatabaseItem item1, LocalDatabaseItem item2) {

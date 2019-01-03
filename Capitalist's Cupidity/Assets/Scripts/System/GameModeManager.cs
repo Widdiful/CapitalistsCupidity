@@ -76,6 +76,6 @@ public class GameModeManager : MonoBehaviour {
                 break;
         }
         UIManager.instance.OpenGameOverWindow();
-        savingAndLoading.instance.save();
+        savingAndLoading.instance.saveLeaderboards();
     }
 }

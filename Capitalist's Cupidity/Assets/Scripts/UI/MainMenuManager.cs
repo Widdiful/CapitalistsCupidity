@@ -22,8 +22,8 @@ public class MainMenuManager : MonoBehaviour {
         if (instance != this)
             Destroy(this);
         DontDestroyOnLoad(this);
-        fiveCoins = PlayerPrefs.GetInt("fiveCoins");
-        coinText.text = "Owned 5Coins: " + MainMenuManager.instance.fiveCoins.ToString("n0");
+        //fiveCoins = PlayerPrefs.GetInt("fiveCoins");
+        //savingAndLoading.instance.loadProfileData();
     }
 
     public void StartNewGame() {
@@ -38,7 +38,8 @@ public class MainMenuManager : MonoBehaviour {
 
     public void BuyFiveCoins(int amount) {
         fiveCoins += amount;
-        PlayerPrefs.SetInt("fiveCoins", fiveCoins);
+        //PlayerPrefs.SetInt("fiveCoins", fiveCoins);
+        savingAndLoading.instance.saveProfileData();
         coinText.text = "Owned 5Coins: " + MainMenuManager.instance.fiveCoins.ToString("n0");
     }
 }

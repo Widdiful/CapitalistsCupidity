@@ -22,6 +22,21 @@ public class SaveData
 
 }
 
+[System.Serializable]
+public class ScoreData
+{
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseFree = new List<LocalDatabase.LocalDatabaseItem>();
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseGold = new List<LocalDatabase.LocalDatabaseItem>();
+    public List<LocalDatabase.LocalDatabaseItem> dataBaseTime = new List<LocalDatabase.LocalDatabaseItem>();
+}
+
+[System.Serializable]
+public class ProfileData
+{
+    public string userID;
+    public int fiveCoins;
+}
+
 public class savingAndLoading : MonoBehaviour
 {
     Director directorScript;
@@ -29,6 +44,8 @@ public class savingAndLoading : MonoBehaviour
     SaveData saveData;
     FacilityList facilityScript;
     LocalDatabase localDatabaseScript;
+    ScoreData scoreData = new ScoreData();
+    public ProfileData profileData = new ProfileData();
 
     public static savingAndLoading instance;
 
@@ -104,5 +121,58 @@ public class savingAndLoading : MonoBehaviour
         LocalDatabase.instance.databaseFree = saveData.dataBaseFree;
         LocalDatabase.instance.databaseGold = saveData.dataBaseGold;
         LocalDatabase.instance.databaseTime = saveData.dataBaseTime;
+    }
+
+    public void saveLeaderboards() {
+        scoreData.dataBaseFree = LocalDatabase.instance.databaseFree;
+        scoreData.dataBaseGold = LocalDatabase.instance.databaseGold;
+        scoreData.dataBaseTime = LocalDatabase.instance.databaseTime;
+
+        // save scores to file
+        FileStream fs = new FileStream("scores.dat", FileMode.Create);
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(fs, scoreData);
+        fs.Close();
+    }
+
+    public void loadLeaderboards() {
+        if (File.Exists("scores.dat")) {
+            using (Stream stream = File.Open("scores.dat", FileMode.Open)) {
+                var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                scoreData = (ScoreData)bformatter.Deserialize(stream);
+            }
+
+            LocalDatabase.instance.databaseFree = scoreData.dataBaseFree;
+            LocalDatabase.instance.databaseGold = scoreData.dataBaseGold;
+            LocalDatabase.instance.databaseTime = scoreData.dataBaseTime;
+
+            LocalDatabase.instance.UpdateDatabase();
+        }
+    }
+
+    public void saveProfileData() {
+        profileData.userID = RemoteDatabase.instance.userID;
+        profileData.fiveCoins = MainMenuManager.instance.fiveCoins;
+
+        // save data to file
+        FileStream fs = new FileStream("profile.dat", FileMode.Create);
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(fs, profileData);
+        fs.Close();
+    }
+
+    public void loadProfileData() {
+        if (File.Exists("profile.dat")) {
+            using (Stream stream = File.Open("profile.dat", FileMode.Open)) {
+                var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                profileData = (ProfileData)bformatter.Deserialize(stream);
+            }
+
+            RemoteDatabase.instance.userID = profileData.userID;
+            MainMenuManager.instance.fiveCoins = profileData.fiveCoins;
+            MainMenuManager.instance.coinText.text = "Owned 5Coins: " + MainMenuManager.instance.fiveCoins.ToString("n0");
+        }
     }
 }

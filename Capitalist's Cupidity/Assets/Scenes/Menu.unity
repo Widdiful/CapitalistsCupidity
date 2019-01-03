@@ -296,22 +296,27 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224866408333555506, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224866408333555506, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224101616933134432, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224260692451167464, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224101616933134432, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224260692451167464, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -331,6 +336,16 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224101616933134432, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224101616933134432, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224605249750162962, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMin.y
@@ -346,27 +361,12 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224260692451167464, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224866408333555506, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224260692451167464, guid: 7573bd4e363e8f44e956ed7b9a23e627,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224667959074771086, guid: 7573bd4e363e8f44e956ed7b9a23e627,
+    - target: {fileID: 224866408333555506, guid: 7573bd4e363e8f44e956ed7b9a23e627,
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1635,33 +1635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb8ee4c5ca68c2a40bb77abfdf72fd56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  databaseFree:
-  - companyName: Test Co.
-    score: 1
-  - companyName: Locally tested games
-    score: 1000
-  - companyName: A test
-    score: 10
-  - companyName: Cool cool yes
-    score: 100
-  databaseGold:
-  - companyName: A
-    score: 1
-  - companyName: B
-    score: 1000
-  - companyName: C
-    score: 100
-  - companyName: D
-    score: 10
-  databaseTime:
-  - companyName: A
-    score: 00:00:01
-  - companyName: B
-    score: 00:01:23
-  - companyName: C
-    score: 00:01:00
-  - companyName: D
-    score: 01:11:11
+  databaseFree: []
+  databaseGold: []
+  databaseTime: []
 --- !u!114 &1549790484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,6 +1677,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce24cb84941f24e877d7a7e76b5623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profileData:
+    userID: 
+    fiveCoins: 0
 --- !u!1 &1887113676
 GameObject:
   m_ObjectHideFlags: 0
