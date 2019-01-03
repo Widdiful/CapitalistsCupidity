@@ -625,7 +625,7 @@ Prefab:
     - target: {fileID: 224160248679098772, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000008528768
+      value: -0.00000677829
       objectReference: {fileID: 0}
     - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
@@ -1081,6 +1081,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce24cb84941f24e877d7a7e76b5623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profileData:
+    userID: 
+    fiveCoins: 0
 --- !u!1 &1446802498 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1321828650589272, guid: 1f3d1679f098d8747ae388248dc232f7,
@@ -1802,22 +1805,22 @@ Prefab:
     - target: {fileID: 224010052685898048, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000020981252
+      value: -0.000021942962
       objectReference: {fileID: 0}
     - target: {fileID: 224320417702829548, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000031416976
+      value: -0.000023634155
       objectReference: {fileID: 0}
     - target: {fileID: 224960405291986596, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000021659152
+      value: -0.000022010752
       objectReference: {fileID: 0}
     - target: {fileID: 224467106175003176, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000020981252
+      value: -0.000021942962
       objectReference: {fileID: 0}
     - target: {fileID: 224134018086272990, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
