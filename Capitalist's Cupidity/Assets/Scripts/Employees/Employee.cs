@@ -545,7 +545,10 @@ public class Employee : MonoBehaviour
                 assignedWorkPoints.Add(facilityType, Director.Instance.assignFacility(assignedFloor, facilityType, assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].gameObject, this));
             }
         }
-        assignedWorkPoints[facilityType].employees.Add(this);
+        if(assignedWorkPoints[facilityType] != null)
+        {
+            assignedWorkPoints[facilityType].employees.Add(this);
+        }
     }
 }
 

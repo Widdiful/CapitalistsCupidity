@@ -216,7 +216,6 @@ public class Director : MonoBehaviour
                 {
                     if(floors[floor].facilities[i].facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
                     {
-                        floors[floor].facilities[i].employees.Add(emp);
                         return floors[floor].facilities[i];
                     }
                     else
@@ -225,7 +224,6 @@ public class Director : MonoBehaviour
                         {
                             if(fal.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace && fal.employees.Count < 1)
                             {
-                                fal.employees.Add(emp);
                                 return fal;
                             }
                         }
@@ -274,7 +272,6 @@ public class Director : MonoBehaviour
         }
         if (best != null)
         {
-            best.employees.Add(emp);
             return best;
         }
         else

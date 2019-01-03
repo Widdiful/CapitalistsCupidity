@@ -52,14 +52,11 @@ public class Facility : MonoBehaviour
 
     public void CutFacility()
     {
+        FacilityInfo.FacilityType facilityType = facilityInfo.facilityType;
+
         if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
         {
             OfficeManager.instance.RemoveFacility(this);
-            foreach (Employee employee in employees)
-            {
-                employee.AssignFacility(facilityInfo.facilityType);
-            }
-            employees.Clear();
         }
         foreach (Floor.FacilityRow column in floor.facilityArray)
         {
@@ -80,7 +77,17 @@ public class Facility : MonoBehaviour
                 }
             }
         }
-
+        if (facilityType != FacilityInfo.FacilityType.Empty && facilityType != FacilityInfo.FacilityType.Copy)
+        {
+            if (employees.Count > 0)
+            {
+                for (int i = 0; i < employees.Count; i++)
+                {
+                    employees[i].AssignFacility(facilityType);
+                }
+                employees.Clear();
+            }
+        }
         Messages.instance.NewMessage("Floor " + floor.floorNo + " " + facilityInfo.facilityName + " has been cut.", Messages.MessageType.Ticker);
         Messages.instance.CreateNoticeboardMessage("Floor " + floor.floorNo + " " + facilityInfo.facilityName, "Unfortunately, this facility was unable to meet our expectations and had to be temporarily closed. We hear you, but please be assured that this is for the benefit of us all.");
     }
