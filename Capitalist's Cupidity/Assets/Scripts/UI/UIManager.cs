@@ -328,6 +328,14 @@ public class UIManager : MonoBehaviour {
     }
 
     public void QuitToMenu() {
-        FindObjectOfType<LoadLevel>().Load(3);
+
+        if (GameModeManager.instance.gameMode == GameModeManager.GameModes.Free) {
+            LocalDatabase.LocalDatabaseItem newScore = new LocalDatabase.LocalDatabaseItem();
+            newScore.companyName = OfficeGenerator.instance.officeName;
+            newScore.score = PlayerStats.instance.GetPersonalFunds().ToString("#0.00");
+            LocalDatabase.instance.databaseFree.Add(newScore);
+            savingAndLoading.instance.saveLeaderboards();
+        }
+        FindObjectOfType<LoadLevel>().Load(0);
     }
 }

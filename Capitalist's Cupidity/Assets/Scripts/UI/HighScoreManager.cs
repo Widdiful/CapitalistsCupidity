@@ -84,7 +84,10 @@ public class HighScoreManager : MonoBehaviour {
                 newItem.position = position;
                 newItem.playerName = RemoteDatabase.instance.userName;
                 newItem.companyName = item.companyName;
-                newItem.score = item.score.ToString();
+                if (gameType == GameTypes.Time)
+                    newItem.score = item.score.ToString();
+                else
+                    newItem.score = "$" + float.Parse(item.score).ToString("##0,00");
                 newItem.UpdateInformation();
                 position++;
         }
@@ -133,7 +136,10 @@ public class HighScoreManager : MonoBehaviour {
                     newItem.position = position;
                     newItem.playerName = RemoteDatabase.instance.GetDBLineValue(line, "player:");
                     newItem.companyName = RemoteDatabase.instance.GetDBLineValue(line, "company:");
-                    newItem.score = RemoteDatabase.instance.GetDBLineValue(line, "score:");
+                    if (gameType == GameTypes.Time)
+                        newItem.score = RemoteDatabase.instance.GetDBLineValue(line, "score:");
+                    else
+                        newItem.score = "$" + int.Parse(RemoteDatabase.instance.GetDBLineValue(line, "score:")).ToString("##0,00");
                     newItem.UpdateInformation();
                     position++;
                 }
