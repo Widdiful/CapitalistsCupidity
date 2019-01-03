@@ -208,36 +208,34 @@ public class Director : MonoBehaviour
 
     public GameObject assignFacilities(int floor, string facilityName, GameObject obj, Employee emp)
     {
+        FacilityInfo.FacilityType facilityType = FacilityList.instance.GetFacilityByName(facilityName).facilityType;
         for(int i = 0; i < floors[floor].facilities.Count; i++)
         {
-            if (floors[floor].facilities[i].facilityInfo.facilityName == facilityName) 
+            if (floors[floor].facilities[i].facilityInfo.facilityType == facilityType) 
             {
-                for (int j = 0; j < floors[floor].facilities[i].gameObject.transform.childCount; j++)
+                if (floors[floor].facilities[i].gameObject.transform.GetChild(0).Find("workPoint"))
                 {
-                    if (floors[floor].facilities[i].gameObject.transform.GetChild(j).name == "workPoint")
+                    if(floors[floor].facilities[i].facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
                     {
-                        if(floors[floor].facilities[i].facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
-                        {
-                            floors[floor].facilities[i].employees.Add(emp);
-                            return floors[floor].facilities[i].gameObject.transform.GetChild(j).gameObject;
-                        }
-                        else
-                        {
-                            foreach (Facility fal in floors[floor].facilities)
-                            {
-                                if(fal.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace && fal.employees.Count < 1)
-                                {
-                                    fal.employees.Add(emp);
-                                    return fal.gameObject.transform.GetChild(j).gameObject;
-                                }
-                            }
-                        }
+                        floors[floor].facilities[i].employees.Add(emp);
+                        return floors[floor].facilities[i].gameObject.transform.GetChild(0).Find("workPoint").gameObject;
                     }
                     else
                     {
-                        Debug.Log("Shit broke fam");
-                        return null;
+                        foreach (Facility fal in floors[floor].facilities)
+                        {
+                            if(fal.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace && fal.employees.Count < 1)
+                            {
+                                fal.employees.Add(emp);
+                                return fal.gameObject.transform.GetChild(0).Find("workPoint").gameObject;
+                            }
+                        }
                     }
+                }
+                else
+                {
+                    Debug.Log("Shit broke fam");
+                    return null;
                 }
             }
     

@@ -15,16 +15,53 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && !justTapped))
+        if (Input.touchCount > 0 && !justTapped)
         {
             justTapped = true;
-            Ray SelectRay = cameraRef.ScreenPointToRay(Input.mousePosition);
-            if(Input.touchCount > 0)
+            Ray SelectRay = cameraRef.ScreenPointToRay(Input.GetTouch(0).position);
+            RaycastHit[] hits = Physics.RaycastAll(SelectRay, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
+            System.Array.Reverse(hits);
+            foreach (RaycastHit SelectHit in hits)
             {
-                SelectRay = cameraRef.ScreenPointToRay(Input.GetTouch(0).position);
+                if (SelectHit.collider)
+                {
+                    Facility facility = SelectHit.transform.GetComponent<Facility>();
+                    Employee employee = SelectHit.transform.GetComponent<Employee>();
+                    if (facility || employee)
+                    {
+                        if (!UIManager.instance.windowOpen)
+                        {
+                            if (employee)
+                            {
+                                if (employee.currentFloor == CameraControl.instance.selectedFloor)
+                                {
+                                    UIManager.instance.OpenEmployeeWindow(SelectHit.transform.GetComponent<Employee>());
+                                    break;
+                                }
+                            }
+                            else if (facility)
+                            {
+                                if (facility.GetFloor().floorNo == CameraControl.instance.selectedFloor)
+                                {
+                                    SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
+                                    UIManager.instance.windowOpen = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            //RaycastHit SelectHit;
-            //Physics.Raycast(SelectRay, out SelectHit, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
+        }
+        if (Input.touchCount == 0)
+        {
+            justTapped = false;
+        }
+
+#if UNITY_EDITOR
+        if(Input.GetMouseButtonDown(0))
+        {
+            Ray SelectRay = cameraRef.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(SelectRay, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
             System.Array.Reverse(hits);
             foreach (RaycastHit SelectHit in hits)
@@ -57,9 +94,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if(Input.touchCount == 0)
-        {
-            justTapped = false;
-        }
 	}
+#endif
 }
