@@ -20,7 +20,7 @@ public class Facility : MonoBehaviour
     public int xPosition, yPosition;
     public List<Employee> employees = new List<Employee>();
     public bool canSabotage = true;
-
+    public GameObject workPoint;
     private Grid grid;
 
     // Use this for initialization
@@ -31,7 +31,7 @@ public class Facility : MonoBehaviour
         purchaseFacility = GameObject.FindObjectOfType<PurchaseFacilityCanvas>();
         fundingPercentage = 1;
         averageEmployeeHappiness = 1;
-        
+
         xDirection = 1;
         yDirection = 1;
         ChangeFacility(FacilityList.instance.GetFacilityByName("Empty"));
@@ -39,10 +39,10 @@ public class Facility : MonoBehaviour
 
     private void CalculateAverageEmployeeHappiness()
     {
-        if(employees.Count > 0)
+        if (employees.Count > 0)
         {
             float total = 0;
-            foreach(Employee employee in employees)
+            foreach (Employee employee in employees)
             {
                 total += employee.getHappiness();
             }
@@ -52,6 +52,15 @@ public class Facility : MonoBehaviour
 
     public void CutFacility()
     {
+        if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
+        {
+            OfficeManager.instance.RemoveFacility(this);
+            foreach (Employee employee in employees)
+            {
+                employee.AssignFacility(facilityInfo.facilityType);
+            }
+            employees.Clear();
+        }
         foreach (Floor.FacilityRow column in floor.facilityArray)
         {
             foreach (Facility facility in column.row) // loop through all the facilities on this floor
@@ -82,13 +91,17 @@ public class Facility : MonoBehaviour
         ChangeFacility(facilityInformation);
     }
 
-    public void SabotageFacility() {
-        if (canSabotage) {
+    public void SabotageFacility()
+    {
+        if (canSabotage)
+        {
             float employeeHappinessAdjust = 25;
             float facilityHappinessAdjust = 0.5f;
 
-            if (employees.Count > 0) {
-                foreach (Employee employee in employees) {
+            if (employees.Count > 0)
+            {
+                foreach (Employee employee in employees)
+                {
                     employee.setHappiness(-employeeHappinessAdjust);
                     employee.updateHappiness();
                 }
@@ -107,7 +120,11 @@ public class Facility : MonoBehaviour
     public void ChangeFacility(FacilityInfo facilityInformation)
     {
         int noOfFAcilities = 2; //3-1
-
+        if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
+        {
+            OfficeManager.instance.AddFacility(this);
+        }
+        bool positionSet = false;
         for (int i = 0; i < floor.facilityArray.Count; i++)
         {
             for (int j = 0; j < floor.facilityArray[i].row.Count; j++)
@@ -116,7 +133,13 @@ public class Facility : MonoBehaviour
                 {
                     xPosition = i;
                     yPosition = j;
+                    positionSet = true;
+                    break;
                 }
+            }
+            if (positionSet)
+            {
+                break;
             }
         }
 
@@ -162,6 +185,10 @@ public class Facility : MonoBehaviour
                                 }
 
                                 childObject.transform.localPosition = new Vector3(xMove, 0, -zMove); // move child object to the middle
+                                if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty)
+                                {
+                                    workPoint = childObject.transform.Find("workPoint").gameObject;
+                                }
                             }
                             else // otherwise make it a copy of placed facility
                             {
@@ -192,7 +219,7 @@ public class Facility : MonoBehaviour
     {
         if (CheckIfEmpty())
         {
-             OpenBuyFacilityWindow();
+            OpenBuyFacilityWindow();
         }
         else
         {
@@ -223,9 +250,9 @@ public class Facility : MonoBehaviour
 
     public void UpdateFromFacilityWindow(float FundingPercentage)
     {
-        if(employees.Count > 0)
+        if (employees.Count > 0)
         {
-            foreach(Employee employee in employees)
+            foreach (Employee employee in employees)
             {
                 employee.setHappiness((-(fundingPercentage - FundingPercentage) * averageEmployeeHappiness) * 100);
             }
@@ -234,9 +261,6 @@ public class Facility : MonoBehaviour
         if (fundingPercentage <= 0)
         {
             CutFacility(); // if the funding percentage is now 0, then cut the facility.
-            foreach (Employee employee in employees) {
-                //Director.Instance.assignFacilities(employee.assignedFloor, facilityInfo.facilityName, employee.Desk, employee);
-            }
         }
     }
 
@@ -324,7 +348,7 @@ public class Facility : MonoBehaviour
 
                 }
             }
-            if(buildOK)
+            if (buildOK)
             {
                 break;
             }
@@ -332,7 +356,7 @@ public class Facility : MonoBehaviour
             {
                 xMod = (-1);
             }
-            else if(xMod == -1)
+            else if (xMod == -1)
             {
                 yMod = (-1);
                 xMod = 1;

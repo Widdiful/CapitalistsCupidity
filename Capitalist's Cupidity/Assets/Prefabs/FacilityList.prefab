@@ -92,31 +92,11 @@ MonoBehaviour:
       been experiencing blockages lately. This is at odds with our constant attempts
       to keep the work life of our highly valued employees healthy, both physically
       and mentally. We apologise for any inconvenience caused by this.
-  - costToBuy: 15000
-    baseMonthlyExpenses: 7000
-    facilityName: Security
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
-    facilityType: 3
-    height: 1
-    width: 1
-    sabotageCost: 0
-    sabotageMessageTitle: 
-    sabotageMessageContent: 
   - costToBuy: 40000
     baseMonthlyExpenses: 500
     facilityName: Work Space
     child: {fileID: 1101522993982398, guid: a63860aa0af64fa4784f26e5d4e38f5c, type: 2}
     facilityType: 4
-    height: 1
-    width: 1
-    sabotageCost: 0
-    sabotageMessageTitle: 
-    sabotageMessageContent: 
-  - costToBuy: 70000
-    baseMonthlyExpenses: 20000
-    facilityName: Gym
-    child: {fileID: 1212552977181726, guid: c8a7108f679b86c489d2e11cef4cb240, type: 2}
-    facilityType: 5
     height: 1
     width: 1
     sabotageCost: 0

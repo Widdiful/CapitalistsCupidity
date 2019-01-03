@@ -33,17 +33,9 @@ public class Employee : MonoBehaviour
     float hungerModifier = 0.0f;
     float thirstModifier = 0.0f;
 
+    public Dictionary<FacilityInfo.FacilityType, Facility> assignedWorkPoints = new Dictionary<FacilityInfo.FacilityType, Facility>();
 
-    public GameObject Desk;
-    public GameObject Toilet;
-    public GameObject Cafe;
-    public GameObject waterFountain;
     public GameObject Exit;
-
-    int deskFloor;
-    int toiletFloor;
-    int cafeFloor;
-    int waterFountainFloor;
     int exitFloor;
 
     public List<Actions> actions;
@@ -86,11 +78,12 @@ public class Employee : MonoBehaviour
     private void Start()
     {
         assignedFloor = Director.Instance.assignFloor();
-        Desk = Director.Instance.assignFacilities(assignedFloor, "Work Space", Desk, this);
-        Toilet = Director.Instance.assignFacilities(assignedFloor, "Toilets", Desk, this);
-        Cafe = Director.Instance.assignFacilities(assignedFloor, "Cafeteria", Desk, this);
-        waterFountain = Director.Instance.assignFacilities(assignedFloor, "Water Fountain", Desk, this);
+        AssignFacility(FacilityInfo.FacilityType.WorkSpace);
+        AssignFacility(FacilityInfo.FacilityType.Toilets);
+        AssignFacility(FacilityInfo.FacilityType.Catering);
+        AssignFacility(FacilityInfo.FacilityType.WaterFountain);
         Exit = Director.Instance.Exit;
+
 
         //Create actions
         actions = new List<Actions>();
@@ -157,12 +150,8 @@ public class Employee : MonoBehaviour
         //Delegate to pay employees
         Director.payTheGuys += payWages;
         currentFloor = Director.Instance.findClosestFloor(gameObject).floorNo;
-        targetFloor = Director.Instance.findClosestFloor(Desk).floorNo;
+        targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].GetFloor().floorNo;
 
-        deskFloor = Director.Instance.findClosestFloor(Desk).floorNo;
-        toiletFloor = Director.Instance.findClosestFloor(Toilet).floorNo;
-        cafeFloor = Director.Instance.findClosestFloor(Cafe).floorNo;
-        waterFountainFloor = Director.Instance.findClosestFloor(waterFountain).floorNo;
         exitFloor = Director.Instance.findClosestFloor(Exit).floorNo;
 
         liftList = Director.Instance.liftList;
@@ -183,6 +172,10 @@ public class Employee : MonoBehaviour
         Leave.priority = 100;
         pathFinding.foundPath = false;
         pathComplete = true;
+        foreach(KeyValuePair<FacilityInfo.FacilityType, Facility> pair in assignedWorkPoints)
+        {
+            pair.Value.employees.Remove(this);
+        }
     }
 
     public void updateHappiness()
@@ -281,31 +274,27 @@ public class Employee : MonoBehaviour
             {
             case Director.Positions.desk:
                 {
-                    targetFloor = deskFloor;
+                    targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
-                        targetObject = Desk;
-                        targetPos = Desk.transform.position;
+                        targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].workPoint;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
-                        targetPos = Lifts[currentFloor].transform.position;
                     }
                  
                         break;
-                    }
+                }
             case Director.Positions.cafe:
                 {
-                    targetFloor = cafeFloor;
+                    targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.Catering].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
-                        targetPos = Cafe.transform.position;
-                        targetObject = Cafe;
+                        targetObject = assignedWorkPoints[FacilityInfo.FacilityType.Catering].workPoint;
                     }
                     else
                     {
-                        targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
                     }
 
@@ -316,12 +305,10 @@ public class Employee : MonoBehaviour
                     targetFloor = exitFloor;
                     if (currentFloor == targetFloor)
                     {
-                        targetPos = Exit.transform.position;
                         targetObject = Exit;
                     }
                     else
                     {
-                        targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
                     }
 
@@ -329,15 +316,13 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.toilet:
                 {
-                    targetFloor = toiletFloor;
+                    targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.Toilets].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
-                        targetPos = Toilet.transform.position;
-                        targetObject = Toilet;
+                        targetObject = assignedWorkPoints[FacilityInfo.FacilityType.Toilets].workPoint;
                     }
                     else
                     {
-                        targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
                     }
 
@@ -345,15 +330,13 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.waterfountain:
                 {
-                    targetFloor = waterFountainFloor;
+                    targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
-                        targetPos = waterFountain.transform.position;
-                        targetObject = waterFountain;
+                        targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].workPoint;
                     }
                     else
                     {
-                        targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
                     }
 
@@ -361,15 +344,13 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.workstation:
                 {
-                    targetFloor = deskFloor;
+                    targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
-                        targetPos = Desk.transform.position;
-                        targetObject = Desk;
+                        targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].workPoint;
                     }
                     else
                     {
-                        targetPos = Lifts[currentFloor].transform.position;
                         targetObject = Lifts[currentFloor];
                     }
 
@@ -378,7 +359,7 @@ public class Employee : MonoBehaviour
 
             default: break;
             }
-
+        targetPos = targetObject.transform.position;
     }
 
     private bool inBounds(int index, List<Node> List)
@@ -418,7 +399,7 @@ public class Employee : MonoBehaviour
   
     public bool sitAtDesk()
     {
-        if(Desk.transform.position != targetPos)
+        if(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].transform.position != targetPos)
         {
             moveTo(Director.Positions.desk);
         }
@@ -470,7 +451,7 @@ public class Employee : MonoBehaviour
 
     public bool goToBathroom()
     {
-        if (Toilet.transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets].transform.position != targetPos)
         {
             moveTo(Director.Positions.toilet);
             
@@ -490,7 +471,7 @@ public class Employee : MonoBehaviour
 
     public bool eat()
     {
-        if (Cafe.transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Catering].transform.position != targetPos)
         {
             moveTo(Director.Positions.cafe);
             
@@ -511,7 +492,7 @@ public class Employee : MonoBehaviour
 
     public bool drink()
     {
-        if (waterFountain.transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].transform.position != targetPos)
         {
             moveTo(Director.Positions.waterfountain);
         }
@@ -537,6 +518,34 @@ public class Employee : MonoBehaviour
             currentFloor = targetFloor;
             gameObject.layer = Lifts[targetFloor].gameObject.layer;
         }
+    }
+
+    public void AssignFacility(FacilityInfo.FacilityType facilityType)
+    {
+        if (facilityType == FacilityInfo.FacilityType.WorkSpace)
+        {
+            if (assignedWorkPoints.ContainsKey(facilityType))
+            {
+                assignedWorkPoints[facilityType] = OfficeManager.instance.GetEmptyFacility(facilityType);
+            }
+            else
+            {
+                assignedWorkPoints.Add(FacilityInfo.FacilityType.WorkSpace, OfficeManager.instance.GetEmptyFacility(FacilityInfo.FacilityType.WorkSpace));
+            }
+            OfficeManager.instance.RemoveFacility(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace]);
+        }
+        else
+        {
+            if (assignedWorkPoints.ContainsKey(facilityType))
+            {
+                assignedWorkPoints[facilityType] = Director.Instance.assignFacility(assignedFloor, facilityType, assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].gameObject, this);
+            }
+            else
+            {
+                assignedWorkPoints.Add(facilityType, Director.Instance.assignFacility(assignedFloor, facilityType, assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].gameObject, this));
+            }
+        }
+        assignedWorkPoints[facilityType].employees.Add(this);
     }
 }
 

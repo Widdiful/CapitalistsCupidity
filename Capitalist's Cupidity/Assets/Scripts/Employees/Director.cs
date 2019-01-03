@@ -206,19 +206,18 @@ public class Director : MonoBehaviour
         return Random.Range(0, floors.Count - 1);
     }
 
-    public GameObject assignFacilities(int floor, string facilityName, GameObject obj, Employee emp)
+    public Facility assignFacility(int floor, FacilityInfo.FacilityType facilityType, GameObject assignedDesk, Employee emp)
     {
-        FacilityInfo.FacilityType facilityType = FacilityList.instance.GetFacilityByName(facilityName).facilityType;
         for(int i = 0; i < floors[floor].facilities.Count; i++)
         {
             if (floors[floor].facilities[i].facilityInfo.facilityType == facilityType) 
             {
-                if (floors[floor].facilities[i].gameObject.transform.GetChild(0).Find("workPoint"))
+                if (floors[floor].facilities[i].workPoint)
                 {
                     if(floors[floor].facilities[i].facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace)
                     {
                         floors[floor].facilities[i].employees.Add(emp);
-                        return floors[floor].facilities[i].gameObject.transform.GetChild(0).Find("workPoint").gameObject;
+                        return floors[floor].facilities[i];
                     }
                     else
                     {
@@ -227,7 +226,7 @@ public class Director : MonoBehaviour
                             if(fal.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace && fal.employees.Count < 1)
                             {
                                 fal.employees.Add(emp);
-                                return fal.gameObject.transform.GetChild(0).Find("workPoint").gameObject;
+                                return fal;
                             }
                         }
                     }
@@ -240,7 +239,7 @@ public class Director : MonoBehaviour
             }
     
         }
-        return findClosestFacility(facilityName, obj, emp);
+        return findClosestFacility(facilityType, assignedDesk, emp);
 
     }
 
@@ -257,7 +256,7 @@ public class Director : MonoBehaviour
         return null;
     }
 
-    public GameObject findClosestFacility(string facilityName, GameObject assignedDesk, Employee emp)
+    public Facility findClosestFacility(FacilityInfo.FacilityType facilityType, GameObject assignedDesk, Employee emp)
     {
         Facility best = null;
         float closest = Mathf.Infinity;
@@ -267,7 +266,7 @@ public class Director : MonoBehaviour
             Vector3 direction = fal.transform.position - assignedDesk.transform.position;
             float squareDistance = direction.magnitude;
 
-            if(squareDistance < closest && fal.facilityInfo.facilityName == facilityName)
+            if(squareDistance < closest && fal.facilityInfo.facilityType == facilityType)
             {
                 closest = squareDistance;
                 best = fal;
@@ -276,11 +275,11 @@ public class Director : MonoBehaviour
         if (best != null)
         {
             best.employees.Add(emp);
-            return best.transform.GetChild(0).gameObject;
+            return best;
         }
         else
         {
-            return Exit;
+            return null;
         }
     }
 
