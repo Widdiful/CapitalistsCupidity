@@ -16,6 +16,7 @@ public class Businesses : MonoBehaviour
         public void BuyBusiness()
         {
             purchased = true;
+            Messages.instance.NewMessage(businessName + " has been purchased.", Messages.MessageType.Ticker);
         }
 
         public float GetIncome()

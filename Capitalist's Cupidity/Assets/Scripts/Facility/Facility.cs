@@ -71,6 +71,9 @@ public class Facility : MonoBehaviour
                 }
             }
         }
+
+        Messages.instance.NewMessage("Floor " + floor.floorNo + " " + facilityInfo.facilityName + " has been cut.", Messages.MessageType.Ticker);
+        Messages.instance.CreateNoticeboardMessage("Floor " + floor.floorNo + " " + facilityInfo.facilityName, "Unfortunately, this facility was unable to meet our expectations and had to be temporarily closed. We hear you, but please be assured that this is for the benefit of us all.");
     }
 
     public void BuyFacility(FacilityInfo facilityInformation)
@@ -232,7 +235,7 @@ public class Facility : MonoBehaviour
         {
             CutFacility(); // if the funding percentage is now 0, then cut the facility.
             foreach (Employee employee in employees) {
-                //Director.Instance.assignFacilities(employee.assignedFloor, name, employee.Desk, employee);
+                //Director.Instance.assignFacilities(employee.assignedFloor, facilityInfo.facilityName, employee.Desk, employee);
             }
         }
     }
