@@ -24,6 +24,7 @@ public class RemoteDatabase : MonoBehaviour {
         userID = PlayerPrefs.GetString("userID");
         if (userID == "")
             Register();
+        GetName();
         if (LocalDatabase.instance) LocalDatabase.instance.UpdateDatabase();
 
     }
@@ -34,6 +35,10 @@ public class RemoteDatabase : MonoBehaviour {
 
     public void RenamePlayer(string newName) {
         StartCoroutine(Rename(newName));
+    }
+
+    public void GetName() {
+        StartCoroutine(GetPlayerName());
     }
 
     IEnumerator Rename(string newName) {
@@ -66,6 +71,17 @@ public class RemoteDatabase : MonoBehaviour {
         else {
             Debug.Log("Registration failed. Error " + www.text);
         }
+    }
+
+    IEnumerator GetPlayerName() {
+        WWWForm form = new WWWForm();
+        form.AddField("playerID", userID);
+
+        WWW www = new WWW(hostURL + "getName.php", form);
+        yield return www;
+
+        print(www.text);
+        userName = www.text;
     }
 
     public void GetScoresFree() {

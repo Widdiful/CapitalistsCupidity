@@ -30,6 +30,15 @@ public class savingAndLoading : MonoBehaviour
     FacilityList facilityScript;
     LocalDatabase localDatabaseScript;
 
+    public static savingAndLoading instance;
+
+    private void Awake() {
+        if (instance == null)
+            instance = this;
+        if (instance != this)
+            Destroy(this);
+    }
+
     private void Start()
     {
         saveData = new SaveData();

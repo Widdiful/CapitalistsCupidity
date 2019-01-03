@@ -26,6 +26,7 @@ public class LocalDatabase : MonoBehaviour {
 
     private void Start() {
         //UpdateDatabase();
+        savingAndLoading.instance.load();
     }
 
     public void UpdateDatabase() {
