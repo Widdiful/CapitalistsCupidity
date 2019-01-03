@@ -8,6 +8,9 @@ public class Clouds : MonoBehaviour {
     public ParticleSystem rain;
     public Light sun;
 
+    public AudioSource normalMusic;
+    public AudioSource sadMusic;
+
     private Renderer renderer;
     [Range(0, 1)]
     public float happinessPercentage;
@@ -30,5 +33,8 @@ public class Clouds : MonoBehaviour {
         Color color = renderer.materials[0].color;
         color.a = ((1 - happinessPercentage) * 0.75f) + 0.25f;
         renderer.materials[0].color = color;
+
+        normalMusic.volume = happinessPercentage;
+        sadMusic.volume = 1 - happinessPercentage;
 	}
 }
