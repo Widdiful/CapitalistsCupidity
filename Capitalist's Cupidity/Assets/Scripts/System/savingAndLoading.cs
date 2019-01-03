@@ -133,6 +133,8 @@ public class savingAndLoading : MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(fs, scoreData);
         fs.Close();
+
+        LocalDatabase.instance.UpdateDatabase();
     }
 
     public void loadLeaderboards() {
