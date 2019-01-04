@@ -186,6 +186,10 @@ public class Director : MonoBehaviour
         foreach (Employee employee in employees) {
             if (!employee.gameObject.activeSelf) {
                 employee.gameObject.SetActive(true);
+                if(maxEmployees == currentEmployees)
+                {
+                    maxEmployees++;
+                }
                 currentEmployees++;
                 break;
             }

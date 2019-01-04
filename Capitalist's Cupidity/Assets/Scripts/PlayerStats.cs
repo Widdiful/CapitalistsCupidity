@@ -67,6 +67,11 @@ public class PlayerStats : MonoBehaviour
         fiveCoins = amount;
     }
 
+    public int getEmployeeCount()
+    {
+        return employeeCount;
+    }
+
     public float GetCompanyFunds()
     {
         return companyFunds;

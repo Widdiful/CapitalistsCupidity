@@ -174,9 +174,13 @@ public class Employee : MonoBehaviour
         Leave.priority = 100;
         pathFinding.foundPath = false;
         pathComplete = true;
+
         foreach(KeyValuePair<FacilityInfo.FacilityType, Facility> pair in assignedWorkPoints)
         {
-            pair.Value.employees.Remove(this);
+            if (pair.Value != null)
+            {
+                pair.Value.employees.Remove(this);
+            }
         }
     }
 
@@ -492,7 +496,6 @@ public class Employee : MonoBehaviour
         if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] != targetObject)
         {
             moveTo(Director.Positions.toilet);
-            
         }
 
         if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
@@ -573,7 +576,11 @@ public class Employee : MonoBehaviour
 
                 Director.Instance.setCurrentEmployees(-1);
 
-                Start();
+                if (OfficeManager.instance.FacilityLists[FacilityInfo.FacilityType.WorkSpace].Count > Director.Instance.totalActiveEmployees())
+                {
+                    Start();
+                }
+
                 gameObject.SetActive(false);
             }
         }
