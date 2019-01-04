@@ -125,7 +125,7 @@ public class OfficeGenerator : MonoBehaviour {
                     Facility temp = tempFacilities[Random.Range(0, tempFacilities.Count - 1)];
                     if (temp.CheckFacilitySize(FacilityList.instance.GetFacilityByName(facilityType)))
                     {                        
-                        print(facilityType + " xDirection " + temp.xDirection + " yDirection " + temp.yDirection);
+                        
                         temp.ChangeFacility(FacilityList.instance.GetFacilityByName(facilityType));
                     }
                     //temp.facilityInfo = FacilityList.instance.GetFacilityByName(facilityType);

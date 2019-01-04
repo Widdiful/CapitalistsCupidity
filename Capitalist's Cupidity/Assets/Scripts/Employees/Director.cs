@@ -9,9 +9,10 @@ public class Director : MonoBehaviour
     public static Director _instance;
     public Employee employeePrefab;
     public List<Employee> employees;
-    public int employeePoolCount = 45;
+    public int employeePoolCount = 180;
     int currentEmployees = 0;
     int maxEmployees = 5;
+    public float employeeHireCost;
 
     public List<GameObject> liftList;
     public Dictionary<int, Grid> getCurrentGrid;
