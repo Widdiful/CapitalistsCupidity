@@ -344,23 +344,25 @@ public class Director : MonoBehaviour
         return best;
     }
 
-    private void updateFunds()
-    {
+    private void updateFunds() {
         float funds = 0;
-        foreach (Facility facility in OfficeGenerator.instance.getFacilities())
-        {
-            funds -= facility.GetMonthlyExpense();
-        }
-        if (payTheGuys != null)
-        {
+        if (payTheGuys != null) {
             payTheGuys();
         }
-        foreach(Employee emp in employees) {
+        foreach (Employee emp in employees) {
             funds += emp.getEarnings();
         }
-        if (funds > 0)
-        {
+        if (funds > 0) {
             playerStats.ChangePersonalFunds(funds);
+        }
+        playerStats.ChangeCompanyFunds(funds);
+
+        funds = 0;
+        foreach (Facility facility in OfficeGenerator.instance.getFacilities()) {
+            funds -= facility.GetMonthlyExpense();
+        }
+        foreach (Employee emp in employees) {
+            funds -= emp.getSalary();
         }
         playerStats.ChangeCompanyFunds(funds);
     }

@@ -41,9 +41,14 @@ public class AdminMenu : MonoBehaviour {
     }
 
     public void UpdateIncomePercentage(float newPercentage) {
+        float currentPercentage = PlayerStats.instance.incomeKeepPercent;
         float newValue = Mathf.Round(newPercentage * 100f) / 100f;
         PlayerStats.instance.incomeKeepPercent = newValue;
         incomePercentageText.text = Mathf.Floor(newValue * 100).ToString() + "%";
+        foreach(Employee emp in Director.Instance.employees) {
+            if (emp.gameObject.activeInHierarchy)
+                emp.setHappiness((currentPercentage - newPercentage) * 1000f);
+        }
     }
 
     private void FixedUpdate() {
