@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4491531091239092}
   - component: {fileID: 114987235397288200}
+  - component: {fileID: 114050549354577816}
   m_Layer: 0
   m_Name: OfficeGenerator
   m_TagString: Untagged
@@ -40,6 +41,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114050549354577816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1321828650589272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f306c0658b1473468101fa87a526abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfWorkspaces: []
+  listOfCafeterias: []
+  listOfBreakRooms: []
+  listOfToilets: []
 --- !u!114 &114987235397288200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,6 +83,6 @@ MonoBehaviour:
     count: 1
   - name: Toilets
     count: 2
-  - name: Water Fountain
-    count: 2
+  - name: Break Room
+    count: 1
   lifts: []

@@ -67,7 +67,7 @@ MonoBehaviour:
       in the near future to further address this issue.
   - costToBuy: 15000
     baseMonthlyExpenses: 500
-    facilityName: Water Fountain
+    facilityName: Break Room
     child: {fileID: 1963578403305454, guid: 311e47702521d224b87ee7137dc3c841, type: 2}
     facilityType: 1
     height: 2
