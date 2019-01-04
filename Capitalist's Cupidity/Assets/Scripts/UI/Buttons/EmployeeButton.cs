@@ -25,6 +25,7 @@ public class EmployeeButton : MonoBehaviour {
     }
 
     public void Hire() {
-        Director.Instance.HireEmployee();
+        if (OfficeGenerator.instance.GetNumberOfWorkspaces() > Director.Instance.getCurrentEmployees())
+            Director.Instance.HireEmployee();
     }
 }

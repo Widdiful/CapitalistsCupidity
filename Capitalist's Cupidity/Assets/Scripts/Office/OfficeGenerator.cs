@@ -159,4 +159,15 @@ public class OfficeGenerator : MonoBehaviour {
         newEntrance.transform.position = new Vector3(0, 0.5f, -(floorSize.y / 2f) - 0.1f);
         newEntrance.GetComponentInChildren<TextMesh>().text = officeName;
     }
+
+    public int GetNumberOfWorkspaces() {
+        int count = 0;
+        foreach(Facility facility in facilities) {
+            if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }
