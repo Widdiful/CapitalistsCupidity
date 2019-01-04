@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   facilityList:
-  - costToBuy: 10000
-    baseMonthlyExpenses: 1000
+  - costToBuy: 50000
+    baseMonthlyExpenses: 2000
     facilityName: Cafeteria
     child: {fileID: 1787826441872452, guid: 071f442bf4975dd4bbe7443d1c3b3f6b, type: 2}
     facilityType: 0
@@ -65,8 +65,8 @@ MonoBehaviour:
       rat infestation is not representative of the working experience we're proud
       of. As such, in the future we may have to temporarily shut down the cafeteria
       in the near future to further address this issue.
-  - costToBuy: 15000
-    baseMonthlyExpenses: 500
+  - costToBuy: 25000
+    baseMonthlyExpenses: 1500
     facilityName: Break Room
     child: {fileID: 1963578403305454, guid: 311e47702521d224b87ee7137dc3c841, type: 2}
     facilityType: 1
@@ -79,8 +79,8 @@ MonoBehaviour:
       see to it that they are punished for trying to ruin our wonderful working environment.
       For your safety, we may have to temporarily shut down the break area in the
       near future.
-  - costToBuy: 5000
-    baseMonthlyExpenses: 750
+  - costToBuy: 15000
+    baseMonthlyExpenses: 1000
     facilityName: Toilets
     child: {fileID: 1953545673262664, guid: 3465e8229881ae841aa4842bd5af732c, type: 2}
     facilityType: 2
@@ -92,8 +92,8 @@ MonoBehaviour:
       been experiencing blockages lately. This is at odds with our constant attempts
       to keep the work life of our highly valued employees healthy, both physically
       and mentally. We apologise for any inconvenience caused by this.
-  - costToBuy: 40000
-    baseMonthlyExpenses: 500
+  - costToBuy: 10000
+    baseMonthlyExpenses: 750
     facilityName: Work Space
     child: {fileID: 1101522993982398, guid: a63860aa0af64fa4784f26e5d4e38f5c, type: 2}
     facilityType: 4
