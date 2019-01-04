@@ -27,7 +27,6 @@ public class EmployeeButton : MonoBehaviour {
     public void Hire() {
         if (OfficeGenerator.instance.GetNumberOfWorkspaces() > Director.Instance.getCurrentEmployees() && PlayerStats.instance.GetCompanyFunds() >= Director.Instance.employeeHireCost)
         {
-            print(Director.Instance.getCurrentEmployees());
             Director.Instance.HireEmployee();
             PlayerStats.instance.ChangeCompanyFunds(-Director.Instance.employeeHireCost);
         }
