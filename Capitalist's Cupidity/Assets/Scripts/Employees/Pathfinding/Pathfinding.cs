@@ -21,8 +21,7 @@ public class Pathfinding : MonoBehaviour
         if (emp.pathComplete)
         {
             grid = emp.getCurrentGrid[emp.currentFloor];
-            newPath = new List<Node>();
-            target = target = emp.targetPos;
+            target = target = emp.targetObject.transform.position;
             emp.pathComplete = false;
             emp.currentPathPoint = 0;
             foundPath = false;

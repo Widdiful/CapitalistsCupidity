@@ -5,10 +5,9 @@ using System.Linq;
 
 public class Employee : MonoBehaviour
 {
-    public Vector3 targetPos;
+
     public GameObject targetObject;
     public Vector3 velocity = Vector3.zero;
-    float orientation;
 
     float maxTurnSpeed = 20.0f;
     float maxMoveSpeed = 1.0f;
@@ -64,6 +63,7 @@ public class Employee : MonoBehaviour
 
     float targetOffset = 1.55f;
     bool quit = false;
+    Renderer rend;
     
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -77,6 +77,7 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
+        rend = GetComponent<Renderer>();
         assignedFloor = Director.Instance.assignFloor();
         AssignFacility(FacilityInfo.FacilityType.WorkSpace);
         AssignFacility(FacilityInfo.FacilityType.Toilets);
@@ -110,9 +111,9 @@ public class Employee : MonoBehaviour
         drinkADrink.empFunc = drink;
         drinkADrink.priority = thirst;
 
-        Work.canInterupt = false;
+        Work.canInterupt = true;
         Leave.canInterupt = false;
-        goToToilet.canInterupt = true;
+        goToToilet.canInterupt = false;
         getFood.canInterupt = true;
         drinkADrink.canInterupt = true;
         
@@ -211,9 +212,23 @@ public class Employee : MonoBehaviour
     {
         foreach (Actions action in actions)
         {
-            if (action.priority > actions[0].priority && actions[0].priority <= 0)
+            if(action.priority > 100)
             {
-                Swap(actions, 0, actions.IndexOf(action));
+                action.priority = 100;
+            }
+
+            if (action.priority > actions[0].priority)
+            {
+                if (actions[0].priority <= 0 || actions[0].canInterupt == true)
+                {
+                    yield return new WaitForSeconds(2.0f);
+                    Swap(actions, 0, actions.IndexOf(action));
+
+                    if (actions[0] != goToToilet && rend.enabled == false)
+                    {
+                        rend.enabled = true;
+                    }
+                }
             }
 
             actions[0].execute();
@@ -359,7 +374,6 @@ public class Employee : MonoBehaviour
 
             default: break;
             }
-        targetPos = targetObject.transform.position;
     }
 
     private bool inBounds(int index, List<Node> List)
@@ -397,13 +411,14 @@ public class Employee : MonoBehaviour
     }
 
   
+    
     public bool sitAtDesk()
     {
-        if(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].transform.position != targetPos)
+        if(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] != targetObject)
         {
             moveTo(Director.Positions.desk);
         }
-        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
+        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
         {
             return false;
         }
@@ -419,13 +434,13 @@ public class Employee : MonoBehaviour
 
     public bool goHome()
     {
-        if (Exit.transform.position != targetPos)
+        if (Exit != targetObject)
         {
             moveTo(Director.Positions.exit);
          
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
+        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
         {
             return false;
         }
@@ -451,18 +466,23 @@ public class Employee : MonoBehaviour
 
     public bool goToBathroom()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets].transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] != targetObject)
         {
             moveTo(Director.Positions.toilet);
             
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
+        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
         {
             return false;
         }
         else
         {
+            if(rend.enabled)
+            {
+                rend.enabled = false;
+            }
+
             Work.priority += (Time.deltaTime * needToWorkModifier);
             goToToilet.priority -= (Time.deltaTime * bladderModifier);
             return true;
@@ -471,13 +491,13 @@ public class Employee : MonoBehaviour
 
     public bool eat()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.Catering].transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] != targetObject)
         {
             moveTo(Director.Positions.cafe);
             
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
+        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
         {
             return false;
         }
@@ -492,12 +512,12 @@ public class Employee : MonoBehaviour
 
     public bool drink()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].transform.position != targetPos)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] != targetObject)
         {
             moveTo(Director.Positions.waterfountain);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) > targetOffset)
+        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
         {
             return false;
         }
