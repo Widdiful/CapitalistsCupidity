@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Employee : MonoBehaviour
 {
-
+    AudioSource audioSource;
     public GameObject targetObject;
     public Vector3 velocity = Vector3.zero;
 
@@ -77,6 +77,7 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rend = GetComponent<Renderer>();
         assignedFloor = Director.Instance.assignFloor();
         AssignFacility(FacilityInfo.FacilityType.WorkSpace);
@@ -222,9 +223,10 @@ public class Employee : MonoBehaviour
                 if (actions[0].priority <= 0 || actions[0].canInterupt == true)
                 {
                     yield return new WaitForSeconds(2.0f);
+                    audioSource.Stop();
                     Swap(actions, 0, actions.IndexOf(action));
 
-                    if (actions[0] != goToToilet && rend.enabled == false)
+                    if (actions[0] != goToToilet)
                     {
                         rend.enabled = true;
                     }
@@ -282,7 +284,7 @@ public class Employee : MonoBehaviour
     {
         gameObject.layer = Lifts[currentFloor].layer;
     }
-    //Using director positions, set employee target pos
+    //Using director positions, set employee target object
     public void moveTo(Director.Positions pos)
     {
         switch (pos)
@@ -424,6 +426,10 @@ public class Employee : MonoBehaviour
         }
         else
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
             goToToilet.priority += (Time.deltaTime * bladderModifier);
             drinkADrink.priority += (Time.deltaTime * thirstModifier);
             getFood.priority += (Time.deltaTime * hungerModifier);
