@@ -332,7 +332,7 @@ public class UIManager : MonoBehaviour {
         if (GameModeManager.instance.gameMode == GameModeManager.GameModes.Free) {
             LocalDatabase.LocalDatabaseItem newScore = new LocalDatabase.LocalDatabaseItem();
             newScore.companyName = OfficeGenerator.instance.officeName;
-            newScore.score = PlayerStats.instance.GetPersonalFunds().ToString("#0.00");
+            newScore.score = PlayerStats.instance.GetPersonalFunds().ToString("n0");
             LocalDatabase.instance.databaseFree.Add(newScore);
             savingAndLoading.instance.saveLeaderboards();
         }

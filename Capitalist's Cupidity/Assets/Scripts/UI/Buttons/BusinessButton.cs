@@ -16,8 +16,8 @@ public class BusinessButton : MonoBehaviour {
 
     public void UpdateInformation() {
         nameText.text = businessName;
-        costText.text = cost.ToString();
-        earningsText.text = earnings.ToString();
+        costText.text = "$" + cost.ToString("n0") + "m";
+        earningsText.text = "$" + earnings.ToString("n0");
     }
 
     public void Click() {

@@ -161,13 +161,6 @@ public class OfficeGenerator : MonoBehaviour {
     }
 
     public int GetNumberOfWorkspaces() {
-        int count = 0;
-        foreach(Facility facility in facilities) {
-            if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.WorkSpace) {
-                count++;
-            }
-        }
-
-        return count;
+        return OfficeManager.instance.FacilityLists[FacilityInfo.FacilityType.WorkSpace].Count;
     }
 }

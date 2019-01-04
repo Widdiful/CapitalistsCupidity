@@ -72,7 +72,7 @@ public class Director : MonoBehaviour
         Exit = GameObject.Find("Entrance");
         transform.position = Exit.transform.position - Exit.transform.up / 2 + (Exit.transform.forward / 1.2f);
 
-        names = new string[3] { "Ed", "Lewis", "Jack" };
+        names = new string[] { "Ed", "Lewis", "Jack", "Kostas", "Nick", "Linda", "Sandra", "Boris", "Derek", "Darren", "Derren", "Ross", "James", "Phil", "Oliver", "Harry", "Jacob", "Sally", "Charlie", "Thomas", "George", "Cam", "Oscar", "William", "Dave", "Olly", "Jake", "Connor", "Jacob", "Kyle", "Joe", "Reece", "Rhys", "Richard", "Damian", "Peter", "Beth", "Margaret", "Sophie", "Isabelle", "Snake", "Amelia", "Olivia", "Isla", "Emily", "Poppy", "Ava", "Jessica", "Susan", "Samantha", "Joanne", "Megan", "Victoria", "Lauren", "Michelle", "Tracy", "Emma", "Char", "Amuro", "Reccoa", "Kamille", "Kats", "Bright", "Mia", "Abigail", "Madison", "Charlotte", "Mary", "Patricia", "Four", "Takumi", "Barbara", "Susan" };
         employees = new List<Employee>();
         playerStats = PlayerStats.instance;
 
@@ -80,6 +80,10 @@ public class Director : MonoBehaviour
         {
             employeePrefab = Instantiate(employeePrefab, transform);
             employeePrefab.name = names[UnityEngine.Random.Range(0, names.Length)] + " " + UnityEngine.Random.Range(100, 1000).ToString();
+            if (employeePrefab.name.EndsWith("555")) {
+                if (Random.Range(0, 555) == 0)
+                    employeePrefab.name = "Kamen Rider 555";
+            }
             employeePrefab.gameObject.SetActive(false);
             employees.Add(employeePrefab);
         }

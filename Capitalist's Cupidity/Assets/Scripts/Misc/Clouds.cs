@@ -21,7 +21,7 @@ public class Clouds : MonoBehaviour {
     }
 
 	void Update () {
-        happinessPercentage = Director.Instance.getGlobalHappiness() / 100f;
+        //happinessPercentage = Director.Instance.getGlobalHappiness() / 100f;
         if (float.IsNaN(happinessPercentage)) happinessPercentage = 1;
         transform.Rotate(new Vector3(0, speed * Time.timeScale, 0));
 

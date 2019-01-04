@@ -129,9 +129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
+  selectedFloor: 0
   visibleFloorLayer: 9
   invisibleFloorLayer: 10
-  facilityLayer: 14
 --- !u!114 &114579073698119086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,31 +144,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListOfBusinesses:
-  - businessName: Catering Company
-    costToBuy: 5000000
+  - businessName: Bereit zu Eat
+    costToBuy: 5
     monthlyIncome: 5000
     purchased: 0
-    description: 
-  - businessName: Public Transport
-    costToBuy: 50000000
+    description: We do food! Technically!
+  - businessName: Definitely Safe Transport
+    costToBuy: 50
     monthlyIncome: 15000
     purchased: 0
-    description: 
-  - businessName: Test 3
-    costToBuy: 3
-    monthlyIncome: 30
+    description: Where you wanna go, eventually
+  - businessName: EZz Hotel
+    costToBuy: 15
+    monthlyIncome: 10000
     purchased: 0
-    description: 
-  - businessName: Test 4
-    costToBuy: 4
-    monthlyIncome: 40
+    description: Provides blunt instruments for easy Z's
+  - businessName: 5Coin News
+    costToBuy: 55.555
+    monthlyIncome: 20000
     purchased: 0
-    description: 
-  - businessName: Test 5
-    costToBuy: 5
-    monthlyIncome: 50
+    description: 100% truth, 100% of the time, 20% of the time
+  - businessName: Waterworks
+    costToBuy: 100
+    monthlyIncome: 50000
     purchased: 0
-    description: 
+    description: Drinking unadvised
+  - businessName: 9-Volt Energy
+    costToBuy: 150
+    monthlyIncome: 75000
+    purchased: 0
+    description: "Features exclusive, mandatory Slow Charging\u2122 technology"
+  - businessName: Ostrich Airlines
+    costToBuy: 500
+    monthlyIncome: 150000
+    purchased: 0
+    description: Left Phalange not included
+  - businessName: Horizon Cable Company
+    costToBuy: 300
+    monthlyIncome: 100000
+    purchased: 0
+    description: Now offering Megabit broadband
+  - businessName: Thief Estate
+    costToBuy: 500
+    monthlyIncome: 200000
+    purchased: 0
+    description: We commit crimes so our landlords still have to
+  - businessName: Breathtaking Space Travel
+    costToBuy: 1000
+    monthlyIncome: 10000
+    purchased: 0
+    description: Literally
 --- !u!114 &114900694794646250
 MonoBehaviour:
   m_ObjectHideFlags: 1

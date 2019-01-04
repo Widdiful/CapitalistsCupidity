@@ -15,13 +15,13 @@ public class BusinessMenu : MonoBehaviour {
     {
         nameText.text = business.businessName;
         descriptionText.text = business.description;
-        costText.text = "$" + business.costToBuy.ToString();
-        earningText.text = "$" + business.monthlyIncome.ToString();
+        costText.text = "$" + business.costToBuy.ToString("n0") + ",000,000";
+        earningText.text = "$" + business.monthlyIncome.ToString("n0");
     }
 
     public void Buy()
     {
-        if (PlayerStats.instance.SpendMoney(business.costToBuy))
+        if (PlayerStats.instance.SpendMoney(business.costToBuy * 1000000))
         {
             business.BuyBusiness();
             UIManager.instance.CloseOpenedWindow();

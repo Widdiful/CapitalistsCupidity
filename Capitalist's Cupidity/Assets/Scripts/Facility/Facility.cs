@@ -129,10 +129,10 @@ public class Facility : MonoBehaviour
     public void ChangeFacility(FacilityInfo facilityInformation)
     {
         int noOfFAcilities = 2; //3-1
-        if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
-        {
-            OfficeManager.instance.AddFacility(this);
-        }
+        //if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facilityInfo.facilityType != FacilityInfo.FacilityType.Copy)
+        //{
+        //    OfficeManager.instance.AddFacility(this);
+        //}
         bool positionSet = false;
         for (int i = 0; i < floor.facilityArray.Count; i++)
         {
@@ -197,6 +197,7 @@ public class Facility : MonoBehaviour
                                 if (facilityInfo.facilityType != FacilityInfo.FacilityType.Empty)
                                 {
                                     workPoint = childObject.transform.Find("workPoint").gameObject;
+                                    OfficeManager.instance.AddFacility(this);
                                 }
                             }
                             else // otherwise make it a copy of placed facility

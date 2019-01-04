@@ -132,16 +132,16 @@ public class Employee : MonoBehaviour
 
         //Create chance of boot licker that cannot lose happiness
 
-        isBootLicker = Random.Range(1, 3) > 1 ? true : false;
+        isBootLicker = Random.Range(1, 10) == 1 ? true : false;
 
         if(!isBootLicker)
         {
             Director.workerHappiness += setHappiness;
         }
-        else
-        {
-            GetComponent<Renderer>().material.color = Color.red;
-        }
+        //else
+        //{
+        //    GetComponent<Renderer>().material.color = Color.red;
+        //}
 
         //Give random monthly salary
         salary = 1200;
@@ -228,7 +228,7 @@ public class Employee : MonoBehaviour
 
     public void setHappiness(float value)
     {
-        happiness += value;
+        if (!isBootLicker) happiness += value;
     }
 
     public void setBank(float value)
@@ -532,7 +532,7 @@ public class Employee : MonoBehaviour
             {
                 assignedWorkPoints.Add(FacilityInfo.FacilityType.WorkSpace, OfficeManager.instance.GetEmptyFacility(FacilityInfo.FacilityType.WorkSpace));
             }
-            OfficeManager.instance.RemoveFacility(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace]);
+            //OfficeManager.instance.RemoveFacility(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace]);
         }
         else
         {
