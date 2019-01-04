@@ -283,6 +283,8 @@ public class Employee : MonoBehaviour
     public void changeEmployeeLayer()
     {
         gameObject.layer = Lifts[currentFloor].layer;
+        if (audioSource.isPlaying && currentFloor != CameraControl.instance.selectedFloor)
+            audioSource.Stop();
     }
     //Using director positions, set employee target object
     public void moveTo(Director.Positions pos)
@@ -432,7 +434,10 @@ public class Employee : MonoBehaviour
         {
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                if (currentFloor == CameraControl.instance.selectedFloor)
+                    audioSource.Play();
+                else
+                    audioSource.Stop();
             }
             goToToilet.priority += (Time.deltaTime * bladderModifier);
             drinkADrink.priority += (Time.deltaTime * thirstModifier);
