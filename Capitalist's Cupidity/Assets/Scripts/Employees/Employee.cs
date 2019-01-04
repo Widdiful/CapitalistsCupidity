@@ -86,6 +86,8 @@ public class Employee : MonoBehaviour
         AssignFacility(FacilityInfo.FacilityType.WaterFountain);
         Exit = Director.Instance.Exit;
 
+        happiness = 100;
+
 
         //Create actions
         actions = new List<Actions>();

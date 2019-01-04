@@ -82,23 +82,19 @@ public class UIManager : MonoBehaviour {
 
     private void FixedUpdate() {
         if (managementPaneOpen) {
-            updateTimer += Time.fixedUnscaledDeltaTime;
-            if (updateTimer >= 1) {
-                switch (managementPane.GetChild(managementPane.childCount - 1).name) {
-                    case "FloorsTab":
-                        UpdateFloorsTab();
-                        break;
-                    case "EmployeesTab":
-                        UpdateEmployeesTab();
-                        break;
-                    case "FacilitiesTab":
-                        UpdateFacilitiesTab();
-                        break;
-                    case "BusinessTab":
-                        UpdateBusinessTab();
-                        break;
-                }
-                updateTimer = 0;
+            switch (managementPane.GetChild(managementPane.childCount - 1).name) {
+                case "FloorsTab":
+                    UpdateFloorsTab();
+                    break;
+                case "EmployeesTab":
+                    UpdateEmployeesTab();
+                    break;
+                case "FacilitiesTab":
+                    UpdateFacilitiesTab();
+                    break;
+                case "BusinessTab":
+                    UpdateBusinessTab();
+                    break;
             }
         }
     }
