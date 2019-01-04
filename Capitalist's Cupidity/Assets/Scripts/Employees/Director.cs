@@ -46,7 +46,7 @@ public class Director : MonoBehaviour
     private PlayerStats playerStats;
 
 
-
+    bool gameLaunch = true;
 
     public static Director Instance
     {
@@ -108,6 +108,8 @@ public class Director : MonoBehaviour
             Grid grid = floors[i].transform.GetChild(0).GetComponent<Grid>();
             getCurrentGrid.Add(i, grid);
         }
+
+        
     }
 
     public int getCurrentEmployees()
@@ -123,7 +125,6 @@ public class Director : MonoBehaviour
         {
             currentEmployees = maxEmployees;
         }
-        
     }
 
     public int getMaxEmployees()
@@ -133,7 +134,6 @@ public class Director : MonoBehaviour
 
     public void setMaxEmployees(int value)
     {
-       
         maxEmployees += value;
 
         if(maxEmployees > employeePoolCount)
@@ -154,20 +154,29 @@ public class Director : MonoBehaviour
             oldMonths = numberOfMonths;
         }
 
-        StartCoroutine(spawnEmployee());
+        if (gameLaunch)
+        {
+            StartCoroutine(spawnEmployee());
+        }
     }
 
     public IEnumerator spawnEmployee()
     {
         WaitForSeconds wait = new WaitForSeconds(2.0f);
+
         foreach (Employee employee in employees)
         {
             if (!employee.gameObject.activeSelf && currentEmployees < maxEmployees)
             {
                 employee.gameObject.SetActive(true);
                 currentEmployees++;
-                break;
-                
+                yield return wait;
+
+                if(currentEmployees == maxEmployees)
+                {
+                    gameLaunch = false;
+                    yield return null;
+                }
             }
             yield return wait;
         }
@@ -235,7 +244,7 @@ public class Director : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Shit broke fam");
+                    Debug.Log("broke fam");
                     return null;
                 }
             }

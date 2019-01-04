@@ -218,7 +218,7 @@ public class Employee : MonoBehaviour
                 action.priority = 100;
             }
 
-            if (action.priority > actions[0].priority)
+            if (action.priority > actions[0].priority && !quit)
             {
                 if (actions[0].priority <= 0 || actions[0].canInterupt == true)
                 {
@@ -295,13 +295,15 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].workPoint;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
                  
-                        break;
+                        
                 }
             case Director.Positions.cafe:
                 {
@@ -309,13 +311,15 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = assignedWorkPoints[FacilityInfo.FacilityType.Catering].workPoint;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
 
-                    break;
+                   
                 }
             case Director.Positions.exit:
                 {
@@ -323,13 +327,13 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = Exit;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
-
-                    break;
                 }
             case Director.Positions.toilet:
                 {
@@ -337,13 +341,13 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = assignedWorkPoints[FacilityInfo.FacilityType.Toilets].workPoint;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
-
-                    break;
                 }
             case Director.Positions.waterfountain:
                 {
@@ -351,13 +355,13 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].workPoint;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
-
-                    break;
                 }
             case Director.Positions.workstation:
                 {
@@ -365,13 +369,13 @@ public class Employee : MonoBehaviour
                     if (currentFloor == targetFloor)
                     {
                         targetObject = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].workPoint;
+                        break;
                     }
                     else
                     {
                         targetObject = Lifts[currentFloor];
+                        break;
                     }
-
-                    break;
                 }
 
             default: break;
@@ -454,18 +458,6 @@ public class Employee : MonoBehaviour
         {
             //gameObject.SetActive(false);
             Leave.priority = 0;
-            if (quit)
-            {
-                if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
-                {
-                    Director.Instance.setMaxEmployees(-1);
-                }
-
-                Director.Instance.setCurrentEmployees(-1);
-
-                Start();      
-                gameObject.SetActive(false);
-            }
             return true;
         }
     }
@@ -536,13 +528,29 @@ public class Employee : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
         {
             transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
             currentFloor = targetFloor;
             gameObject.layer = Lifts[targetFloor].gameObject.layer;
+        }
+
+        if(other.gameObject == Exit && other.gameObject == targetObject)
+        {
+            if (quit)
+            {
+                if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
+                {
+                    Director.Instance.setMaxEmployees(-1);
+                }
+
+                Director.Instance.setCurrentEmployees(-1);
+
+                Start();
+                gameObject.SetActive(false);
+            }
         }
     }
 
