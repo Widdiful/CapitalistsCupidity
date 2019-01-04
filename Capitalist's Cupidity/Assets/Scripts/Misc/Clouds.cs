@@ -21,6 +21,7 @@ public class Clouds : MonoBehaviour {
     }
 
 	void Update () {
+        happinessPercentage = Mathf.Clamp01(happinessPercentage);
         happinessPercentage = Director.Instance.getGlobalHappiness() / 100f;
         if (float.IsNaN(happinessPercentage)) happinessPercentage = 1;
         transform.Rotate(new Vector3(0, speed * Time.timeScale, 0));
@@ -29,9 +30,9 @@ public class Clouds : MonoBehaviour {
         emission.rateOverTime = 500.0f * (1 - happinessPercentage);
         if (happinessPercentage >= 0.5f) emission.rateOverTime = 0;
 
-        sun.color = Color.HSVToRGB(0, 0, (happinessPercentage * 0.75f) + 0.25f);
+        sun.color = Color.HSVToRGB(0, 0, Mathf.Clamp((happinessPercentage * 0.75f) + 0.25f, 0.25f, 1f));
         Color color = renderer.materials[0].color;
-        color.a = ((1 - happinessPercentage) * 0.75f) + 0.25f;
+        color.a = Mathf.Clamp(((1 - happinessPercentage) * 0.75f) + 0.25f, 0.25f, 1f);
         renderer.materials[0].color = color;
 
         normalMusic.volume = happinessPercentage;
