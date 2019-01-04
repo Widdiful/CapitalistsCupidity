@@ -293,6 +293,10 @@ public class Employee : MonoBehaviour
             {
             case Director.Positions.desk:
                 {
+                    if (assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] == null) {
+                        quit = true;
+                        break;
+                    }
                     targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
@@ -309,6 +313,10 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.cafe:
                 {
+                    if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] == null) {
+                        moveTo(Director.Positions.exit);
+                        break;
+                    }
                     targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.Catering].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
@@ -339,6 +347,10 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.toilet:
                 {
+                    if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] == null) {
+                        moveTo(Director.Positions.exit);
+                        break;
+                    }
                     targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.Toilets].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
@@ -353,6 +365,10 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.waterfountain:
                 {
+                    if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] == null) {
+                        moveTo(Director.Positions.exit);
+                        break;
+                    }
                     targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
@@ -367,6 +383,10 @@ public class Employee : MonoBehaviour
                 }
             case Director.Positions.workstation:
                 {
+                    if (assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] == null) {
+                        quit = true;
+                        break;
+                    }
                     targetFloor = assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace].GetFloor().floorNo;
                     if (currentFloor == targetFloor)
                     {
