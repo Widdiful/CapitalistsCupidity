@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 { 
     public Vector2 gridWorldSize;
-    float nodeRadius = 0.15f;
+    float nodeRadius = 0.1f;
     public Node[,] worldGrid;
 
     public float nodeDiameter;

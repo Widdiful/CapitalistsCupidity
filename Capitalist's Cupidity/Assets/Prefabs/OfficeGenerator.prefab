@@ -72,7 +72,7 @@ MonoBehaviour:
   shadowPrefab: {fileID: 1534728467443968, guid: fdea416d703545a459722a7872ac52c6,
     type: 2}
   officeName: Test Corp.
-  floorCount: 5
+  floorCount: 10
   warehouseCount: 0
   floorSize: {x: 12, y: 10}
   floorHeight: 3
@@ -80,9 +80,9 @@ MonoBehaviour:
   workspacePadding: 3
   facilitySpawnInformation:
   - name: Cafeteria
-    count: 1
-  - name: Toilets
     count: 2
+  - name: Toilets
+    count: 4
   - name: Break Room
-    count: 1
+    count: 2
   lifts: []
