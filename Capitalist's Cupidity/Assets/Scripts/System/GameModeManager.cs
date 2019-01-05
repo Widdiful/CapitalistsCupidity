@@ -63,7 +63,7 @@ public class GameModeManager : MonoBehaviour {
         newScore.companyName = OfficeGenerator.instance.officeName;
         switch (gameMode) {
             case GameModes.Free:
-                newScore.score = PlayerStats.instance.GetPersonalFunds().ToString("n0");
+                newScore.score = PlayerStats.instance.GetPersonalFunds().ToString();
                 LocalDatabase.instance.databaseFree.Add(newScore);
                 break;
             case GameModes.Time:
@@ -71,7 +71,7 @@ public class GameModeManager : MonoBehaviour {
                 LocalDatabase.instance.databaseTime.Add(newScore);
                 break;
             case GameModes.Gold:
-                newScore.score = PlayerStats.instance.GetPersonalFunds().ToString("n0");
+                newScore.score = PlayerStats.instance.GetPersonalFunds().ToString();
                 LocalDatabase.instance.databaseGold.Add(newScore);
                 break;
         }
