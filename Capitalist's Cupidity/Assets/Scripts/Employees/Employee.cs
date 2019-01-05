@@ -325,6 +325,7 @@ public class Employee : MonoBehaviour
             case Director.Positions.cafe:
                 {
                     if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] == null) {
+                        targetObject = Exit;
                         moveTo(Director.Positions.exit);
                         break;
                     }
@@ -359,6 +360,7 @@ public class Employee : MonoBehaviour
             case Director.Positions.toilet:
                 {
                     if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] == null) {
+                        targetObject = Exit;
                         moveTo(Director.Positions.exit);
                         break;
                     }
@@ -377,6 +379,7 @@ public class Employee : MonoBehaviour
             case Director.Positions.waterfountain:
                 {
                     if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] == null) {
+                        targetObject = Exit;
                         moveTo(Director.Positions.exit);
                         break;
                     }
@@ -413,6 +416,11 @@ public class Employee : MonoBehaviour
 
             default: break;
             }
+        if(targetObject == null)
+        {
+            targetObject = Exit;
+            moveTo(Director.Positions.exit);
+        }
     }
 
     private bool inBounds(int index, List<Node> List)
@@ -477,7 +485,11 @@ public class Employee : MonoBehaviour
                 return true;
             }
         }
-        return false;
+        else
+        {
+            moveTo(Director.Positions.exit);
+            return false;
+        }
     }
 
     public bool goHome()
@@ -525,7 +537,11 @@ public class Employee : MonoBehaviour
                 return true;
             }
         }
-        return false;
+        else
+        {
+            moveTo(Director.Positions.exit);
+            return false;
+        }
     }
 
     public bool eat()
@@ -550,7 +566,11 @@ public class Employee : MonoBehaviour
                 return true;
             }
         }
-        return false;
+        else
+        {
+            moveTo(Director.Positions.exit);
+            return false;
+        }
     }
 
     public bool drink()
@@ -574,10 +594,14 @@ public class Employee : MonoBehaviour
                 return true;
             }
         }
-        return false;
+        else
+        {
+            moveTo(Director.Positions.exit);
+            return false;
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
         {
