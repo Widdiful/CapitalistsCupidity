@@ -24,6 +24,7 @@ public class Floor : MonoBehaviour {
     public List<Facility> facilities = new List<Facility>();
     public GameObject lift;
     public bool purchased;
+    public List<Employee> employeesOnFloor = new List<Employee>();
     [System.Serializable]
     public class FacilityRow
     {
@@ -151,5 +152,15 @@ public class Floor : MonoBehaviour {
         GameObject newLift = Instantiate(Resources.Load("OfficeParts/Lift"), transform) as GameObject;
         newLift.transform.localPosition = new Vector3((floorSize.x * 0.5f) - 1, 1, -(floorSize.y / 2f) + 0.1f);
         lift = newLift;
+    }
+
+    public float GetAverageHappiness() {
+        float i = 0;
+        foreach(Employee emp in employeesOnFloor) {
+            i += emp.getHappiness();
+        }
+        if (employeesOnFloor.Count > 0) i /= employeesOnFloor.Count;
+        else i = 0;
+        return i;
     }
 }

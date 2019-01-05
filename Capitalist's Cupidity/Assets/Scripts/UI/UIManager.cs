@@ -161,6 +161,8 @@ public class UIManager : MonoBehaviour {
                 Floor floor = OfficeGenerator.instance.GetFloors()[floorButtons.Count - 1 - i];
                 if (floor.purchased) {
                     floorButtons[i].gameObject.SetActive(true);
+                    floorButtons[i].population = floor.employeesOnFloor.Count;
+                    floorButtons[i].happiness = floor.GetAverageHappiness() / 100f;
                     floorButtons[i].UpdateInformation();
                 }
                 else {
@@ -193,12 +195,12 @@ public class UIManager : MonoBehaviour {
         if (facilitiesContent && facilitiesButtonPrefab)
         {
             for (int i = 0; i < facilityButtons.Count; i++) {
-                Facility facility = FindObjectsOfType<Facility>()[i];
+                Facility facility = OfficeGenerator.instance.getFacilities()[i];
                 if (facility.facilityInfo.facilityType != FacilityInfo.FacilityType.WorkSpace && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Empty && facility.facilityInfo.facilityType != FacilityInfo.FacilityType.Copy) {
                     facilityButtons[i].gameObject.SetActive(true);
                     facilityButtons[i].facilityName = facility.facilityInfo.facilityName;
                     facilityButtons[i].fundingCurrent = facility.GetMonthlyExpense();
-                    facilityButtons[i].happiness = 0.5f;
+                    facilityButtons[i].happiness = facility.averageEmployeeHappiness;
                     facilityButtons[i].facility = facility;
                     facilityButtons[i].floorNo = facility.GetComponentInParent<Floor>().floorNo;
                     facilityButtons[i].UpdateInformation();

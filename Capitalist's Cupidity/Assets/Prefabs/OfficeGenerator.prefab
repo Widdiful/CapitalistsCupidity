@@ -73,6 +73,7 @@ MonoBehaviour:
     type: 2}
   officeName: Test Corp.
   floorCount: 10
+  maxFloors: 3
   warehouseCount: 0
   floorSize: {x: 12, y: 10}
   floorHeight: 3
@@ -80,9 +81,9 @@ MonoBehaviour:
   workspacePadding: 3
   facilitySpawnInformation:
   - name: Cafeteria
-    count: 2
+    count: 1
   - name: Toilets
-    count: 4
+    count: 1
   - name: Break Room
-    count: 2
+    count: 1
   lifts: []

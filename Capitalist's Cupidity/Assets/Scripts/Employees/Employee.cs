@@ -167,6 +167,8 @@ public class Employee : MonoBehaviour
         quit = false;
         pathComplete = true;
         pathFinding = GetComponent<Pathfinding>();
+
+        floors[currentFloor].employeesOnFloor.Add(this);
     }
 
     public void fireEmployee()
@@ -562,6 +564,8 @@ public class Employee : MonoBehaviour
     {
         if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
         {
+            floors[currentFloor].employeesOnFloor.Remove(this);
+            floors[targetFloor].employeesOnFloor.Add(this);
             transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
             currentFloor = targetFloor;
             gameObject.layer = Lifts[targetFloor].gameObject.layer;
