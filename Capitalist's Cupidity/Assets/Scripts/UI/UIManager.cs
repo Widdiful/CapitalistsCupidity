@@ -273,6 +273,11 @@ public class UIManager : MonoBehaviour {
         windowOpen = true;
     }
 
+    public void ClosePauseMenu() {
+        CloseOpenedWindow();
+        Time.timeScale = 1;
+    }
+
     public void OpenAdminMenu() {
         if (openedWindow == adminMenuCanvas) {
             CloseOpenedWindow();
