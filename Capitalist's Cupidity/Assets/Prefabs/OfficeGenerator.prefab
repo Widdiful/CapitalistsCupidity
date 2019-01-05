@@ -72,8 +72,8 @@ MonoBehaviour:
   shadowPrefab: {fileID: 1534728467443968, guid: fdea416d703545a459722a7872ac52c6,
     type: 2}
   officeName: Test Corp.
-  floorCount: 10
-  maxFloors: 10
+  floorCount: 5
+  maxFloors: 3
   warehouseCount: 0
   floorSize: {x: 12, y: 10}
   floorHeight: 3

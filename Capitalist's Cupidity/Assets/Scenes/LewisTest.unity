@@ -673,7 +673,7 @@ Prefab:
     - target: {fileID: 224160248679098772, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000135242735
+      value: 0.0000057317015
       objectReference: {fileID: 0}
     - target: {fileID: 224188717043854084, guid: 23e2eed6e859a3642864ca8ec2296cd5,
         type: 2}
@@ -815,22 +815,6 @@ Prefab:
     - target: {fileID: 1095638619047074, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439629623095260, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4282855010012718, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4916548868725852, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4617646019777526, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33faa643d23d5944dae5e5179eb606fc, type: 2}
@@ -1123,7 +1107,7 @@ MonoBehaviour:
   employeePrefab: {fileID: 114187205433920634, guid: b9bd3bbe8b0f2ff4c8db7c802d8b4c81,
     type: 2}
   employees: []
-  employeePoolCount: 180
+  employeePoolCount: 50
   employeeHireCost: 500
   liftList: []
   floors: []
@@ -1840,22 +1824,22 @@ Prefab:
     - target: {fileID: 224320417702829548, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000016764894
+      value: 0.000016985432
       objectReference: {fileID: 0}
     - target: {fileID: 224010052685898048, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000017993696
+      value: 0.000017196755
       objectReference: {fileID: 0}
     - target: {fileID: 224467106175003176, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000017993696
+      value: 0.000017196755
       objectReference: {fileID: 0}
     - target: {fileID: 224960405291986596, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00002904104
+      value: 0.000010540855
       objectReference: {fileID: 0}
     - target: {fileID: 224190265970470608, guid: 1ea3a37e70efc4b4ab9f99ca4900fa61,
         type: 2}
