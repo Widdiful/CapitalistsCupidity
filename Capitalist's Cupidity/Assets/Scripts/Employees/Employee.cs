@@ -64,7 +64,9 @@ public class Employee : MonoBehaviour
     float targetOffset = 1.55f;
     bool quit = false;
     Renderer rend;
-    
+
+    float collisionTimer = 0.0f;
+
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
         if (list != null)
@@ -179,6 +181,8 @@ public class Employee : MonoBehaviour
         pathFinding.foundPath = false;
         pathComplete = true;
 
+        moveTo(Director.Positions.exit);
+
         foreach(KeyValuePair<FacilityInfo.FacilityType, Facility> pair in assignedWorkPoints)
         {
             if (pair.Value != null)
@@ -247,6 +251,10 @@ public class Employee : MonoBehaviour
                 yield return null;
             }
         }
+        else
+        {
+            Leave.execute();
+        }
     }
 
     public float getHappiness()
@@ -256,7 +264,7 @@ public class Employee : MonoBehaviour
 
     public void setHappiness(float value)
     {
-        if (!isBootLicker) happiness += value;
+        if (!isBootLicker && !quit) happiness += value;
     }
 
     public void setBank(float value)
@@ -267,8 +275,11 @@ public class Employee : MonoBehaviour
     //Employees are happy on payday
     public void payWages()
     {
-        moneyInBank += salary;
-        setHappiness(10.0f);
+        if (!quit)
+        {
+            moneyInBank += salary;
+            setHappiness(10.0f);
+        }
         updateHappiness();
     }
 
@@ -603,35 +614,52 @@ public class Employee : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
+        if (collisionTimer <= 0)
         {
-            floors[currentFloor].employeesOnFloor.Remove(this);
-            floors[targetFloor].employeesOnFloor.Add(this);
-            transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
-            currentFloor = targetFloor;
-            targetObject = null;
-            gameObject.layer = Lifts[targetFloor].gameObject.layer;
-        }
+            collisionTimer = 0.5f;
 
-        if(other.gameObject == Exit && other.gameObject == targetObject)
-        {
-            if (quit)
+            if (other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
             {
-                if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
+                floors[currentFloor].employeesOnFloor.Remove(this);
+                floors[targetFloor].employeesOnFloor.Add(this);
+                transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
+                currentFloor = targetFloor;
+                targetObject = null;
+                gameObject.layer = Lifts[targetFloor].gameObject.layer;
+            }
+
+            if (other.gameObject == Exit && other.gameObject == targetObject)
+            {
+                if (quit)
                 {
-                    Director.Instance.setMaxEmployees(-1);
+                    if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
+                    {
+                        Director.Instance.setMaxEmployees(-1);
+                    }
+
+                    Director.Instance.setCurrentEmployees(-1);
+
+                    if (OfficeManager.instance.FacilityLists[FacilityInfo.FacilityType.WorkSpace].Count > Director.Instance.totalActiveEmployees())
+                    {
+                        Start();
+                    }
+
+                    floors[currentFloor].employeesOnFloor.Remove(this);
+                    gameObject.SetActive(false);
                 }
 
-                Director.Instance.setCurrentEmployees(-1);
-
-                if (OfficeManager.instance.FacilityLists[FacilityInfo.FacilityType.WorkSpace].Count > Director.Instance.totalActiveEmployees())
-                {
-                    Start();
-                }
-
-                gameObject.SetActive(false);
+                floors[currentFloor].employeesOnFloor.Remove(this);
             }
         }
+        else
+        {
+            collisionTimer -= Time.deltaTime;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        collisionTimer = 0;
     }
 
     public void AssignFacility(FacilityInfo.FacilityType facilityType)
