@@ -23,6 +23,9 @@ public class MainMenuManager : MonoBehaviour {
             Destroy(this);
         DontDestroyOnLoad(this);
         //fiveCoins = PlayerPrefs.GetInt("fiveCoins");
+    }
+
+    private void Start() {
         savingAndLoading.instance.loadProfileData();
     }
 
