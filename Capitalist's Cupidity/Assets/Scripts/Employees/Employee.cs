@@ -446,33 +446,35 @@ public class Employee : MonoBehaviour
         }
     }
 
-  
-    
     public bool sitAtDesk()
     {
-        if(assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] != targetObject)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] != null)
         {
-            moveTo(Director.Positions.desk);
-        }
-        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
-        {
-            return false;
-        }
-        else
-        {
-            if (!audioSource.isPlaying)
+            if (assignedWorkPoints[FacilityInfo.FacilityType.WorkSpace] != targetObject)
             {
-                if (currentFloor == CameraControl.instance.selectedFloor)
-                    audioSource.Play();
-                else
-                    audioSource.Stop();
+                moveTo(Director.Positions.desk);
             }
-            goToToilet.priority += (Time.deltaTime * bladderModifier);
-            drinkADrink.priority += (Time.deltaTime * thirstModifier);
-            getFood.priority += (Time.deltaTime * hungerModifier);
-            Work.priority -= (Time.deltaTime * needToWorkModifier);
-            return true;
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                if (!audioSource.isPlaying)
+                {
+                    if (currentFloor == CameraControl.instance.selectedFloor)
+                        audioSource.Play();
+                    else
+                        audioSource.Stop();
+                }
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                drinkADrink.priority += (Time.deltaTime * thirstModifier);
+                getFood.priority += (Time.deltaTime * hungerModifier);
+                Work.priority -= (Time.deltaTime * needToWorkModifier);
+                return true;
+            }
         }
+        return false;
     }
 
     public bool goHome()
@@ -480,7 +482,7 @@ public class Employee : MonoBehaviour
         if (Exit != targetObject)
         {
             moveTo(Director.Positions.exit);
-         
+
         }
 
         if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
@@ -497,67 +499,79 @@ public class Employee : MonoBehaviour
 
     public bool goToBathroom()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] != targetObject)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] != null)
         {
-            moveTo(Director.Positions.toilet);
-        }
-
-        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
-        {
-            return false;
-        }
-        else
-        {
-            if(rend.enabled)
+            if (assignedWorkPoints[FacilityInfo.FacilityType.Toilets] != targetObject)
             {
-                rend.enabled = false;
+                moveTo(Director.Positions.toilet);
             }
 
-            Work.priority += (Time.deltaTime * needToWorkModifier);
-            goToToilet.priority -= (Time.deltaTime * bladderModifier);
-            return true;
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                if (rend.enabled)
+                {
+                    rend.enabled = false;
+                }
+
+                Work.priority += (Time.deltaTime * needToWorkModifier);
+                goToToilet.priority -= (Time.deltaTime * bladderModifier);
+                return true;
+            }
         }
+        return false;
     }
 
     public bool eat()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] != targetObject)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] != null)
         {
-            moveTo(Director.Positions.cafe);
-            
-        }
+            if (assignedWorkPoints[FacilityInfo.FacilityType.Catering] != targetObject)
+            {
+                moveTo(Director.Positions.cafe);
 
-        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
-        {
-            return false;
+            }
+
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                Work.priority += (Time.deltaTime * needToWorkModifier);
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                getFood.priority -= (Time.deltaTime * hungerModifier);
+                return true;
+            }
         }
-        else
-        {
-            Work.priority += (Time.deltaTime * needToWorkModifier);
-            goToToilet.priority += (Time.deltaTime * bladderModifier);
-            getFood.priority -= (Time.deltaTime * hungerModifier);
-            return true;
-        }
+        return false;
     }
 
     public bool drink()
     {
-        if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] != targetObject)
+        if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] != null)
         {
-            moveTo(Director.Positions.waterfountain);
-        }
+            if (assignedWorkPoints[FacilityInfo.FacilityType.WaterFountain] != targetObject)
+            {
+                moveTo(Director.Positions.waterfountain);
+            }
 
-        if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
-        {
-            return false;
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                Work.priority += (Time.deltaTime * needToWorkModifier);
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                drinkADrink.priority -= (Time.deltaTime * thirstModifier);
+                return true;
+            }
         }
-        else
-        {
-            Work.priority += (Time.deltaTime * needToWorkModifier);
-            goToToilet.priority += (Time.deltaTime * bladderModifier);
-            drinkADrink.priority -= (Time.deltaTime * thirstModifier);
-            return true;
-        }
+        return false;
     }
 
     private void OnTriggerEnter(Collider other)

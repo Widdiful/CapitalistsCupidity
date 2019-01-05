@@ -15,8 +15,12 @@ public class Pathfinding : MonoBehaviour
         emp = GetComponent<Employee>();
     }
 
-
     private void Update()
+    {
+        getNewPath();
+    }
+
+    public void getNewPath()
     {
         if (emp.pathComplete)
         {
@@ -28,7 +32,6 @@ public class Pathfinding : MonoBehaviour
             findPath(emp.transform.position, target);
         }
     }
-
 
     public void findPath(Vector3 startPos, Vector3 targetPos)
     {
