@@ -233,12 +233,12 @@ public class Employee : MonoBehaviour
                     yield return new WaitForSeconds(2.0f);
                     audioSource.Stop();
                     Swap(actions, 0, actions.IndexOf(action));
-
-                    if (actions[0] != goToToilet)
-                    {
-                        rend.enabled = true;
-                    }
                 }
+            }
+
+            if (actions[0] != goToToilet)
+            {
+                rend.enabled = true;
             }
 
             actions[0].execute();
@@ -568,6 +568,7 @@ public class Employee : MonoBehaviour
             floors[targetFloor].employeesOnFloor.Add(this);
             transform.position = Lifts[targetFloor].transform.position + Lifts[targetFloor].transform.forward - Lifts[targetFloor].transform.up;
             currentFloor = targetFloor;
+            targetObject = null;
             gameObject.layer = Lifts[targetFloor].gameObject.layer;
         }
 
