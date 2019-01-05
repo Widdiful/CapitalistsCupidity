@@ -129,7 +129,7 @@ public class savingAndLoading : MonoBehaviour
         scoreData.dataBaseTime = LocalDatabase.instance.databaseTime;
 
         // save scores to file
-        FileStream fs = new FileStream("scores.dat", FileMode.Create);
+        FileStream fs = new FileStream(Application.persistentDataPath + "scores.dat", FileMode.Create);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(fs, scoreData);
         fs.Close();
@@ -138,8 +138,8 @@ public class savingAndLoading : MonoBehaviour
     }
 
     public void loadLeaderboards() {
-        if (File.Exists("scores.dat")) {
-            using (Stream stream = File.Open("scores.dat", FileMode.Open)) {
+        if (File.Exists(Application.persistentDataPath + "scores.dat")) {
+            using (Stream stream = File.Open(Application.persistentDataPath + "scores.dat", FileMode.Open)) {
                 var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
                 scoreData = (ScoreData)bformatter.Deserialize(stream);
@@ -158,15 +158,15 @@ public class savingAndLoading : MonoBehaviour
         profileData.fiveCoins = MainMenuManager.instance.fiveCoins;
 
         // save data to file
-        FileStream fs = new FileStream("profile.dat", FileMode.Create);
+        FileStream fs = new FileStream(Application.persistentDataPath + "profile.dat", FileMode.Create);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(fs, profileData);
         fs.Close();
     }
 
     public void loadProfileData() {
-        if (File.Exists("profile.dat")) {
-            using (Stream stream = File.Open("profile.dat", FileMode.Open)) {
+        if (File.Exists(Application.persistentDataPath + "profile.dat")) {
+            using (Stream stream = File.Open(Application.persistentDataPath + "profile.dat", FileMode.Open)) {
                 var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
                 profileData = (ProfileData)bformatter.Deserialize(stream);
