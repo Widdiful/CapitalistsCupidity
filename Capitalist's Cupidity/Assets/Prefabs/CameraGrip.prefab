@@ -132,6 +132,7 @@ MonoBehaviour:
   selectedFloor: 0
   visibleFloorLayer: 9
   invisibleFloorLayer: 10
+  floorCounter: {fileID: 0}
 --- !u!114 &114579073698119086
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
+using UnityEngine.UI;
 
 public class CameraControl : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class CameraControl : MonoBehaviour {
     private bool canRotateCamera = false;
 
     public static CameraControl instance;
+
+    public Text floorCounter;
 
     void Awake() {
         if (instance == null)
@@ -77,7 +80,7 @@ public class CameraControl : MonoBehaviour {
 
     // Changes layers of floors
     public void ChangeFloor(int val) {
-        selectedFloor = Mathf.Clamp(val, 0, OfficeGenerator.instance.floorCount - 1);
+        selectedFloor = Mathf.Clamp(val, 0, OfficeGenerator.instance.maxFloors - 1);
 
         foreach (Floor floor in OfficeGenerator.instance.GetFloors()) {
 
@@ -139,6 +142,8 @@ public class CameraControl : MonoBehaviour {
             if (emp.gameObject.activeInHierarchy)
                 emp.changeEmployeeLayer();
         }
+
+        floorCounter.text = selectedFloor.ToString();
 
         //CheckWalls();
 

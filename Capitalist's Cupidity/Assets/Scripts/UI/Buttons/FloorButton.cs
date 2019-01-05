@@ -28,4 +28,13 @@ public class FloorButton : MonoBehaviour {
     {
         CameraControl.instance.ChangeFloor(floorNo);
     }
+
+    public void Buy() {
+        if (PlayerStats.instance.SpendMoney(100000)) {
+            OfficeGenerator.instance.BuyFloor();
+            if (OfficeGenerator.instance.maxFloors == OfficeGenerator.instance.floorCount) {
+                Destroy(gameObject);
+            }
+        }
+    }
 }

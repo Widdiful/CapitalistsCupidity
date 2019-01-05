@@ -158,8 +158,14 @@ public class UIManager : MonoBehaviour {
     {
         if (OfficeGenerator.instance && floorsContent && floorsButtonPrefab) {
             for (int i = 0; i < floorButtons.Count; i++) {
-                Floor floor = OfficeGenerator.instance.GetFloors()[i];
-                floorButtons[i].UpdateInformation();
+                Floor floor = OfficeGenerator.instance.GetFloors()[floorButtons.Count - 1 - i];
+                if (floor.purchased) {
+                    floorButtons[i].gameObject.SetActive(true);
+                    floorButtons[i].UpdateInformation();
+                }
+                else {
+                    floorButtons[i].gameObject.SetActive(false);
+                }
             }
         }
     }

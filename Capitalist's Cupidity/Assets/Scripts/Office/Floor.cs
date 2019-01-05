@@ -23,6 +23,7 @@ public class Floor : MonoBehaviour {
     private Vector2 floorSize;
     public List<Facility> facilities = new List<Facility>();
     public GameObject lift;
+    public bool purchased;
     [System.Serializable]
     public class FacilityRow
     {

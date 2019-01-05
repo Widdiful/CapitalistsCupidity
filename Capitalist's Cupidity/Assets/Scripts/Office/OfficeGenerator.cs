@@ -15,6 +15,7 @@ public class OfficeGenerator : MonoBehaviour {
     public GameObject shadowPrefab;
     public string officeName;
     public int floorCount;
+    public int maxFloors;
     public int warehouseCount;
     public Vector2 floorSize;
     public float floorHeight;
@@ -28,6 +29,8 @@ public class OfficeGenerator : MonoBehaviour {
     private Transform officeParent;
     private Dictionary<string, List<int>> facilityFloors = new Dictionary<string, List<int>>();
     private List<int> facilitiesPerFloor = new List<int>();
+
+    private Transform shadow;
 
     public static OfficeGenerator instance;
 
@@ -46,6 +49,14 @@ public class OfficeGenerator : MonoBehaviour {
         CreateFloors();
     }
 
+    public void BuyFloor() {
+        if (maxFloors < floorCount) {
+            floors[maxFloors].purchased = true;
+            maxFloors++;
+            CameraControl.instance.ChangeFloor(maxFloors);
+        }
+    }
+
     public List<Facility> getFacilities()
     {
         return facilities;
@@ -55,7 +66,7 @@ public class OfficeGenerator : MonoBehaviour {
         if (shadowPrefab)
         {
             float shadowHeight = floorCount * floorHeight;
-            Transform shadow = Instantiate(shadowPrefab, new Vector3(0, shadowHeight * 0.5f, 0), Quaternion.identity, officeParent).transform;
+            shadow = Instantiate(shadowPrefab, new Vector3(0, shadowHeight * 0.5f, 0), Quaternion.identity, officeParent).transform;
             shadow.localScale = new Vector3(floorSize.x + 0.2f, shadowHeight, floorSize.y + 0.2f);
         }
     }
@@ -94,11 +105,11 @@ public class OfficeGenerator : MonoBehaviour {
             int j = 0;
             for (int i = 0; i < info.count; i++)
             {
-                int floorNumber = Random.Range(0, floorCount);
+                int floorNumber = Random.Range(0, maxFloors);
                 int attempts = 0;
-                while (((floors.Contains(floorNumber) && (floorsWithFacility.Contains(floorNumber) && floorsWithFacility.Count <= floorCount) || facilitiesPerFloor[floorNumber] >= 1)  && attempts < 25))
+                while (((floors.Contains(floorNumber) && (floorsWithFacility.Contains(floorNumber) && floorsWithFacility.Count <= maxFloors) || facilitiesPerFloor[floorNumber] >= 1)  && attempts < 25))
                 {
-                    floorNumber = Random.Range(0, floorCount);
+                    floorNumber = Random.Range(0, maxFloors);
                     attempts++;
                 }
                 if (attempts <= 25)
@@ -115,6 +126,7 @@ public class OfficeGenerator : MonoBehaviour {
         // Create floors
         for(int i = 0; i < floorCount; i++) {
             Floor newFloor = CreateFloor(i);
+            if (i < maxFloors) newFloor.purchased = true;
             facilities.AddRange(newFloor.facilities);
 
             List<Facility> tempFacilities = newFloor.facilities;
@@ -140,7 +152,7 @@ public class OfficeGenerator : MonoBehaviour {
         // Set all empty facilities to workspaces
         foreach(Facility facility in facilities)
         {
-            if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty)
+            if (facility.facilityInfo.facilityType == FacilityInfo.FacilityType.Empty && facility.GetFloor().floorNo < maxFloors)
             {
                 facility.ChangeFacility(FacilityList.instance.GetFacilityByName("Work Space"));
                 //facility.facilityInfo = FacilityList.instance.GetFacilityByName("Work Space");
