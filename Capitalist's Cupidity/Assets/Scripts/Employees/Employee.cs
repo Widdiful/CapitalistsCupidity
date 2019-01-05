@@ -419,7 +419,7 @@ public class Employee : MonoBehaviour
     {
         if (pathFinding.foundPath == true)
         {
-            if (pathFinding.newPath != null && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
+            if (pathFinding.newPath.Count > 0 && followPath != pathFinding.newPath[pathFinding.newPath.Count - 1].worldPos)
             {
                 followPath = pathFinding.newPath[currentPathPoint].worldPos;
                 Vector3 pathPosition = new Vector3(followPath.x, transform.position.y, followPath.z);
@@ -432,7 +432,7 @@ public class Employee : MonoBehaviour
 
                 transform.position += transform.forward * Time.deltaTime * maxMoveSpeed;
 
-                if (Vector3.Distance(pathPosition, transform.position) <= 0.5f)
+                if (Vector3.Distance(pathPosition, transform.position) <= 0.25f)
                 {
                     currentPathPoint = (currentPathPoint + 1) % pathFinding.newPath.Count;
                 }

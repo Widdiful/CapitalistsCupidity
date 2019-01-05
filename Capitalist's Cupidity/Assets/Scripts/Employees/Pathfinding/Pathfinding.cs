@@ -113,26 +113,26 @@ public class Pathfinding : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-  //  private void OnDrawGizmos()
-  //  {
-  //      Gizmos.DrawWireCube(transform.position, new Vector3(grid.gridWorldSize.x, 1, grid.gridWorldSize.y)); //Draws the grid
-  //
-  //      if (grid != null)
-  //      {
-  //          foreach (Node n in grid.worldGrid)
-  //          {
-  //              Gizmos.color = (n.walkable) ? Color.white : Color.red;
-  //
-  //              if (newPath != null)
-  //              {
-  //                  if (newPath.Contains(n))
-  //                  {
-  //                      Gizmos.color = Color.blue;
-  //                  }
-  //              }
-  //              Gizmos.DrawCube(n.worldPos, Vector3.one * (grid.nodeDiameter - 0.1f));
-  //          }
-  //      }
-  //  }
+   //   private void OnDrawGizmos()
+   //   {
+   //       Gizmos.DrawWireCube(transform.position, new Vector3(grid.gridWorldSize.x, 1, grid.gridWorldSize.y)); //Draws the grid
+   // 
+   //       if (grid != null)
+   //       {
+   //           foreach (Node n in grid.worldGrid)
+   //           {
+   //               Gizmos.color = (n.walkable) ? Color.white : Color.red;
+   // 
+   //               if (newPath != null)
+   //               {
+   //                   if (newPath.Contains(n))
+   //                   {
+   //                       Gizmos.color = Color.blue;
+   //                   }
+   //               }
+   //               Gizmos.DrawCube(n.worldPos, Vector3.one * (grid.nodeDiameter - 0.1f));
+   //           }
+   //       }
+   //   }
 #endif
 }
