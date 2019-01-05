@@ -55,7 +55,7 @@ public class Director : MonoBehaviour
         {
             if(_instance == null)
             {
-                _instance = new Director();
+                _instance = FindObjectOfType<Director>();
             }
 
             return _instance;
