@@ -66,6 +66,7 @@ public class Employee : MonoBehaviour
     Renderer rend;
 
     float collisionTimer = 0.0f;
+    bool atExit = false;
 
     public static void Swap<T>(List<T> list, int index1, int index2)
     {
@@ -242,7 +243,7 @@ public class Employee : MonoBehaviour
                     }
                 }
 
-                if (actions[0] != goToToilet)
+                if (actions[0] != goToToilet && !atExit)
                 {
                     rend.enabled = true;
                 }
@@ -498,8 +499,22 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            moveTo(Director.Positions.exit);
-            return false;
+            if(Exit != targetObject)
+            {
+                moveTo(Director.Positions.exit);
+            }
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                drinkADrink.priority += (Time.deltaTime * thirstModifier);
+                getFood.priority += (Time.deltaTime * hungerModifier);
+                Work.priority -= (Time.deltaTime * needToWorkModifier);
+                return true;
+            }
         }
     }
 
@@ -550,8 +565,23 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            moveTo(Director.Positions.exit);
-            return false;
+        
+                if (Exit != targetObject)
+                {
+                    moveTo(Director.Positions.exit);
+                }
+
+                if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+                {
+                    return false;
+                }
+                else
+                {
+                    Work.priority += (Time.deltaTime * needToWorkModifier);
+                    goToToilet.priority -= (Time.deltaTime * bladderModifier);
+                    return true;
+                }
+            
         }
     }
 
@@ -579,8 +609,23 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            moveTo(Director.Positions.exit);
-            return false;
+            if (Exit != targetObject)
+            {
+                moveTo(Director.Positions.exit);
+
+            }
+
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                Work.priority += (Time.deltaTime * needToWorkModifier);
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                getFood.priority -= (Time.deltaTime * hungerModifier);
+                return true;
+            }
         }
     }
 
@@ -607,8 +652,22 @@ public class Employee : MonoBehaviour
         }
         else
         {
-            moveTo(Director.Positions.exit);
-            return false;
+            if (Exit != targetObject)
+            {
+                moveTo(Director.Positions.exit);
+            }
+
+            if (Vector3.Distance(transform.position, targetObject.transform.position) > targetOffset)
+            {
+                return false;
+            }
+            else
+            {
+                Work.priority += (Time.deltaTime * needToWorkModifier);
+                goToToilet.priority += (Time.deltaTime * bladderModifier);
+                drinkADrink.priority -= (Time.deltaTime * thirstModifier);
+                return true;
+            }
         }
     }
 
@@ -630,6 +689,12 @@ public class Employee : MonoBehaviour
 
             if (other.gameObject == Exit && other.gameObject == targetObject)
             {
+                if(rend.enabled == true)
+                {
+                    rend.enabled = false;
+                    atExit = true;
+                }
+
                 if (quit)
                 {
                     if (Director.Instance.getCurrentEmployees() == Director.Instance.getMaxEmployees())
@@ -660,6 +725,11 @@ public class Employee : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         collisionTimer = 0;
+
+        if(atExit == true)
+        {
+            atExit = false;
+        }
     }
 
     public void AssignFacility(FacilityInfo.FacilityType facilityType)
