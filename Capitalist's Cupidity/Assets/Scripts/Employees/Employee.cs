@@ -174,7 +174,7 @@ public class Employee : MonoBehaviour
     public void fireEmployee()
     {
         quit = true;
-        actions[0] = Leave;
+        Swap(actions, 0, actions.IndexOf(Leave));
         Leave.priority = 100;
         pathFinding.foundPath = false;
         pathComplete = true;
@@ -219,30 +219,33 @@ public class Employee : MonoBehaviour
 
     IEnumerator updateActions()
     {
-        foreach (Actions action in actions)
+        if (!quit)
         {
-            if(action.priority > 100)
+            foreach (Actions action in actions)
             {
-                action.priority = 100;
-            }
-
-            if (action.priority > actions[0].priority && !quit)
-            {
-                if (actions[0].priority <= 0 || actions[0].canInterupt == true)
+                if (action.priority > 100)
                 {
-                    yield return new WaitForSeconds(2.0f);
-                    audioSource.Stop();
-                    Swap(actions, 0, actions.IndexOf(action));
+                    action.priority = 100;
                 }
-            }
 
-            if (actions[0] != goToToilet)
-            {
-                rend.enabled = true;
-            }
+                if (action.priority > actions[0].priority)
+                {
+                    if (actions[0].priority <= 0 || actions[0].canInterupt == true)
+                    {
+                        yield return new WaitForSeconds(2.0f);
+                        audioSource.Stop();
+                        Swap(actions, 0, actions.IndexOf(action));
+                    }
+                }
 
-            actions[0].execute();
-            yield return null;
+                if (actions[0] != goToToilet)
+                {
+                    rend.enabled = true;
+                }
+
+                actions[0].execute();
+                yield return null;
+            }
         }
     }
 
@@ -512,7 +515,7 @@ public class Employee : MonoBehaviour
             }
             else
             {
-                if (rend.enabled)
+                if (rend.enabled == true)
                 {
                     rend.enabled = false;
                 }
