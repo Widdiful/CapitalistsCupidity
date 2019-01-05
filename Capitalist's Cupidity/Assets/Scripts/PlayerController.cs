@@ -95,5 +95,43 @@ public class PlayerController : MonoBehaviour
             }
         }
 #endif
+
+#if UNITY_STANDALONE
+        if(Input.GetMouseButtonDown(0))
+        {
+            Ray SelectRay = cameraRef.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(SelectRay, Mathf.Infinity, LayerMask.GetMask("VisibleFloor"));
+            System.Array.Reverse(hits);
+            foreach (RaycastHit SelectHit in hits)
+            { 
+                if(SelectHit.collider)
+                {
+                    Facility facility = SelectHit.transform.GetComponent<Facility>();
+                    Employee employee = SelectHit.transform.GetComponent<Employee>();
+                    if (facility || employee)
+                    { 
+                        if (!UIManager.instance.windowOpen)
+                        {
+                            if (employee)
+                            {
+                                if (employee.currentFloor == CameraControl.instance.selectedFloor) {
+                                    UIManager.instance.OpenEmployeeWindow(SelectHit.transform.GetComponent<Employee>());
+                                    break;
+                                }
+                            }
+                            else if (facility)
+                            {
+                                if (facility.GetFloor().floorNo == CameraControl.instance.selectedFloor) {
+                                    SelectHit.transform.GetComponent<Facility>().OpenFacilityWindow();
+                                    UIManager.instance.windowOpen = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+#endif
     }
 }
