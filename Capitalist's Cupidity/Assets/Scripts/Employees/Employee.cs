@@ -558,7 +558,7 @@ public class Employee : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Lifts[currentFloor] && other.gameObject == targetObject)
         {
